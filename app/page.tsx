@@ -70,7 +70,7 @@ export default function Portfolio() {
           <WorkCard
             company="Passion4Med"
             title="Founder & CEO"
-            description="Founded a global platform with 4,000+ future healthcare leaders. Organized 50 mentorships and led events for 2,500+ attendees across 5 continents, and shared 100+ free resources. Produced social media content with 50,000+ views"
+            description="Founded a global platform with 4,000+ future healthcare leaders. Organized 50 mentorships and led events for 2,500+ attendees across 5 continents, and shared 100+ free resources. Produced social media content with 50,000+ views."
           />
           <WorkCard
             company="MetaHealth"
