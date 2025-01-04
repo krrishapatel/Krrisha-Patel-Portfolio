@@ -110,7 +110,7 @@ export default function Portfolio() {
           <ProjectCard
             title="Minesweeper"
             description="A complete Minesweeper game where you uncover tiles and flag mines on a randomly generated grid. The goal is to clear the board without triggering any mines, using numbers revealed on safe tiles to deduce where mines are hidden."
-            tools="Python"
+            tools="Java"
           />
           <ProjectCard
             title="Anagame"
