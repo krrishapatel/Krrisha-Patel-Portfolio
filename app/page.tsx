@@ -9,11 +9,6 @@ export default function Portfolio() {
         <title>Krrisha Patel | Portfolio</title>
         <meta name="description" content="Portfolio website of Krrisha Patel" />
         <link rel="icon" href="/favicon.ico" />
-        <style>{
-          body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
-          }
-        }</style>
       </Head>
 
       {/* Navigation */}
@@ -62,10 +57,7 @@ export default function Portfolio() {
             title="Stanford University Interventional Radiology Lab (Healthcare and Tech)"
             description="Designed microfluidic drug delivery systems with 90% in vitro accuracy and researched compatibility for minimally invasive interventions."
           />
-          <WorkCard
-            title="Icahn School of Medicine"
-            description="Conducted research on gene expression profiles to identify biomarkers for chronic diseases. Published findings in peer-reviewed journals, advancing knowledge in personalized medicine."
-          />
+          
         </section>
 
         {/* Leadership & Entrepreneurship Section */}
@@ -82,6 +74,10 @@ export default function Portfolio() {
           <WorkCard
             title="Harvard STRIPED Initiative"
             description="Advocated for and successfully passed policy banning harmful supplement sales to minors in NJ and NY."
+          />
+          <WorkCard
+            title="Leadership Initiatives"
+            description="Collaborated with officials in Nigeria to formulate public health policies. Raised over $1,000 for workshops addressing typhoid fever and women’s health."
           />
         </section>
 
@@ -104,23 +100,8 @@ export default function Portfolio() {
             tools="Python"
           />
           <ProjectCard
-            title="Anagame"
-            description="Designed an anagram-solving game with performance analytics, a leaderboard, and hint systems."
-            tools="Python"
-          />
-          <ProjectCard
-            title="Word Ladder"
-            description="Built a BFS-based game to find shortest paths in word ladders with performance tracking."
-            tools="Python"
-          />
-          <ProjectCard
             title="Camel Up Game"
             description="Simulated camel races with probabilistic analysis and strategic insights in a detailed terminal interface."
-            tools="Python"
-          />
-          <ProjectCard
-            title="MineSweeper"
-            description="Developed a Minesweeper game with a terminal interface, featuring visual feedback and challenging gameplay."
             tools="Python"
           />
         </section>
