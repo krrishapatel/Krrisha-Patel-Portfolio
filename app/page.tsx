@@ -43,19 +43,23 @@ export default function Portfolio() {
             description="Designed algorithmic solutions in game theory and graph theory using Python. Achieved top 10 scores in Electronic Trading Challenge (ETC) and developed high-frequency algorithms for significant simulated profits."
           />
           <WorkCard
-            title="GoAhead Ventures"
+            company="GoAhead Ventures"
+            title="Venture Scout"
             description="Sourced and evaluated over 50 startups for investment. Conducted due diligence and presented analysis to partners, aiding in early-stage funding decisions."
           />
           <WorkCard
-            title="IPMD Inc."
+            company="IPMD Inc."
+            title="AL/ML Engineer Intern"
             description="Developed telemedicine platforms with facial and emotional AI, achieving a 30% improvement in emotional recognition accuracy and securing adoption by 3 international centers."
           />
           <WorkCard
-            title="Infosys"
+            company="Infosys"
+            title="Tech Consultant"
             description="Accelerated client timelines by 30% via RPA integrations and developed a cloud-based analytics platform with AWS Bedrock and Azure OpenAI, increasing market reach by 40%."
           />
           <WorkCard
-            title="Stanford University Interventional Radiology Lab"
+            company="Stanford University Interventional Radiology Lab"
+            title="Research Intern"
             description="Designed microfluidic drug delivery systems with 90% in vitro accuracy and researched compatibility for minimally invasive interventions."
           />
           
@@ -65,19 +69,23 @@ export default function Portfolio() {
         <section id="leadership" className="mb-16">
           <h2 className="text-2xl font-semibold mb-6">Leadership & Entrepreneurship</h2>
           <WorkCard
-            title="Passion4Med"
+            company="Passion4Med"
+            title="Founder & CEO"
             description="Founded a global platform with 4,000+ members. Organized 50 mentorships and led events for 2,500+ attendees across 5 continents."
           />
           <WorkCard
-            title="MetaHealth"
+            company="MetaHealth"
+            title="Founder & CEO"
             description="Launched workshops addressing metabolic syndrome. Developed social media campaigns with 5,000+ views and expanded globally to 60+ members."
           />
           <WorkCard
-            title="Harvard STRIPED Initiative"
+            company="Harvard STRIPED Initiative"
+            title="Policy Advocate & Researcher"
             description="Advocated for and successfully passed policy banning harmful supplement sales to minors in NJ and NY."
           />
           <WorkCard
-            title="Leadership Initiatives"
+            company="Leadership Initiatives"
+            title="Public Health Team Lead"
             description="Collaborated with officials in Nigeria to formulate public health policies. Raised over $1,000 for workshops addressing typhoid fever and women’s health."
           />
         </section>
