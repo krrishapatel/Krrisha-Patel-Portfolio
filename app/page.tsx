@@ -1,8 +1,14 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 
 export default function Portfolio() {
+  const [showFunFacts, setShowFunFacts] = useState(false);
+
+  const toggleFunFacts = () => {
+    setShowFunFacts(!showFunFacts);
+  };
+
   return (
     <div className="min-h-screen bg-white text-black py-12">
       <Head>
@@ -12,22 +18,22 @@ export default function Portfolio() {
       </Head>
 
       {/* Navigation */}
-      <header className="fixed top-0 left-0 w-full bg-white shadow-md">
+      <header className="fixed top-0 left-0 w-full bg-white shadow-md z-50">
         <nav className="container mx-auto px-4 py-3 flex justify-between items-center">
-          <h1 className="text-xl font-bold">Krrisha Patel</h1>
+          <h1 className="text-xl font-bold transition-transform duration-500 hover:scale-105">Krrisha Patel</h1>
           <div className="space-x-4">
-            <a href="#intro" className="text-blue-500 hover:underline">Intro</a>
-            <a href="#work" className="text-blue-500 hover:underline">Work</a>
-            <a href="#leadership" className="text-blue-500 hover:underline">Leadership</a>
-            <a href="#projects" className="text-blue-500 hover:underline">Projects</a>
-            <a href="#contact" className="text-blue-500 hover:underline">Contact</a>
+            <a href="#intro" className="text-blue-500 hover:underline transition-all duration-300 ease-in-out">Intro</a>
+            <a href="#work" className="text-blue-500 hover:underline transition-all duration-300 ease-in-out">Work</a>
+            <a href="#leadership" className="text-blue-500 hover:underline transition-all duration-300 ease-in-out">Leadership</a>
+            <a href="#projects" className="text-blue-500 hover:underline transition-all duration-300 ease-in-out">Projects</a>
+            <a href="#contact" className="text-blue-500 hover:underline transition-all duration-300 ease-in-out">Contact</a>
           </div>
         </nav>
       </header>
 
       <main className="container mx-auto px-4 pt-16">
         {/* Introduction Section */}
-        <section id="intro" className="mb-16 text-left">
+        <section id="intro" className="mb-16 opacity-0 transition-opacity duration-700 ease-in-out fadeIn">
           <h1 className="text-3xl font-bold mb-4">Hey! I'm Krrisha - a dreamer, doer, and innovator.</h1>
           <p className="text-lg mb-4">
             Computer science and finance student at UPenn M&T with an interest in AI/ML applications, healthcare innovation, venture capital, and entrepreneurship.
@@ -35,12 +41,13 @@ export default function Portfolio() {
         </section>
 
         {/* Work Section */}
-        <section id="work" className="mb-16">
+        <section id="work" className="mb-16 opacity-0 transition-opacity duration-700 ease-in-out fadeIn">
           <h2 className="text-2xl font-semibold mb-6">Work Experience</h2>
           <WorkCard
             company="Jane Street Capital"
             title="Research Intern"
-            description="Designed algorithmic solutions in game theory and graph theory using Python, enhancing decision-making. Achieved top 10 PnL in a 6-hour ETC, generating $9M+ in simulated profits. Collaborated with Math Olympians and traders to apply probabilistic theory to trading strategies."          />
+            description="Designed algorithmic solutions in game theory and graph theory using Python, enhancing decision-making. Achieved top 10 PnL in a 6-hour ETC, generating $9M+ in simulated profits. Collaborated with Math Olympians and traders to apply probabilistic theory to trading strategies." 
+          />
           <WorkCard
             company="GoAhead Ventures"
             title="Venture Scout"
@@ -54,17 +61,17 @@ export default function Portfolio() {
           <WorkCard
             company="Infosys"
             title="Tech Consultant"
-            description="Accelerated client timelines by 30%, boosting retention by 15% for 150+ clients with RPA. Identified RPA acquisitions worth $20M+ annually. Developed a cloud analytics platform with AWS Bedrock and Azure OpenAI, improving segmentation by 25% and uncovering $5M+ in revenue. Expanded IPA globally, increasing market reach by 40%."          />
+            description="Accelerated client timelines by 30%, boosting retention by 15% for 150+ clients with RPA. Identified RPA acquisitions worth $20M+ annually. Developed a cloud analytics platform with AWS Bedrock and Azure OpenAI, improving segmentation by 25% and uncovering $5M+ in revenue. Expanded IPA globally, increasing market reach by 40%."
+          />
           <WorkCard
             company="Stanford University Interventional Radiology Lab"
             title="Research Intern"
             description="Analyzed the biological role of MSC-EVs in diabetes mellitus and diabetic complications, designing a minimally invasive microfluidic drug delivery system for targeted pancreatic treatment with 90% delivery accuracy in vitro."
           />
-          
         </section>
 
         {/* Leadership & Entrepreneurship Section */}
-        <section id="leadership" className="mb-16">
+        <section id="leadership" className="mb-16 opacity-0 transition-opacity duration-700 ease-in-out fadeIn">
           <h2 className="text-2xl font-semibold mb-6">Leadership & Entrepreneurship</h2>
           <WorkCard
             company="Passion4Med"
@@ -89,7 +96,7 @@ export default function Portfolio() {
         </section>
 
         {/* Projects Section */}
-        <section id="projects" className="mb-16">
+        <section id="projects" className="mb-16 opacity-0 transition-opacity duration-700 ease-in-out fadeIn">
           <h2 className="text-2xl font-semibold mb-6">Projects</h2>
           <ProjectCard
             title="Algorithmic Trading Bot"
@@ -121,27 +128,46 @@ export default function Portfolio() {
             description="A complete Minesweeper game where you uncover tiles and flag mines on a randomly generated grid. The goal is to clear the board without triggering any mines, using numbers revealed on safe tiles to deduce where mines are hidden."
             tools="Java"
           />
-
         </section>
 
         {/* Contact Section */}
-        <section id="contact" className="mb-16">
+        <section id="contact" className="mb-16 opacity-0 transition-opacity duration-700 ease-in-out fadeIn">
           <h2 className="text-2xl font-semibold mb-6">Contact</h2>
           <p>
-            <a href="mailto:krrishapatel26@gmail.com" className="text-blue-500 hover:underline">
+            <a href="mailto:krrishapatel26@gmail.com" className="text-blue-500 hover:underline transition-all duration-300 ease-in-out">
               Email: krrishapatel26@gmail.com
             </a>
           </p>
           <p>
-            <Link href="https://linkedin.com/in/krrishapatel" className="text-blue-500 hover:underline">
+            <Link href="https://linkedin.com/in/krrishapatel" className="text-blue-500 hover:underline transition-all duration-300 ease-in-out">
               LinkedIn
             </Link>
           </p>
           <p>
-            <Link href="https://github.com/krrishapatel" className="text-blue-500 hover:underline">
+            <Link href="https://github.com/krrishapatel" className="text-blue-500 hover:underline transition-all duration-300 ease-in-out">
               GitHub
             </Link>
           </p>
+        </section>
+
+        {/* Fun Facts Section */}
+        <section id="fun-facts" className="mb-16">
+          <button
+            onClick={toggleFunFacts}
+            className="px-4 py-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-all duration-300 ease-in-out transform hover:scale-105"
+          >
+            {showFunFacts ? "Hide Fun Facts" : "Show Fun Facts"}
+          </button>
+          {showFunFacts && (
+            <div className="mt-6 opacity-0 transition-opacity duration-700 ease-in-out fadeIn">
+              <ul className="list-disc pl-6">
+                <li>I can code a game in Python in under an hour!</li>
+                <li>I'm a huge fan of AI and its potential to revolutionize healthcare.</li>
+                <li>I once built a DIY prosthetic for a neighbor who couldn't afford one.</li>
+                <li>I'm passionate about creating solutions that have a real-world impact.</li>
+              </ul>
+            </div>
+          )}
         </section>
       </main>
     </div>
@@ -149,7 +175,7 @@ export default function Portfolio() {
 }
 
 const WorkCard = ({ company, title, description }) => (
-  <div className="border border-gray-200 rounded-lg p-6 hover:shadow-md transition duration-300 mb-4">
+  <div className="border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-all duration-300 transform hover:scale-105 mb-4">
     <h3 className="text-xl font-semibold mb-2">{company}</h3>
     {title && <p className="text-sm text-gray-600 mb-2">{title}</p>}
     <p>{description}</p>
@@ -157,7 +183,7 @@ const WorkCard = ({ company, title, description }) => (
 );
 
 const ProjectCard = ({ title, description, tools }) => (
-  <div className="border border-gray-200 rounded-lg p-6 hover:shadow-md transition duration-300 mb-4">
+  <div className="border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-all duration-300 transform hover:scale-105 mb-4">
     <h3 className="text-xl font-semibold mb-2">{title}</h3>
     <p className="mb-2">{description}</p>
     <p className="text-sm text-gray-500"><strong>Tools:</strong> {tools}</p>
