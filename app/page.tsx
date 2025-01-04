@@ -41,26 +41,31 @@ export default function Portfolio() {
             company="Jane Street Capital"
             title="Research Intern"
             description="Designed algorithmic solutions in game theory and graph theory using Python, enhancing decision-making. Achieved top 10 PnL in a 6-hour ETC, generating $9M+ in simulated profits. Collaborated with Math Olympians and traders to apply probabilistic theory to trading strategies."          />
+            category="Tech, Finance"
           <WorkCard
             company="GoAhead Ventures"
             title="Venture Scout"
             description="Sourced and evaluated 50+ startups through a $175M AUM fund's streamlined process. Conducted due diligence, presented analyses to partners, and contributed to a 20% increase in global founder applications."
+            category="Finance"
           />
           <WorkCard
             company="IPMD Inc."
             title="AL/ML Engineer Intern"
             description="Developed telemedicine platforms with facial and emotional AI, achieving a 30% improvement in emotional recognition accuracy and securing adoption by 3 international centers."
-          />
+            category="Tech, Finance"
+            />
           <WorkCard
             company="Infosys"
             title="Tech Consultant"
             description="Accelerated client timelines by 30% via RPA integrations and developed a cloud-based analytics platform with AWS Bedrock and Azure OpenAI, increasing market reach by 40%."
-          />
+            category="Tech, Finance"
+            />
           <WorkCard
             company="Stanford University Interventional Radiology Lab"
             title="Research Intern"
             description="Designed microfluidic drug delivery systems with 90% in vitro accuracy and researched compatibility for minimally invasive interventions."
-          />
+            category="Tech"
+            />
           
         </section>
 
@@ -138,11 +143,18 @@ export default function Portfolio() {
   );
 }
 
-const WorkCard = ({ company, title, description }) => (
+const WorkCard = ({ company, title, description, category }) => (
   <div className="border border-gray-200 rounded-lg p-6 hover:shadow-md transition duration-300 mb-4">
     <h3 className="text-xl font-semibold mb-2">{company}</h3>
     {title && <p className="text-sm text-gray-600 mb-2">{title}</p>}
     <p>{description}</p>
+    <div className="mt-4">
+      <button
+        className={`px-4 py-2 rounded-full text-white font-semibold ${category === 'Tech' ? 'bg-blue-500' : category === 'Finance' ? 'bg-green-500' : 'bg-gray-500'}`}
+      >
+        {category} {/* Button to specify the category */}
+      </button>
+    </div>
   </div>
 );
 
