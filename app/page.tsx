@@ -98,12 +98,7 @@ export default function Portfolio() {
             tools="Python, Linux, SSH"
           />
           <ProjectCard
-            title="Mushroom of Doom"
-            description="Created a fully playable game with real-time action and simple controls, where players avoid poisonous mushrooms and chase the golden snitch to win."
-            tools="Python"
-          />
-          <ProjectCard
-            title="Wordle"
+            title="Wordle Solver Bot"
             description="Developed a terminal-based Wordle game with a 95% success solver bot and efficiency tools for data analysis."
             tools="Python"
           />
@@ -112,6 +107,22 @@ export default function Portfolio() {
             description="Simulated camel races with probabilistic analysis and strategic insights in a detailed terminal interface."
             tools="Python"
           />
+          <ProjectCard
+            title="Minesweeper"
+            description="A complete Minesweeper game where you uncover tiles and flag mines on a randomly generated grid. The goal is to clear the board without triggering any mines, using numbers revealed on safe tiles to deduce where mines are hidden."
+            tools="Python"
+          />
+          <ProjectCard
+            title="Anagame"
+            description="An anagram game where users generate as many valid anagrams as possible within a time limit. Includes an accurate solver, word validation, performance analytics, and a leaderboard and hints to enhance gameplay."
+            tools="Python"
+          />
+          <ProjectCard
+            title="Word Ladder"
+            description="A word ladder game that uses breadth-first search (BFS) algorithms to validate and find the shortest path through word ladders. Tracks paths using a list of lists to ensure efficient pathfinding and provides data analytics for game performance and potential ladders."
+            tools="Python, BFS"
+          />
+
         </section>
 
         {/* Contact Section */}
