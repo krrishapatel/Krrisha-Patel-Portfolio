@@ -45,7 +45,7 @@ export default function Portfolio() {
           <WorkCard
             company="GoAhead Ventures"
             title="Venture Scout"
-            description="Sourced and evaluated over 50 startups for investment. Conducted due diligence and presented analysis to partners, aiding in early-stage funding decisions."
+            description="Sourced and evaluated 50+ startups through a $175M AUM fund's streamlined process. Conducted due diligence, presented analyses to partners, and contributed to a 20% increase in global founder applications."
           />
           <WorkCard
             company="IPMD Inc."
