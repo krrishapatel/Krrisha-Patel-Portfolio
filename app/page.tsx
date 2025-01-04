@@ -49,17 +49,16 @@ export default function Portfolio() {
           <WorkCard
             company="IPMD Inc."
             title="AL/ML Engineer Intern"
-            description="Developed telemedicine platforms with facial and emotional AI, achieving a 30% improvement in emotional recognition accuracy and securing adoption by 3 international centers."
+            description="Developed telemedicine platforms with facial and emotional AI, achieving a 30% improvement in emotional recognition accuracy and securing adoption by 3 international centers. Secured initial funding and 5+ strategic partnerships, driving a 15% rise in company valuation."
           />
           <WorkCard
             company="Infosys"
             title="Tech Consultant"
-            description="Accelerated client timelines by 30% via RPA integrations and developed a cloud-based analytics platform with AWS Bedrock and Azure OpenAI, increasing market reach by 40%."
-          />
+            description="Accelerated client timelines by 30%, boosting retention by 15% for 150+ clients with RPA. Identified RPA acquisitions worth $20M+ annually. Developed a cloud analytics platform with AWS Bedrock and Azure OpenAI, improving segmentation by 25% and uncovering $5M+ in revenue. Expanded IPA globally, increasing market reach by 40%."          />
           <WorkCard
             company="Stanford University Interventional Radiology Lab"
             title="Research Intern"
-            description="Designed microfluidic drug delivery systems with 90% in vitro accuracy and researched compatibility for minimally invasive interventions."
+            description="Analyzed the biological role of MSC-EVs in diabetes mellitus and diabetic complications, designing a minimally invasive microfluidic drug delivery system for targeted pancreatic treatment with 90% delivery accuracy in vitro."
           />
           
         </section>
