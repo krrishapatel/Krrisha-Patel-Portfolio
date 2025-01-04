@@ -1,7 +1,6 @@
 import React from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
 
 export default function Portfolio() {
   return (
@@ -21,8 +20,6 @@ export default function Portfolio() {
             <a href="#work" className="text-blue-500 hover:underline">Work</a>
             <a href="#leadership" className="text-blue-500 hover:underline">Leadership</a>
             <a href="#projects" className="text-blue-500 hover:underline">Projects</a>
-            <a href="#showcase-impact" className="text-blue-500 hover:underline">Showcase Impact</a>
-            <a href="#fun-facts" className="text-blue-500 hover:underline">Fun Facts</a>
             <a href="#contact" className="text-blue-500 hover:underline">Contact</a>
           </div>
         </nav>
@@ -31,7 +28,7 @@ export default function Portfolio() {
       <main className="container mx-auto px-4 pt-16">
         {/* Introduction Section */}
         <section id="intro" className="mb-16 text-left">
-          <h1 className="text-3xl font-bold mb-4">Hey! I'm Krrisha, a dreamer, doer, and innovator.</h1>
+          <h1 className="text-3xl font-bold mb-4">Hey! I'm Krrisha - a dreamer, doer, and innovator.</h1>
           <p className="text-lg mb-4">
             Computer science and finance student at UPenn M&T with an interest in AI/ML applications, healthcare innovation, venture capital, and entrepreneurship.
           </p>
@@ -43,8 +40,27 @@ export default function Portfolio() {
           <WorkCard
             company="Jane Street Capital"
             title="Research Intern"
-            description="Designed algorithmic solutions in game theory and graph theory using Python, enhancing decision-making. Achieved top 10 PnL in a 6-hour ETC, generating $9M+ in simulated profits. Collaborated with Math Olympians and traders to apply probabilistic theory to trading strategies." />
-          {/* Add other WorkCard components */}
+            description="Designed algorithmic solutions in game theory and graph theory using Python, enhancing decision-making. Achieved top 10 PnL in a 6-hour ETC, generating $9M+ in simulated profits. Collaborated with Math Olympians and traders to apply probabilistic theory to trading strategies."          />
+          <WorkCard
+            company="GoAhead Ventures"
+            title="Venture Scout"
+            description="Sourced and evaluated 50+ startups through a $175M AUM fund's streamlined process. Conducted due diligence, presented analyses to partners, and contributed to a 20% increase in global founder applications."
+          />
+          <WorkCard
+            company="IPMD Inc."
+            title="AL/ML Engineer Intern"
+            description="Developed telemedicine platforms with facial and emotional AI, achieving a 30% improvement in emotional recognition accuracy and securing adoption by 3 international centers. Secured initial funding and 5+ strategic partnerships, driving a 15% rise in company valuation."
+          />
+          <WorkCard
+            company="Infosys"
+            title="Tech Consultant"
+            description="Accelerated client timelines by 30%, boosting retention by 15% for 150+ clients with RPA. Identified RPA acquisitions worth $20M+ annually. Developed a cloud analytics platform with AWS Bedrock and Azure OpenAI, improving segmentation by 25% and uncovering $5M+ in revenue. Expanded IPA globally, increasing market reach by 40%."          />
+          <WorkCard
+            company="Stanford University Interventional Radiology Lab"
+            title="Research Intern"
+            description="Analyzed the biological role of MSC-EVs in diabetes mellitus and diabetic complications, designing a minimally invasive microfluidic drug delivery system for targeted pancreatic treatment with 90% delivery accuracy in vitro."
+          />
+          
         </section>
 
         {/* Leadership & Entrepreneurship Section */}
@@ -53,57 +69,23 @@ export default function Portfolio() {
           <WorkCard
             company="Passion4Med"
             title="Founder & CEO"
-            description="Founded a global platform with 4,000+ future healthcare leaders. Organized 50 mentorships and led events for 2,500+ attendees across 5 continents, and shared 100+ free resources. Produced social media content with 50,000+ views." />
-          {/* Add other WorkCard components */}
-        </section>
-
-        {/* Showcase Impact Section */}
-        <section id="showcase-impact" className="mb-16">
-          <h2 className="text-2xl font-semibold mb-6">Showcase Impact</h2>
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1 }}
-            className="grid grid-cols-2 gap-8">
-            <div className="flex flex-col items-center p-4 border border-gray-200 rounded-lg">
-              <img src="/path/to/impact-image1.jpg" alt="Impact 1" className="w-32 h-32 rounded-full mb-4" />
-              <h3 className="font-semibold">Healthcare Innovation</h3>
-              <p className="text-center">Contributed to the design of innovative healthcare solutions that impacted 3+ countries by improving patient care systems.</p>
-            </div>
-            <div className="flex flex-col items-center p-4 border border-gray-200 rounded-lg">
-              <img src="/path/to/impact-image2.jpg" alt="Impact 2" className="w-32 h-32 rounded-full mb-4" />
-              <h3 className="font-semibold">Global Outreach</h3>
-              <p className="text-center">Led initiatives that reached over 10,000+ students worldwide, creating positive change in education and policy reform.</p>
-            </div>
-            {/* Add more impact cards as needed */}
-          </motion.div>
-        </section>
-
-        {/* Fun Facts Section */}
-        <section id="fun-facts" className="mb-16">
-          <h2 className="text-2xl font-semibold mb-6">Fun Facts</h2>
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1 }}
-            className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="p-4 border border-gray-200 rounded-lg">
-              <h3 className="font-semibold mb-2">Did You Know?</h3>
-              <ul className="list-disc pl-4">
-                <li>I once built a prosthetic limb for a neighbor using a 3D printer.</li>
-                <li>I love solving problems through algorithms and have developed several bots for fun!</li>
-                <li>My work in healthcare innovation has reached over 5,000+ people worldwide.</li>
-              </ul>
-            </div>
-            <div className="p-4 border border-gray-200 rounded-lg">
-              <h3 className="font-semibold mb-2">Random Facts</h3>
-              <ul className="list-disc pl-4">
-                <li>I can solve a Rubik's Cube in under 3 minutes.</li>
-                <li>I'm a huge fan of the game Wordle and have developed an automated solver for it.</li>
-                <li>In my spare time, I love creating 3D-printed art and mini dioramas.</li>
-              </ul>
-            </div>
-          </motion.div>
+            description="Founded a global platform with 4,000+ future healthcare leaders. Organized 50 mentorships and led events for 2,500+ attendees across 5 continents, and shared 100+ free resources. Produced social media content with 50,000+ views."
+          />
+          <WorkCard
+            company="MetaHealth"
+            title="Founder & CEO"
+            description="Raised metabolic syndrome awareness through 20+ cooking and nutrition workshops, and expanded to 60+ members and 5,000+ social media views. Developed a health-tracking app prototype to monitor diet, exercise, and biometrics, providing personalized recommendations to manage metabolic risk factors."
+          />
+          <WorkCard
+            company="Harvard STRIPED Initiative"
+            title="Policy Advocate & Researcher"
+            description="Advocated for and successfully passed policy banning harmful supplement sales to minors in NJ and NY. Secured 50+ co-sponsors and gained support from 150+ teens, organizations, and retailers."
+          />
+          <WorkCard
+            company="Leadership Initiatives"
+            title="Public Health Team Lead"
+            description="Collaborated with officials in Nigeria to formulate public health policies. Raised over $1,000 for workshops addressing typhoid fever and women’s health."
+          />
         </section>
 
         {/* Projects Section */}
@@ -112,8 +94,34 @@ export default function Portfolio() {
           <ProjectCard
             title="Algorithmic Trading Bot"
             description="Developed predictive models for market forecasting using Python and SSH, achieving $150 PnL/min simulation."
-            tools="Python, Linux, SSH" />
-          {/* Add other ProjectCard components */}
+            tools="Python, Linux, SSH"
+          />
+          <ProjectCard
+            title="Wordle Solver Bot"
+            description="Developed a terminal-based Wordle game with a 95% success solver bot and efficiency tools for data analysis."
+            tools="Python"
+          />
+          <ProjectCard
+            title="Word Ladder"
+            description="A word ladder game that uses breadth-first search (BFS) algorithms to validate and find the shortest path through word ladders. Tracks paths using a list of lists to ensure efficient pathfinding and provides data analytics for game performance and potential ladders."
+            tools="Python, BFS"
+          />
+          <ProjectCard
+            title="Camel Up Game"
+            description="Simulated camel races with probabilistic analysis and strategic insights in a detailed terminal interface."
+            tools="Python"
+          />
+          <ProjectCard
+            title="Anagame"
+            description="An anagram game where users generate as many valid anagrams as possible within a time limit. Includes an accurate solver, word validation, performance analytics, and a leaderboard and hints to enhance gameplay."
+            tools="Python"
+          />
+          <ProjectCard
+            title="Minesweeper"
+            description="A complete Minesweeper game where you uncover tiles and flag mines on a randomly generated grid. The goal is to clear the board without triggering any mines, using numbers revealed on safe tiles to deduce where mines are hidden."
+            tools="Java"
+          />
+
         </section>
 
         {/* Contact Section */}
