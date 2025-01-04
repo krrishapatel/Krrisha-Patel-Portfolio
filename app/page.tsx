@@ -102,14 +102,14 @@ export default function Portfolio() {
             tools="Python"
           />
           <ProjectCard
+            title="Word Ladder"
+            description="A word ladder game that uses breadth-first search (BFS) algorithms to validate and find the shortest path through word ladders. Tracks paths using a list of lists to ensure efficient pathfinding and provides data analytics for game performance and potential ladders."
+            tools="Python, BFS"
+          />
+          <ProjectCard
             title="Camel Up Game"
             description="Simulated camel races with probabilistic analysis and strategic insights in a detailed terminal interface."
             tools="Python"
-          />
-          <ProjectCard
-            title="Minesweeper"
-            description="A complete Minesweeper game where you uncover tiles and flag mines on a randomly generated grid. The goal is to clear the board without triggering any mines, using numbers revealed on safe tiles to deduce where mines are hidden."
-            tools="Java"
           />
           <ProjectCard
             title="Anagame"
@@ -117,9 +117,9 @@ export default function Portfolio() {
             tools="Python"
           />
           <ProjectCard
-            title="Word Ladder"
-            description="A word ladder game that uses breadth-first search (BFS) algorithms to validate and find the shortest path through word ladders. Tracks paths using a list of lists to ensure efficient pathfinding and provides data analytics for game performance and potential ladders."
-            tools="Python, BFS"
+            title="Minesweeper"
+            description="A complete Minesweeper game where you uncover tiles and flag mines on a randomly generated grid. The goal is to clear the board without triggering any mines, using numbers revealed on safe tiles to deduce where mines are hidden."
+            tools="Java"
           />
 
         </section>
