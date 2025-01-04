@@ -28,7 +28,7 @@ export default function Portfolio() {
       <main className="container mx-auto px-4 pt-16">
         {/* Introduction Section */}
         <section id="intro" className="mb-16 text-left">
-          <h1 className="text-3xl font-bold mb-4">Hey! I'm Krrisha, a dreamer, doer, and innovator.</h1>
+          <h1 className="text-3xl font-bold mb-4">Hey! I'm Krrisha - a dreamer, doer, and innovator.</h1>
           <p className="text-lg mb-4">
             Computer science and finance student at UPenn M&T with an interest in AI/ML applications, healthcare innovation, venture capital, and entrepreneurship.
           </p>
