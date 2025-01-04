@@ -128,7 +128,7 @@ export default function Portfolio() {
         <section id="contact" className="mb-16">
           <h2 className="text-2xl font-semibold mb-6">Contact</h2>
           <p>
-            <a href="mailto:krrisha@wharton.upenn.edu" className="text-blue-500 hover:underline">
+            <a href="mailto:krrishapatel26@gmail.com" className="text-blue-500 hover:underline">
               Email: krrishapatel26@gmail.com
             </a>
           </p>
