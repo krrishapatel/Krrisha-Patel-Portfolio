@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 
@@ -18,22 +18,22 @@ export default function Portfolio() {
       </Head>
 
       {/* Navigation */}
-      <header className="fixed top-0 left-0 w-full bg-white shadow-md z-50">
+      <header className="fixed top-0 left-0 w-full bg-white shadow-md">
         <nav className="container mx-auto px-4 py-3 flex justify-between items-center">
-          <h1 className="text-xl font-bold transition-transform duration-500 hover:scale-105">Krrisha Patel</h1>
+          <h1 className="text-xl font-bold">Krrisha Patel</h1>
           <div className="space-x-4">
-            <a href="#intro" className="text-blue-500 hover:underline transition-all duration-300 ease-in-out">Intro</a>
-            <a href="#work" className="text-blue-500 hover:underline transition-all duration-300 ease-in-out">Work</a>
-            <a href="#leadership" className="text-blue-500 hover:underline transition-all duration-300 ease-in-out">Leadership</a>
-            <a href="#projects" className="text-blue-500 hover:underline transition-all duration-300 ease-in-out">Projects</a>
-            <a href="#contact" className="text-blue-500 hover:underline transition-all duration-300 ease-in-out">Contact</a>
+            <a href="#intro" className="text-blue-500 hover:underline">Intro</a>
+            <a href="#work" className="text-blue-500 hover:underline">Work</a>
+            <a href="#leadership" className="text-blue-500 hover:underline">Leadership</a>
+            <a href="#projects" className="text-blue-500 hover:underline">Projects</a>
+            <a href="#contact" className="text-blue-500 hover:underline">Contact</a>
           </div>
         </nav>
       </header>
 
       <main className="container mx-auto px-4 pt-16">
         {/* Introduction Section */}
-        <section id="intro" className="mb-16 opacity-0 transition-opacity duration-700 ease-in-out fadeIn">
+        <section id="intro" className="mb-16 text-left">
           <h1 className="text-3xl font-bold mb-4">Hey! I'm Krrisha - a dreamer, doer, and innovator.</h1>
           <p className="text-lg mb-4">
             Computer science and finance student at UPenn M&T with an interest in AI/ML applications, healthcare innovation, venture capital, and entrepreneurship.
@@ -41,7 +41,7 @@ export default function Portfolio() {
         </section>
 
         {/* Work Section */}
-        <section id="work" className="mb-16 opacity-0 transition-opacity duration-700 ease-in-out fadeIn">
+        <section id="work" className="mb-16">
           <h2 className="text-2xl font-semibold mb-6">Work Experience</h2>
           <WorkCard
             company="Jane Street Capital"
@@ -71,7 +71,7 @@ export default function Portfolio() {
         </section>
 
         {/* Leadership & Entrepreneurship Section */}
-        <section id="leadership" className="mb-16 opacity-0 transition-opacity duration-700 ease-in-out fadeIn">
+        <section id="leadership" className="mb-16">
           <h2 className="text-2xl font-semibold mb-6">Leadership & Entrepreneurship</h2>
           <WorkCard
             company="Passion4Med"
@@ -96,7 +96,7 @@ export default function Portfolio() {
         </section>
 
         {/* Projects Section */}
-        <section id="projects" className="mb-16 opacity-0 transition-opacity duration-700 ease-in-out fadeIn">
+        <section id="projects" className="mb-16">
           <h2 className="text-2xl font-semibold mb-6">Projects</h2>
           <ProjectCard
             title="Algorithmic Trading Bot"
@@ -131,20 +131,20 @@ export default function Portfolio() {
         </section>
 
         {/* Contact Section */}
-        <section id="contact" className="mb-16 opacity-0 transition-opacity duration-700 ease-in-out fadeIn">
+        <section id="contact" className="mb-16">
           <h2 className="text-2xl font-semibold mb-6">Contact</h2>
           <p>
-            <a href="mailto:krrishapatel26@gmail.com" className="text-blue-500 hover:underline transition-all duration-300 ease-in-out">
+            <a href="mailto:krrishapatel26@gmail.com" className="text-blue-500 hover:underline">
               Email: krrishapatel26@gmail.com
             </a>
           </p>
           <p>
-            <Link href="https://linkedin.com/in/krrishapatel" className="text-blue-500 hover:underline transition-all duration-300 ease-in-out">
+            <Link href="https://linkedin.com/in/krrishapatel" className="text-blue-500 hover:underline">
               LinkedIn
             </Link>
           </p>
           <p>
-            <Link href="https://github.com/krrishapatel" className="text-blue-500 hover:underline transition-all duration-300 ease-in-out">
+            <Link href="https://github.com/krrishapatel" className="text-blue-500 hover:underline">
               GitHub
             </Link>
           </p>
@@ -152,14 +152,11 @@ export default function Portfolio() {
 
         {/* Fun Facts Section */}
         <section id="fun-facts" className="mb-16">
-          <button
-            onClick={toggleFunFacts}
-            className="px-4 py-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-all duration-300 ease-in-out transform hover:scale-105"
-          >
+          <button onClick={toggleFunFacts} className="px-4 py-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition duration-300">
             {showFunFacts ? "Hide Fun Facts" : "Show Fun Facts"}
           </button>
           {showFunFacts && (
-            <div className="mt-6 opacity-0 transition-opacity duration-700 ease-in-out fadeIn">
+            <div className="mt-6">
               <ul className="list-disc pl-6">
                 <li>I can code a game in Python in under an hour!</li>
                 <li>I'm a huge fan of AI and its potential to revolutionize healthcare.</li>
@@ -175,7 +172,7 @@ export default function Portfolio() {
 }
 
 const WorkCard = ({ company, title, description }) => (
-  <div className="border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-all duration-300 transform hover:scale-105 mb-4">
+  <div className="border border-gray-200 rounded-lg p-6 hover:shadow-md transition duration-300 mb-4">
     <h3 className="text-xl font-semibold mb-2">{company}</h3>
     {title && <p className="text-sm text-gray-600 mb-2">{title}</p>}
     <p>{description}</p>
@@ -183,7 +180,7 @@ const WorkCard = ({ company, title, description }) => (
 );
 
 const ProjectCard = ({ title, description, tools }) => (
-  <div className="border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-all duration-300 transform hover:scale-105 mb-4">
+  <div className="border border-gray-200 rounded-lg p-6 hover:shadow-md transition duration-300 mb-4">
     <h3 className="text-xl font-semibold mb-2">{title}</h3>
     <p className="mb-2">{description}</p>
     <p className="text-sm text-gray-500"><strong>Tools:</strong> {tools}</p>
