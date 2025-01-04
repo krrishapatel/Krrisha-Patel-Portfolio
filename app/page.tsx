@@ -22,9 +22,9 @@ export default function Portfolio() {
           <h1 className="text-xl font-bold">Krrisha Patel</h1>
           <div className="space-x-4">
             <a href="#intro" className="text-blue-500 hover:underline">Intro</a>
-            <a href="#extracurriculars" className="text-blue-500 hover:underline">Extracurriculars</a>
+            <a href="#work" className="text-blue-500 hover:underline">Work</a>
+            <a href="#leadership" className="text-blue-500 hover:underline">Leadership</a>
             <a href="#projects" className="text-blue-500 hover:underline">Projects</a>
-            <a href="#tools" className="text-blue-500 hover:underline">Tools</a>
             <a href="#contact" className="text-blue-500 hover:underline">Contact</a>
           </div>
         </nav>
@@ -35,32 +35,45 @@ export default function Portfolio() {
         <section id="intro" className="mb-16 text-left">
           <h1 className="text-3xl font-bold mb-4">Welcome to My Portfolio!</h1>
           <p className="text-lg mb-4">
-            Hello! I’m Krrisha Patel, a dual-degree student in the Jerome Fisher Program in Management & Technology
-            at the University of Pennsylvania, pursuing a BSE in Computer Science and a BS in Economics with concentrations in Finance and Management.
-          </p>
-          <p className="text-lg mb-4">
-            I am passionate about developing innovative solutions at the intersection of technology, finance, and healthcare. My work spans algorithm design, AI applications, and community outreach.
+            Hello! I’m Krrisha Patel, a dual-degree student in the Jerome Fisher Program in Management & Technology at the University of Pennsylvania. My work spans algorithm design, AI applications, healthcare innovation, and entrepreneurial ventures.
           </p>
         </section>
 
-        {/* Extracurriculars Section */}
-        <section id="extracurriculars" className="mb-16">
-          <h2 className="text-2xl font-semibold mb-6">Extracurriculars</h2>
-          <ExtracurricularCard
+        {/* Work Section */}
+        <section id="work" className="mb-16">
+          <h2 className="text-2xl font-semibold mb-6">Work Experience</h2>
+          <WorkCard
             title="Jane Street Capital"
-            description="Designed algorithmic solutions in game theory and graph theory. Achieved top performance in trading challenges and developed high-frequency algorithms with significant simulated profits."
+            description="Designed algorithmic solutions in game theory and graph theory using Python. Achieved top 10 scores in Electronic Trading Challenge (ETC) and developed high-frequency algorithms for significant simulated profits."
           />
-          <ExtracurricularCard
+          <WorkCard
+            title="Infosys"
+            description="Accelerated client timelines by 30% via RPA integrations and developed a cloud-based analytics platform with AWS Bedrock and Azure OpenAI, increasing market reach by 40%."
+          />
+          <WorkCard
             title="IPMD Inc."
-            description="Developed telemedicine platforms with facial and emotional AI, leading to a 30% improvement in emotional recognition accuracy and international adoption."
+            description="Developed telemedicine platforms with facial and emotional AI, achieving a 30% improvement in emotional recognition accuracy and securing adoption by 3 international centers."
           />
-          <ExtracurricularCard
-            title="Vimana Capital"
-            description="Conducted equity research in India's Data Center industry, improving portfolio ROI by 15% and presenting DCF models for strategic investments."
+          <WorkCard
+            title="Stanford University Interventional Radiology Lab"
+            description="Designed microfluidic drug delivery systems with 90% in vitro accuracy and researched compatibility for minimally invasive interventions."
           />
-          <ExtracurricularCard
-            title="GoAhead Ventures"
-            description="Collaborated with venture capital teams to evaluate startup pitches and explore innovative solutions in AI-driven markets."
+        </section>
+
+        {/* Leadership & Entrepreneurship Section */}
+        <section id="leadership" className="mb-16">
+          <h2 className="text-2xl font-semibold mb-6">Leadership & Entrepreneurship</h2>
+          <WorkCard
+            title="Passion4Med"
+            description="Founded a global platform with 4,000+ members. Organized 50 mentorships and led events for 2,500+ attendees across 5 continents."
+          />
+          <WorkCard
+            title="MetaHealth"
+            description="Launched workshops addressing metabolic syndrome. Developed social media campaigns with 5,000+ views and expanded globally to 60+ members."
+          />
+          <WorkCard
+            title="Harvard STRIPED Initiative"
+            description="Advocated for and successfully passed policy banning harmful supplement sales to minors in NJ and NY."
           />
         </section>
 
@@ -68,76 +81,57 @@ export default function Portfolio() {
         <section id="projects" className="mb-16">
           <h2 className="text-2xl font-semibold mb-6">Projects</h2>
           <ProjectCard
-            title="ProsthetiX"
-            description="Developed affordable myoelectric prosthetics using Arduino, Pico, and 3D printing, reducing costs by 50% while enhancing mobility."
-            link="/projects/prosthetix"
+            title="Algorithmic Trading Bot"
+            description="Developed predictive models for market forecasting using Python and SSH, achieving $150 PnL/min simulation."
+            tools="Python, Linux, SSH"
           />
           <ProjectCard
-            title="MetaHealth"
-            description="Founded a platform addressing metabolic syndrome with 20+ workshops, 5,000+ views, and 60+ active members globally."
-            link="/projects/metahealth"
+            title="Hold or Fold Poker Game"
+            description="Created an AI-driven Poker game with 98% accuracy in player assistance."
+            tools="Python, JavaScript, React.js"
           />
           <ProjectCard
-            title="Telemedicine AI"
-            description="Created a cloud-based analytics platform with AWS Bedrock and Azure OpenAI to improve healthcare access and efficiency."
-            link="/projects/telemedicine"
+            title="ShoeScraper"
+            description="Automated shoe data analysis using Python and BeautifulSoup, aiding companies with market insights."
+            tools="Python, BeautifulSoup"
           />
-        </section>
-
-        {/* Tools Section */}
-        <section id="tools" className="mb-16">
-          <h2 className="text-2xl font-semibold mb-6">Tools</h2>
-          <p className="text-lg mb-6">
-            I have experience with the following tools and technologies:
-          </p>
-          <ul className="list-disc list-inside space-y-2">
-            <li>Programming Languages: Python, Java, OCaml, HTML/CSS</li>
-            <li>Platforms: Arduino, AWS Bedrock, Azure OpenAI</li>
-            <li>Tools: Git, Microsoft Office, Bloomberg</li>
-            <li>Machine Learning Frameworks: Pandas, NumPy, PyTorch</li>
-          </ul>
         </section>
 
         {/* Contact Section */}
         <section id="contact" className="mb-16">
           <h2 className="text-2xl font-semibold mb-6">Contact</h2>
-          <p className="text-lg mb-6">
-            Feel free to reach out if you’d like to collaborate or learn more about my work!
+          <p>
+            <a href="mailto:krrisha@wharton.upenn.edu" className="text-blue-500 hover:underline">
+              Email: krrisha@wharton.upenn.edu
+            </a>
           </p>
-          <div className="space-y-2">
-            <p>
-              <a href="mailto:krrisha@wharton.upenn.edu" className="text-blue-500 hover:underline">
-                Email: krrisha@wharton.upenn.edu
-              </a>
-            </p>
-            <p>
-              <Link href="https://linkedin.com/in/krrishapatel" className="text-blue-500 hover:underline">
-                LinkedIn
-              </Link>
-            </p>
-            <p>
-              <Link href="https://github.com/krrishapatel" className="text-blue-500 hover:underline">
-                GitHub
-              </Link>
-            </p>
-          </div>
+          <p>
+            <Link href="https://linkedin.com/in/krrishapatel" className="text-blue-500 hover:underline">
+              LinkedIn
+            </Link>
+          </p>
+          <p>
+            <Link href="https://github.com/krrishapatel" className="text-blue-500 hover:underline">
+              GitHub
+            </Link>
+          </p>
         </section>
       </main>
     </div>
   );
 }
 
-const ExtracurricularCard = ({ title, description }) => (
+const WorkCard = ({ title, description }) => (
   <div className="border border-gray-200 rounded-lg p-6 hover:shadow-md transition duration-300 mb-4">
     <h3 className="text-xl font-semibold mb-2">{title}</h3>
     <p>{description}</p>
   </div>
 );
 
-const ProjectCard = ({ title, description, link }) => (
+const ProjectCard = ({ title, description, tools }) => (
   <div className="border border-gray-200 rounded-lg p-6 hover:shadow-md transition duration-300 mb-4">
     <h3 className="text-xl font-semibold mb-2">{title}</h3>
-    <p className="mb-4">{description}</p>
-    <a href={link} className="text-blue-500 hover:underline">Learn More</a>
+    <p className="mb-2">{description}</p>
+    <p className="text-sm text-gray-500"><strong>Tools:</strong> {tools}</p>
   </div>
 );
