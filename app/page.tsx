@@ -70,7 +70,7 @@ export default function Portfolio() {
           <WorkCard
             company="Passion4Med"
             title="Founder & CEO"
-            description="Founded a global platform with 4,000+ members. Organized 50 mentorships and led events for 2,500+ attendees across 5 continents."
+            description="Founded a global platform with 4,000+ future healthcare leaders. Organized 50 mentorships and led events for 2,500+ attendees across 5 continents, and shared 100+ free resources. Produced social media content with 50,000+ views"
           />
           <WorkCard
             company="MetaHealth"
@@ -80,7 +80,7 @@ export default function Portfolio() {
           <WorkCard
             company="Harvard STRIPED Initiative"
             title="Policy Advocate & Researcher"
-            description="Advocated for and successfully passed policy banning harmful supplement sales to minors in NJ and NY."
+            description="Advocated for and successfully passed policy banning harmful supplement sales to minors in NJ and NY. Secured 50+ co-sponsors and gained support from 150+ teens, organizations, and retailers."
           />
           <WorkCard
             company="Leadership Initiatives"
