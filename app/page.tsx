@@ -40,7 +40,7 @@ export default function Portfolio() {
           <h2 className="text-2xl font-semibold mb-6">Work Experience</h2>
           <WorkCard
             company="Jane Street Capital"
-            title="Research Intern"
+            title="Academy Of Math and Programming Intern"
             description="Designed algorithmic solutions in game theory and graph theory using Python, enhancing decision-making. Achieved top 10 PnL in a 6-hour ETC, generating $9M+ in simulated profits. Collaborated with Math Olympians and traders to apply probabilistic theory to trading strategies."          />
           <WorkCard
             company="GoAhead Ventures"
