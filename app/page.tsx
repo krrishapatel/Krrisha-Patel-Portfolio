@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 export default function Portfolio() {
   return (
-    <div className="min-h-screen bg-white text-black py-24">
+    <div className="min-h-screen bg-white text-black py-12">
       <Head>
         <title>Krrisha Patel | Portfolio</title>
         <meta name="description" content="Portfolio website of Krrisha Patel" />
@@ -54,7 +54,7 @@ export default function Portfolio() {
             description="Accelerated client timelines by 30% via RPA integrations and developed a cloud-based analytics platform with AWS Bedrock and Azure OpenAI, increasing market reach by 40%."
           />
           <WorkCard
-            title="Stanford University Interventional Radiology Lab (Healthcare and Tech)"
+            title="Stanford University Interventional Radiology Lab"
             description="Designed microfluidic drug delivery systems with 90% in vitro accuracy and researched compatibility for minimally invasive interventions."
           />
           
