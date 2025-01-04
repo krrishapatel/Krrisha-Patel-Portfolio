@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 export default function Portfolio() {
   return (
-    <div className="min-h-screen bg-white text-black py-12">
+    <div className="min-h-screen bg-white text-black py-2">
       <Head>
         <title>Krrisha Patel | Portfolio</title>
         <meta name="description" content="Portfolio website of Krrisha Patel" />
@@ -26,7 +26,7 @@ export default function Portfolio() {
         </nav>
       </header>
 
-      <main className="container mx-auto px-4 pt-16">
+      <main className="container mx-auto px-4 pt-18">
         {/* Introduction Section */}
         <section id="intro" className="mb-16 text-left">
           <h1 className="text-3xl font-bold mb-4">Hey! I'm Krrisha - a dreamer, doer, and innovator.</h1>
