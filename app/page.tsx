@@ -35,7 +35,7 @@ export default function Portfolio() {
         <section id="intro" className="mb-16 text-left">
           <h1 className="text-3xl font-bold mb-4">Hey, I'm Krrisha!</h1>
           <p className="text-lg mb-4">
-            Engineering and finance student at UPenn M&T with an interest in AL/ML applications, healthcare innovation, venture capital, and entrepreneurship.
+            Engineering and finance student at UPenn M&T with an interest in Al/ML applications, healthcare innovation, venture capital, and entrepreneurship.
           </p>
         </section>
 
