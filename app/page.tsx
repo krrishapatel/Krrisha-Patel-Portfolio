@@ -95,12 +95,12 @@ export default function Portfolio() {
           <ProjectCard
             title="Algorithmic Trading Bot"
             description="Developed predictive models for market forecasting using Python and SSH, achieving $150 PnL/min simulation."
-            tools="Python, Linux, SSH"
+            tools="Python, Pandas, NumPy, SQL, APIs"
           />
           <ProjectCard
             title="Wordle Solver Bot"
             description="Developed a terminal-based Wordle game with a 95% success solver bot and efficiency tools for data analysis."
-            tools="Python"
+            tools="Python, Matplotlib"
           />
           <ProjectCard
             title="Word Ladder"
@@ -120,7 +120,7 @@ export default function Portfolio() {
           <ProjectCard
             title="Minesweeper"
             description="A complete Minesweeper game where you uncover tiles and flag mines on a randomly generated grid. The goal is to clear the board without triggering any mines, using numbers revealed on safe tiles to deduce where mines are hidden."
-            tools="Java"
+            tools="Java, JUnit"
           />
 
         </section>
