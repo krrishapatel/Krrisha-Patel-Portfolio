@@ -35,7 +35,7 @@ export default function Portfolio() {
         <section id="intro" className="mb-16 text-left">
           <h1 className="text-3xl font-bold mb-4">Hey, I'm Krrisha!</h1>
           <p className="text-lg mb-4">
-            Engineering and finance student at UPenn M&T with an interest in Al/ML applications, healthcare innovation, venture capital, and entrepreneurship.
+            Engineering and finance student at UPenn M&T with an interest in AI/ML applications, healthcare innovation, venture capital, and entrepreneurship.
           </p>
         </section>
 
@@ -43,20 +43,28 @@ export default function Portfolio() {
         <section id="work" className="mb-16">
           <h2 className="text-2xl font-semibold mb-6">Work Experience</h2>
           <WorkCard
-            title="Jane Street Capital"
+            title="Jane Street Capital (Tech and Finance)"
             description="Designed algorithmic solutions in game theory and graph theory using Python. Achieved top 10 scores in Electronic Trading Challenge (ETC) and developed high-frequency algorithms for significant simulated profits."
           />
           <WorkCard
-            title="Infosys"
-            description="Accelerated client timelines by 30% via RPA integrations and developed a cloud-based analytics platform with AWS Bedrock and Azure OpenAI, increasing market reach by 40%."
+            title="GoAhead Ventures (Venture Capital)"
+            description="Sourced and evaluated over 50 startups for investment. Conducted due diligence and presented analysis to partners, aiding in early-stage funding decisions."
           />
           <WorkCard
-            title="IPMD Inc."
+            title="IPMD Inc. (Tech and Healthcare)"
             description="Developed telemedicine platforms with facial and emotional AI, achieving a 30% improvement in emotional recognition accuracy and securing adoption by 3 international centers."
           />
           <WorkCard
-            title="Stanford University Interventional Radiology Lab"
+            title="Infosys (Tech)"
+            description="Accelerated client timelines by 30% via RPA integrations and developed a cloud-based analytics platform with AWS Bedrock and Azure OpenAI, increasing market reach by 40%."
+          />
+          <WorkCard
+            title="Stanford University Interventional Radiology Lab (Healthcare and Tech)"
             description="Designed microfluidic drug delivery systems with 90% in vitro accuracy and researched compatibility for minimally invasive interventions."
+          />
+          <WorkCard
+            title="Icahn School of Medicine (Healthcare)"
+            description="Conducted research on gene expression profiles to identify biomarkers for chronic diseases. Published findings in peer-reviewed journals, advancing knowledge in personalized medicine."
           />
         </section>
 
@@ -86,14 +94,34 @@ export default function Portfolio() {
             tools="Python, Linux, SSH"
           />
           <ProjectCard
-            title="Hold or Fold Poker Game"
-            description="Created an AI-driven Poker game with 98% accuracy in player assistance."
-            tools="Python, JavaScript, React.js"
+            title="Mushroom of Doom"
+            description="Created a fully playable game with real-time action and simple controls, where players avoid poisonous mushrooms and chase the golden snitch to win."
+            tools="Python"
           />
           <ProjectCard
-            title="ShoeScraper"
-            description="Automated shoe data analysis using Python and BeautifulSoup, aiding companies with market insights."
-            tools="Python, BeautifulSoup"
+            title="Wordle"
+            description="Developed a terminal-based Wordle game with a 95% success solver bot and efficiency tools for data analysis."
+            tools="Python"
+          />
+          <ProjectCard
+            title="Anagame"
+            description="Designed an anagram-solving game with performance analytics, a leaderboard, and hint systems."
+            tools="Python"
+          />
+          <ProjectCard
+            title="Word Ladder"
+            description="Built a BFS-based game to find shortest paths in word ladders with performance tracking."
+            tools="Python"
+          />
+          <ProjectCard
+            title="Camel Up Game"
+            description="Simulated camel races with probabilistic analysis and strategic insights in a detailed terminal interface."
+            tools="Python"
+          />
+          <ProjectCard
+            title="MineSweeper"
+            description="Developed a Minesweeper game with a terminal interface, featuring visual feedback and challenging gameplay."
+            tools="Python"
           />
         </section>
 
