@@ -40,8 +40,7 @@ export default function Portfolio() {
           <WorkCard
             company="Jane Street Capital"
             title="Research Intern"
-            description="Designed algorithmic solutions in game theory and graph theory using Python, enhancing data analysis and decision-making. Achieved top 10 PnL scores in a 6-hour Electronic Trading Challenge (ETC) among 80+ participants, generating over $9M in simulated profits. Collaborated with Math Olympians and traders to apply probabilistic theory and number theory to trading strategies."
-          />
+            description="Designed algorithmic solutions in game theory and graph theory using Python, enhancing decision-making. Achieved top 10 PnL in a 6-hour ETC, generating $9M+ in simulated profits. Collaborated with Math Olympians and traders to apply probabilistic theory to trading strategies."          />
           <WorkCard
             company="GoAhead Ventures"
             title="Venture Scout"
