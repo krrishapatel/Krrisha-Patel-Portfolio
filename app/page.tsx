@@ -38,7 +38,8 @@ export default function Portfolio() {
         <section id="work" className="mb-16">
           <h2 className="text-2xl font-semibold mb-6">Work Experience</h2>
           <WorkCard
-            title="Jane Street Capital"
+            company="Jane Street Capital"
+            title="Research Intern"
             description="Designed algorithmic solutions in game theory and graph theory using Python. Achieved top 10 scores in Electronic Trading Challenge (ETC) and developed high-frequency algorithms for significant simulated profits."
           />
           <WorkCard
@@ -130,9 +131,10 @@ export default function Portfolio() {
   );
 }
 
-const WorkCard = ({ title, description }) => (
+const WorkCard = ({ company, title, description }) => (
   <div className="border border-gray-200 rounded-lg p-6 hover:shadow-md transition duration-300 mb-4">
-    <h3 className="text-xl font-semibold mb-2">{title}</h3>
+    <h3 className="text-xl font-semibold mb-2">{company}</h3>
+    {title && <p className="text-sm text-gray-600 mb-2">{title}</p>}
     <p>{description}</p>
   </div>
 );
