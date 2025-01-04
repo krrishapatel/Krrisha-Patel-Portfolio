@@ -74,7 +74,7 @@ export default function Portfolio() {
           <WorkCard
             company="MetaHealth"
             title="Founder & CEO"
-            description="Raised metabolic syndrome awareness through 20+ cooking and nutrition workshops, and expanded to 60+ members and 5,000+ social media views. Developed a health-tracking app prototype to monitor diet, exercise, and biometrics, providing personalized recommendations to manage metabolic risk factors"
+            description="Raised metabolic syndrome awareness through 20+ cooking and nutrition workshops, and expanded to 60+ members and 5,000+ social media views. Developed a health-tracking app prototype to monitor diet, exercise, and biometrics, providing personalized recommendations to manage metabolic risk factors."
           />
           <WorkCard
             company="Harvard STRIPED Initiative"
