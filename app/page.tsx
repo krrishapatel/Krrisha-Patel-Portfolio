@@ -20,6 +20,7 @@ export default function Portfolio() {
             <a href="#work" className="text-blue-500 hover:underline">Work</a>
             <a href="#leadership" className="text-blue-500 hover:underline">Leadership</a>
             <a href="#projects" className="text-blue-500 hover:underline">Projects</a>
+            <a href="#fun-facts" className="text-blue-500 hover:underline">Fun Facts</a>
             <a href="#contact" className="text-blue-500 hover:underline">Contact</a>
           </div>
         </nav>
@@ -124,6 +125,21 @@ export default function Portfolio() {
 
         </section>
 
+
+        <section id="fun-facts" className="mb-16">
+          <h2 className="text-2xl font-semibold mb-6">Fun Facts</h2>
+          <ul className="list-disc pl-6 space-y-4">
+            <li>I’m a vintage tech fan—recently restored an old Game Boy into a working MP3 player!</li>
+            <li>I create mini dioramas—one of my favorites is a tiny enchanted forest with glowing mushrooms.</li>
+            <li>Designing DIY escape rooms is my thing—my latest one was a time-travel adventure with puzzles hidden in old letters.</li>
+            <li>I’m a puzzle lover—currently tackling a 1000-piece medieval castle puzzle.</li>
+            <li>Street photography is my passion—one of my best shots is of a rainy street with a red umbrella.</li>
+            <li>I love oil painting—right now, I’m working on a dreamlike cityscape at twilight with floating lanterns.</li>
+            <li>DIY projects are my jam—like the time I turned circuit boards into a glowing LED clock.</li>
+          </ul>
+        </section>
+
+        
         {/* Contact Section */}
         <section id="contact" className="mb-16">
           <h2 className="text-2xl font-semibold mb-6">Contact</h2>
