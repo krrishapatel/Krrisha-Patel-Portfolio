@@ -33,9 +33,9 @@ export default function Portfolio() {
       <main className="container mx-auto px-4 pt-16">
         {/* Introduction Section */}
         <section id="intro" className="mb-16 text-left">
-          <h1 className="text-3xl font-bold mb-4">Welcome to My Portfolio!</h1>
+          <h1 className="text-3xl font-bold mb-4">Hey, I'm Krrisha!</h1>
           <p className="text-lg mb-4">
-            Hello! I’m Krrisha Patel, a dual-degree student in the Jerome Fisher Program in Management & Technology at the University of Pennsylvania. My work spans algorithm design, AI applications, healthcare innovation, and entrepreneurial ventures.
+            Engineering and finance student at UPenn M&T with an interest in AL/ML applications, healthcare innovation, venture capital, and entrepreneurship.
           </p>
         </section>
 
