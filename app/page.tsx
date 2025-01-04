@@ -1,14 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 
 export default function Portfolio() {
-  const [showFunFacts, setShowFunFacts] = useState(false);
-
-  const toggleFunFacts = () => {
-    setShowFunFacts(!showFunFacts);
-  };
-
   return (
     <div className="min-h-screen bg-white text-black py-12">
       <Head>
@@ -46,8 +40,7 @@ export default function Portfolio() {
           <WorkCard
             company="Jane Street Capital"
             title="Research Intern"
-            description="Designed algorithmic solutions in game theory and graph theory using Python, enhancing decision-making. Achieved top 10 PnL in a 6-hour ETC, generating $9M+ in simulated profits. Collaborated with Math Olympians and traders to apply probabilistic theory to trading strategies." 
-          />
+            description="Designed algorithmic solutions in game theory and graph theory using Python, enhancing decision-making. Achieved top 10 PnL in a 6-hour ETC, generating $9M+ in simulated profits. Collaborated with Math Olympians and traders to apply probabilistic theory to trading strategies."          />
           <WorkCard
             company="GoAhead Ventures"
             title="Venture Scout"
@@ -61,13 +54,13 @@ export default function Portfolio() {
           <WorkCard
             company="Infosys"
             title="Tech Consultant"
-            description="Accelerated client timelines by 30%, boosting retention by 15% for 150+ clients with RPA. Identified RPA acquisitions worth $20M+ annually. Developed a cloud analytics platform with AWS Bedrock and Azure OpenAI, improving segmentation by 25% and uncovering $5M+ in revenue. Expanded IPA globally, increasing market reach by 40%."
-          />
+            description="Accelerated client timelines by 30%, boosting retention by 15% for 150+ clients with RPA. Identified RPA acquisitions worth $20M+ annually. Developed a cloud analytics platform with AWS Bedrock and Azure OpenAI, improving segmentation by 25% and uncovering $5M+ in revenue. Expanded IPA globally, increasing market reach by 40%."          />
           <WorkCard
             company="Stanford University Interventional Radiology Lab"
             title="Research Intern"
             description="Analyzed the biological role of MSC-EVs in diabetes mellitus and diabetic complications, designing a minimally invasive microfluidic drug delivery system for targeted pancreatic treatment with 90% delivery accuracy in vitro."
           />
+          
         </section>
 
         {/* Leadership & Entrepreneurship Section */}
@@ -128,6 +121,7 @@ export default function Portfolio() {
             description="A complete Minesweeper game where you uncover tiles and flag mines on a randomly generated grid. The goal is to clear the board without triggering any mines, using numbers revealed on safe tiles to deduce where mines are hidden."
             tools="Java"
           />
+
         </section>
 
         {/* Contact Section */}
@@ -148,23 +142,6 @@ export default function Portfolio() {
               GitHub
             </Link>
           </p>
-        </section>
-
-        {/* Fun Facts Section */}
-        <section id="fun-facts" className="mb-16">
-          <button onClick={toggleFunFacts} className="px-4 py-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition duration-300">
-            {showFunFacts ? "Hide Fun Facts" : "Show Fun Facts"}
-          </button>
-          {showFunFacts && (
-            <div className="mt-6">
-              <ul className="list-disc pl-6">
-                <li>I can code a game in Python in under an hour!</li>
-                <li>I'm a huge fan of AI and its potential to revolutionize healthcare.</li>
-                <li>I once built a DIY prosthetic for a neighbor who couldn't afford one.</li>
-                <li>I'm passionate about creating solutions that have a real-world impact.</li>
-              </ul>
-            </div>
-          )}
         </section>
       </main>
     </div>
