@@ -140,9 +140,10 @@ export default function Portfolio() {
         </section>
 
         
-        {/* Contact Section */}
+                {/* Contact Section */}
         <section id="contact" className="mb-16">
           <h2 className="text-2xl font-semibold mb-6">Contact</h2>
+          <p>Want to make something great together? I’m always up for a chat.</p>
           <p>
             <a href="mailto:krrishapatel26@gmail.com" className="text-blue-500 hover:underline">
               Email: krrishapatel26@gmail.com
@@ -159,10 +160,7 @@ export default function Portfolio() {
             </Link>
           </p>
         </section>
-      </main>
-    </div>
-  );
-}
+
 
 const WorkCard = ({ company, title, description }) => (
   <div className="border border-gray-200 rounded-lg p-6 hover:shadow-md transition duration-300 mb-4">
