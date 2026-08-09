@@ -1,11 +1,13 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
+/* @import must come before every other statement, or postcss drops it with a
+   warning and the fonts silently fall back to system faces. */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
   --foreground-rgb: 255, 255, 255;
@@ -38,7 +40,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background: var(--navy-dark);
   color: var(--text-primary);
-  cursor: none; /* Hide default cursor */
 }
 
 body {
@@ -48,40 +49,66 @@ body {
   font-weight: 400;
 }
 
-/* Hide default cursor on all interactive elements */
-* {
-  cursor: none !important;
-}
-
-/* Ensure custom cursor shows on all elements */
-button, a, input, textarea, select, [role="button"], [tabindex], [onclick] {
-  cursor: none !important;
-}
-
 a {
   color: inherit;
   text-decoration: none;
 }
 
-/* Custom creative cursor */
+/* Decorative cursor glow. The real pointer stays visible and is always the
+   thing you aim with; this only trails behind it as an accent.
+   Position is written straight to `translate3d` from a rAF loop, so it must
+   never carry a transition -- transitioning position is what made the cursor
+   arrive 200ms after the mouse. Only scale and colour animate. */
 .custom-cursor {
-  width: 11px;
-  height: 11px;
-  background: linear-gradient(45deg, var(--accent-purple), var(--accent-blue), var(--accent-pink));
-  border-radius: 3px;
+  width: 22px;
+  height: 22px;
+  margin: -11px 0 0 -11px;
+  border: 1.5px solid var(--accent-purple);
+  border-radius: 50%;
   position: fixed;
+  top: 0;
+  left: 0;
   pointer-events: none;
   z-index: 9999;
-  transition: all 0.2s ease;
-  box-shadow: 0 0 15px rgba(167, 139, 250, 0.7);
-  transform: rotate(0deg);
+  opacity: 0;
+  will-change: transform;
+  transition: opacity 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 0 12px rgba(167, 139, 250, 0.45);
 }
 
 .custom-cursor.hover {
-  transform: scale(1.5) rotate(45deg);
-  background: linear-gradient(45deg, var(--accent-pink), var(--accent-purple), var(--accent-blue));
-  box-shadow: 0 0 25px rgba(244, 114, 182, 0.9);
-  border-radius: 2px;
+  border-color: var(--accent-pink);
+  box-shadow: 0 0 22px rgba(244, 114, 182, 0.75);
+}
+
+/* The ring itself scales on hover via an inner element, so the scale
+   transition never fights the transform that carries position. */
+.custom-cursor::after {
+  content: '';
+  position: absolute;
+  inset: -1.5px;
+  border-radius: 50%;
+  transform: scale(1);
+  transition: transform 0.18s ease;
+}
+
+.custom-cursor.hover::after {
+  transform: scale(1.45);
+  border: 1.5px solid var(--accent-pink);
+}
+
+/* Anyone who asks the OS to reduce motion gets no trailing element at all. */
+@media (prefers-reduced-motion: reduce) {
+  .custom-cursor {
+    display: none;
+  }
+}
+
+/* Touch devices have no pointer to trail. */
+@media (hover: none), (pointer: coarse) {
+  .custom-cursor {
+    display: none;
+  }
 }
 
 
