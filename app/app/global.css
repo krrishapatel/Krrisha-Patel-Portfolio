@@ -38,7 +38,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background: var(--navy-dark);
   color: var(--text-primary);
-  cursor: none; /* Hide default cursor */
 }
 
 body {
@@ -48,40 +47,57 @@ body {
   font-weight: 400;
 }
 
-/* Hide default cursor on all interactive elements */
-* {
-  cursor: none !important;
-}
-
-/* Ensure custom cursor shows on all elements */
-button, a, input, textarea, select, [role="button"], [tabindex], [onclick] {
-  cursor: none !important;
-}
-
 a {
   color: inherit;
   text-decoration: none;
 }
 
-/* Custom creative cursor */
 .custom-cursor {
-  width: 11px;
-  height: 11px;
-  background: linear-gradient(45deg, var(--accent-purple), var(--accent-blue), var(--accent-pink));
-  border-radius: 3px;
+  width: 22px;
+  height: 22px;
+  margin: -11px 0 0 -11px;
+  border: 1.5px solid var(--accent-purple);
+  border-radius: 50%;
   position: fixed;
+  top: 0;
+  left: 0;
   pointer-events: none;
   z-index: 9999;
-  transition: all 0.2s ease;
-  box-shadow: 0 0 15px rgba(167, 139, 250, 0.7);
-  transform: rotate(0deg);
+  opacity: 0;
+  will-change: transform;
+  transition: opacity 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 0 12px rgba(167, 139, 250, 0.45);
 }
 
 .custom-cursor.hover {
-  transform: scale(1.5) rotate(45deg);
-  background: linear-gradient(45deg, var(--accent-pink), var(--accent-purple), var(--accent-blue));
-  box-shadow: 0 0 25px rgba(244, 114, 182, 0.9);
-  border-radius: 2px;
+  border-color: var(--accent-pink);
+  box-shadow: 0 0 22px rgba(244, 114, 182, 0.75);
+}
+
+.custom-cursor::after {
+  content: '';
+  position: absolute;
+  inset: -1.5px;
+  border-radius: 50%;
+  transform: scale(1);
+  transition: transform 0.18s ease;
+}
+
+.custom-cursor.hover::after {
+  transform: scale(1.45);
+  border: 1.5px solid var(--accent-pink);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .custom-cursor {
+    display: none;
+  }
+}
+
+@media (hover: none), (pointer: coarse) {
+  .custom-cursor {
+    display: none;
+  }
 }
 
 

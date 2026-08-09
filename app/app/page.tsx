@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 export default function Portfolio() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -11,15 +11,19 @@ export default function Portfolio() {
   const [selectedBlog, setSelectedBlog] = useState<string | null>(null);
   const [selectedWork, setSelectedWork] = useState<string | null>(null);
   const [selectedProject, setSelectedProject] = useState<string | null>(null);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
+  // The cursor ring is moved by writing to the DOM node directly. Holding its
+  // position in state re-rendered this whole component on every mousemove.
+  const cursorRef = useRef<HTMLDivElement>(null);
   const [geometricRotationX, setGeometricRotationX] = useState(15);
   const [geometricRotationY, setGeometricRotationY] = useState(15);
   const [geometricRotationZ, setGeometricRotationZ] = useState(0);
   const [isGeometricSpinning, setIsGeometricSpinning] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
-  const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
-  const [lastDrag, setLastDrag] = useState({ x: 0, y: 0 });
+  // Drag origin is only ever read inside event handlers, never rendered, so it
+  // lives in refs. As state it forced a re-render per mousemove.
+  const dragStartRef = useRef({ x: 0, y: 0 });
+  const lastDragRef = useRef({ x: 0, y: 0 });
   const [selectedArtwork, setSelectedArtwork] = useState<string | null>(null);
 
 
@@ -37,21 +41,14 @@ export default function Portfolio() {
 
   const handleMouseDown = (e: React.MouseEvent) => {
     setIsDragging(true);
-    setDragStart({ x: e.clientX, y: e.clientY });
-    setLastDrag({ x: e.clientX, y: e.clientY });
+    dragStartRef.current = { x: e.clientX, y: e.clientY };
+    lastDragRef.current = { x: e.clientX, y: e.clientY };
   };
 
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (!isDragging) return;
-    
-    const deltaX = e.clientX - lastDrag.x;
-    const deltaY = e.clientY - lastDrag.y;
-    
-    setGeometricRotationY(prev => prev + deltaX * 0.5);
-    setGeometricRotationX(prev => prev + deltaY * 0.5);
-    
-    setLastDrag({ x: e.clientX, y: e.clientY });
-  };
+  // Dragging is driven by the document-level listener below, which is active
+  // for the whole drag even when the pointer leaves the cube. This element-level
+  // handler would double-apply every delta, so it deliberately does nothing.
+  const handleMouseMove = (_e: React.MouseEvent) => {};
 
   const handleMouseUp = () => {
     setIsDragging(false);
@@ -85,52 +82,104 @@ export default function Portfolio() {
     }
   }, []);
 
-  // Custom cursor tracking
+  // Custom cursor tracking.
+  //
+  // Two rules keep this from feeling laggy:
+  //   1. Never route pointer position through React state -- that re-rendered
+  //      a 2000-line component on every pixel of movement.
+  //   2. Write transform once per frame in rAF, not once per mousemove event.
+  //      A mouse can fire faster than the display refreshes, so the extra
+  //      writes are work the browser throws away.
+  // The position is written with no CSS transition on transform; the ring
+  // lands exactly where the pointer is, on the same frame.
   useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
+    const cursor = cursorRef.current;
+    if (!cursor) return;
+
+    // Respect the OS-level reduce-motion setting: no trailing element at all.
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    // A coarse pointer (touch) has nothing to trail.
+    if (window.matchMedia('(pointer: coarse)').matches) return;
+
+    let x = 0;
+    let y = 0;
+    let frame = 0;
+    let visible = false;
+
+    const draw = () => {
+      frame = 0;
+      cursor.style.transform = `translate3d(${x}px, ${y}px, 0)`;
     };
 
-    const handleMouseEnter = () => setIsHovering(true);
-    const handleMouseLeave = () => setIsHovering(false);
+    const handleMouseMove = (e: MouseEvent) => {
+      x = e.clientX;
+      y = e.clientY;
+      if (!visible) {
+        visible = true;
+        // Opacity is set inline, not via a class: React owns `className` on
+        // this element (it carries the `hover` flag), so any class added
+        // imperatively is wiped out on the next render.
+        cursor.style.opacity = '0.9';
+      }
+      // Coalesce: at most one DOM write per animation frame.
+      if (!frame) frame = requestAnimationFrame(draw);
+    };
 
-    document.addEventListener('mousemove', handleMouseMove);
-    document.addEventListener('mouseenter', handleMouseEnter);
-    document.addEventListener('mouseleave', handleMouseLeave);
+    // `hover` reflects whether the pointer is over something clickable, which
+    // is what the accent colour is meant to signal. The previous version keyed
+    // it off document enter/leave, so it was true almost all the time.
+    const handleOver = (e: MouseEvent) => {
+      const target = e.target as Element | null;
+      setIsHovering(Boolean(target?.closest?.('a, button, [role="button"], .interactive-card, .sticker')));
+    };
+
+    const handleLeave = () => {
+      visible = false;
+      cursor.style.opacity = '0';
+    };
+
+    document.addEventListener('mousemove', handleMouseMove, { passive: true });
+    document.addEventListener('mouseover', handleOver, { passive: true });
+    document.addEventListener('mouseleave', handleLeave);
 
     return () => {
+      if (frame) cancelAnimationFrame(frame);
       document.removeEventListener('mousemove', handleMouseMove);
-      document.removeEventListener('mouseenter', handleMouseEnter);
-      document.removeEventListener('mouseleave', handleMouseLeave);
+      document.removeEventListener('mouseover', handleOver);
+      document.removeEventListener('mouseleave', handleLeave);
     };
   }, []);
 
-  // Global mouse event listeners for cube dragging
+  // Global mouse event listeners for cube dragging.
+  //
+  // `lastDrag` is read from a ref rather than state, so this effect subscribes
+  // once per drag instead of tearing down and re-adding both listeners on every
+  // single mousemove -- which is what `[isDragging, lastDrag]` used to do.
   useEffect(() => {
+    if (!isDragging) return;
+
     const handleGlobalMouseMove = (e: MouseEvent) => {
-      if (isDragging) {
-        const deltaX = e.clientX - lastDrag.x;
-        const deltaY = e.clientY - lastDrag.y;
-        
-        setGeometricRotationY(prev => prev + deltaX * 0.5);
-        setGeometricRotationX(prev => prev + deltaY * 0.5);
-        
-        setLastDrag({ x: e.clientX, y: e.clientY });
-      }
+      const deltaX = e.clientX - lastDragRef.current.x;
+      const deltaY = e.clientY - lastDragRef.current.y;
+
+      setGeometricRotationY(prev => prev + deltaX * 0.5);
+      setGeometricRotationX(prev => prev + deltaY * 0.5);
+
+      lastDragRef.current = { x: e.clientX, y: e.clientY };
     };
 
     const handleGlobalMouseUp = () => {
       setIsDragging(false);
     };
 
-    document.addEventListener('mousemove', handleGlobalMouseMove);
+    document.addEventListener('mousemove', handleGlobalMouseMove, { passive: true });
     document.addEventListener('mouseup', handleGlobalMouseUp);
 
     return () => {
       document.removeEventListener('mousemove', handleGlobalMouseMove);
       document.removeEventListener('mouseup', handleGlobalMouseUp);
     };
-  }, [isDragging, lastDrag]);
+  }, [isDragging]);
 
   return (
     <div className="min-h-screen bg-slate-900 text-white">
@@ -147,12 +196,10 @@ export default function Portfolio() {
             <div className="sticker" onClick={() => alert('💡 lightbulb moment!')}>💡</div>
       
       {/* Custom cursor */}
-      <div 
+      <div
+        ref={cursorRef}
+        aria-hidden="true"
         className={`custom-cursor ${isHovering ? 'hover' : ''}`}
-        style={{
-          left: mousePosition.x - 10,
-          top: mousePosition.y - 10,
-        }}
       />
 
       {/* Navigation */}
@@ -407,6 +454,26 @@ export default function Portfolio() {
             {/* Tech Tab */}
             {activeWorkTab === 'tech' && (
               <div className="space-y-8">
+                <div className="interactive-card p-6" onClick={() => setSelectedWork('aws')}>
+                  <div className="flex justify-between items-start mb-3">
+                    <h3 className="section-heading text-xl">Amazon Web Services</h3>
+                    <span className="text-sm text-slate-400 bg-orange-900/50 px-3 py-1 rounded-full">Summer 2026</span>
+                  </div>
+                  <p className="body-text text-slate-300 mb-2">Software Development Engineer Intern, Infrastructure Supply Chain Management</p>
+                  <p className="body-text text-sm mb-3">
+                    Architected Java/TypeScript malware scanner securing data center procurement across 12 global regions.
+                    Cut deployment artifact size 45% (287MB → 159MB) with serverless Lambda/Fargate pipelines.
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    <span className="px-2 py-1 bg-orange-900/50 text-orange-300 text-xs rounded">Java</span>
+                    <span className="px-2 py-1 bg-blue-900/50 text-blue-300 text-xs rounded">TypeScript</span>
+                    <span className="px-2 py-1 bg-purple-900/50 text-purple-300 text-xs rounded">AWS CDK</span>
+                    <span className="px-2 py-1 bg-green-900/50 text-green-300 text-xs rounded">Lambda</span>
+                    <span className="px-2 py-1 bg-pink-900/50 text-pink-300 text-xs rounded">Fargate</span>
+                  </div>
+                  <div className="mt-4 text-center text-slate-400 text-sm">Click for more details →</div>
+                </div>
+
                 <div className="interactive-card p-6" onClick={() => setSelectedWork('very-good-ventures')}>
                   <div className="flex justify-between items-start mb-3">
                     <h3 className="section-heading text-xl">Very Good Ventures</h3>
@@ -753,6 +820,137 @@ export default function Portfolio() {
               
               <div className="flex-1">
                 <div className="space-y-8">
+              <div className="interactive-card p-6" onClick={() => setSelectedProject('pgx-record')}>
+                <div className="flex justify-between items-start mb-3 gap-3">
+                  <h3 className="section-heading text-xl">Pharmacogenomic Record</h3>
+                  <a
+                    href="https://github.com/krrishapatel/Pharmacogenomic-Record"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(e) => e.stopPropagation()}
+                    className="text-xs text-blue-300 hover:text-blue-200 whitespace-nowrap border border-blue-800 rounded px-2 py-1"
+                  >
+                    source ↗
+                  </a>
+                </div>
+                <p className="body-text text-sm mb-3">
+                  A drug-gene interaction checker built on CPIC guidelines that refuses to guess. Its core rule: never let
+                  &ldquo;no known interaction&rdquo; and &ldquo;cannot assess this gene&rdquo; collapse into the same answer,
+                  because absence of data is not absence of risk. 452 tests.
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  <span className="px-2 py-1 bg-blue-900/50 text-blue-300 text-xs rounded">Python</span>
+                  <span className="px-2 py-1 bg-purple-900/50 text-purple-300 text-xs rounded">SQLite</span>
+                  <span className="px-2 py-1 bg-green-900/50 text-green-300 text-xs rounded">PharmCAT</span>
+                  <span className="px-2 py-1 bg-pink-900/50 text-pink-300 text-xs rounded">Bioinformatics</span>
+                </div>
+                <div className="mt-4 text-center text-slate-400 text-sm">Click for more details →</div>
+              </div>
+
+              <div className="interactive-card p-6" onClick={() => setSelectedProject('exchange-simulator')}>
+                <div className="flex justify-between items-start mb-3 gap-3">
+                  <h3 className="section-heading text-xl">Exchange Simulator</h3>
+                  <a
+                    href="https://github.com/krrishapatel/exchange-simulator"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(e) => e.stopPropagation()}
+                    className="text-xs text-blue-300 hover:text-blue-200 whitespace-nowrap border border-blue-800 rounded px-2 py-1"
+                  >
+                    source ↗
+                  </a>
+                </div>
+                <p className="body-text text-sm mb-3">
+                  A simulated exchange with a C++ matching engine on a zero-allocation hot path: ~61ns order adds,
+                  ~118ns limit matches, 8.5M matches/sec. Wrapped with pybind11 so RL agents can train against it
+                  through a Gymnasium env, with a live React dashboard over WebSocket.
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  <span className="px-2 py-1 bg-blue-900/50 text-blue-300 text-xs rounded">C++</span>
+                  <span className="px-2 py-1 bg-purple-900/50 text-purple-300 text-xs rounded">pybind11</span>
+                  <span className="px-2 py-1 bg-green-900/50 text-green-300 text-xs rounded">Gymnasium</span>
+                  <span className="px-2 py-1 bg-orange-900/50 text-orange-300 text-xs rounded">React</span>
+                </div>
+                <div className="mt-4 text-center text-slate-400 text-sm">Click for more details →</div>
+              </div>
+
+              <div className="interactive-card p-6" onClick={() => setSelectedProject('excel-diff')}>
+                <div className="flex justify-between items-start mb-3 gap-3">
+                  <h3 className="section-heading text-xl">Excel Workbook Diff & Tie-Out</h3>
+                  <a
+                    href="https://github.com/krrishapatel/excel-diff-tool"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(e) => e.stopPropagation()}
+                    className="text-xs text-blue-300 hover:text-blue-200 whitespace-nowrap border border-blue-800 rounded px-2 py-1"
+                  >
+                    source ↗
+                  </a>
+                </div>
+                <p className="body-text text-sm mb-3">
+                  Built for tax preparers doing year-over-year workpaper review: diffs two workbooks cell by cell with a
+                  materiality threshold, then reconciles the filed PDF return against the workbook that produced it,
+                  handling the sign flips that accounting actually uses.
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  <span className="px-2 py-1 bg-blue-900/50 text-blue-300 text-xs rounded">React</span>
+                  <span className="px-2 py-1 bg-purple-900/50 text-purple-300 text-xs rounded">TypeScript</span>
+                  <span className="px-2 py-1 bg-green-900/50 text-green-300 text-xs rounded">SpreadJS</span>
+                </div>
+                <div className="mt-4 text-center text-slate-400 text-sm">Click for more details →</div>
+              </div>
+
+              <div className="interactive-card p-6" onClick={() => setSelectedProject('doctoapi')}>
+                <div className="flex justify-between items-start mb-3 gap-3">
+                  <h3 className="section-heading text-xl">doctoapi</h3>
+                  <a
+                    href="https://github.com/krrishapatel/doctoapi"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(e) => e.stopPropagation()}
+                    className="text-xs text-blue-300 hover:text-blue-200 whitespace-nowrap border border-blue-800 rounded px-2 py-1"
+                  >
+                    source ↗
+                  </a>
+                </div>
+                <p className="body-text text-sm mb-3">
+                  Upload any document, get a typed REST API. Infers a schema from the PDF itself instead of making you
+                  configure templates or regexes up front, so it keeps working when the document format shifts.
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  <span className="px-2 py-1 bg-blue-900/50 text-blue-300 text-xs rounded">Python</span>
+                  <span className="px-2 py-1 bg-purple-900/50 text-purple-300 text-xs rounded">FastAPI</span>
+                  <span className="px-2 py-1 bg-green-900/50 text-green-300 text-xs rounded">LLMs</span>
+                </div>
+                <div className="mt-4 text-center text-slate-400 text-sm">Click for more details →</div>
+              </div>
+
+              <div className="interactive-card p-6" onClick={() => setSelectedProject('open-source')}>
+                <div className="flex justify-between items-start mb-3 gap-3">
+                  <h3 className="section-heading text-xl">Open Source Contributions</h3>
+                  <a
+                    href="https://github.com/krrishapatel"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(e) => e.stopPropagation()}
+                    className="text-xs text-blue-300 hover:text-blue-200 whitespace-nowrap border border-blue-800 rounded px-2 py-1"
+                  >
+                    github ↗
+                  </a>
+                </div>
+                <p className="body-text text-sm mb-3">
+                  Open pull requests under review on Starlette, OpenTelemetry Python, and Supervisor &mdash; an IPv6 host
+                  header parsing bug, a multi-byte decode crash, and missing real-time signals. Mostly an exercise in
+                  reading large unfamiliar codebases well enough to fix something narrow without breaking anything.
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  <span className="px-2 py-1 bg-blue-900/50 text-blue-300 text-xs rounded">Python</span>
+                  <span className="px-2 py-1 bg-purple-900/50 text-purple-300 text-xs rounded">Starlette</span>
+                  <span className="px-2 py-1 bg-green-900/50 text-green-300 text-xs rounded">OpenTelemetry</span>
+                </div>
+                <div className="mt-4 text-center text-slate-400 text-sm">Click for more details →</div>
+              </div>
+
                                                              <div className="interactive-card p-6" onClick={() => setSelectedProject('llm-optimizer')}>
                 <h3 className="section-heading text-xl mb-3">LLM-Aware Runtime Optimizer</h3>
                 <p className="body-text text-sm mb-3">
@@ -1047,40 +1245,7 @@ export default function Portfolio() {
                     ✕
                   </button>
                   
-                  {selectedBlog === 'philly-discovery' && (
-                    <div>
-                      <h2 className="section-heading text-3xl mb-4">the day i discovered philadelphia's secret underground</h2>
-                      <div className="text-sm text-slate-400 mb-6">July 15, 2025 • 5 min read</div>
-                      <div className="body-text leading-relaxed space-y-4">
-                        <p>was walking to class when i noticed this weird door in the side of a building near campus. it looked like it hadn't been opened in decades. curiosity got the best of me, and after some investigating, i discovered it leads to an old subway tunnel from the 1920s.</p>
-                        <p>the city forgot about it, but it's still there, perfectly preserved. spent the next three weekends exploring it with my friends, documenting everything. philadelphia has so many hidden stories waiting to be uncovered. sometimes the most fascinating discoveries are right under our feet.</p>
-                        <p>what started as a simple curiosity turned into an obsession. i started researching the city's transportation history, finding old maps and newspaper articles. turns out philadelphia had an extensive streetcar system that was dismantled in the 1950s. but they didn't demolish everything they just sealed it up and forgot about it.</p>
-                        <p>the tunnel we found was part of the broad street subway line, but it was a spur that went to a station that no longer exists. the station itself is still there, complete with old advertisements and ticket booths. it's like stepping back in time.</p>
-                        <p>my friends and i spent hours down there, taking photos and videos, trying to understand what life was like when this was a bustling transportation hub. we found old newspapers, discarded items, even some graffiti from the 1940s. it's amazing how much history is preserved in these forgotten spaces.</p>
-                        <p>the experience made me realize that every city has these hidden layers, these forgotten stories waiting to be rediscovered. philadelphia might seem like just another east coast city, but it has a rich, complex history that's literally buried beneath the surface.</p>
-                        <p>now i'm working on documenting all the hidden spaces i can find in the city. there are old factories, abandoned hospitals, forgotten parks. each one has its own story, its own secrets. it's like urban archaeology, but instead of digging in the ground, you're exploring the forgotten corners of the city.</p>
-                        <p>the best part? most people walk right past these places every day without even noticing them. they're invisible to the casual observer, but once you know how to look, they're everywhere. philadelphia is full of these hidden gems, just waiting for someone curious enough to discover them.</p>
-                      </div>
-                    </div>
-                  )}
                   
-                  {selectedBlog === 'origami-engineering' && (
-                    <div>
-                      <h2 className="section-heading text-3xl mb-4">the art of folding paper into engineering problems</h2>
-                      <div className="text-sm text-slate-400 mb-6">July 8, 2025 • 6 min read</div>
-                      <div className="body-text leading-relaxed space-y-4">
-                        <p>started learning origami when i was eight, mostly because my mom thought it would keep me quiet during long car rides. never thought it would become my secret weapon for solving complex engineering problems.</p>
-                        <p>there's something about the way origami forces you to think in three dimensions that translates perfectly to software architecture. when you're folding a crane, you have to understand how each crease affects the final structure. same thing with building a distributed system. every connection, every interface, every data flow has to be planned out in advance.</p>
-                        <p>my favorite piece is this modular origami ball made of thirty pieces of paper. each piece is simple on its own, but when you put them all together, they create something completely different. it's exactly like microservices architecture. each service does one thing well, but when they work together, they create something powerful.</p>
-                        <p>the breakthrough came when i was working on a particularly tricky database optimization problem. had been staring at the code for hours, trying to figure out why queries were so slow. decided to take a break and fold some paper.</p>
-                        <p>was working on this complex geometric pattern when it hit me. the database was like a piece of paper that had been folded too many times in the wrong direction. needed to unfold it, flatten it out, and start over with a cleaner structure.</p>
-                        <p>ended up redesigning the entire schema based on origami principles. each table became a clean, simple fold. the relationships between tables became the creases that held everything together. suddenly, queries that used to take seconds were completing in milliseconds.</p>
-                        <p>now i keep a stack of origami paper on my desk. whenever i'm stuck on a problem, i'll fold something complex. the act of working with my hands while thinking about the problem helps me see solutions i wouldn't have noticed otherwise.</p>
-                        <p>origami taught me that the most elegant solutions are often the simplest ones. when you're folding paper, you can't add more material. you have to work with what you have. same thing with code. the best solutions work within the constraints rather than trying to work around them.</p>
-                        <p>my team thinks i'm weird for bringing origami to engineering meetings, but they can't argue with the results. sometimes the best debugging tool isn't a profiler or a debugger. it's a piece of paper and a complex folding pattern.</p>
-                      </div>
-                    </div>
-                  )}
                   
                   {selectedBlog === 'startup-lessons' && (
                     <div>
@@ -1119,85 +1284,13 @@ export default function Portfolio() {
                     </div>
                   )}
                   
-                  {selectedBlog === 'plant-whisperer' && (
-                    <div>
-                      <h2 className="section-heading text-3xl mb-4">confessions of a plant whisperer</h2>
-                      <div className="text-sm text-slate-400 mb-6">June 18, 2025 • 5 min read</div>
-                      <div className="body-text leading-relaxed space-y-4">
-                        <p>my roommates think i'm crazy because i talk to my plants. not just "oh, you're growing so well!" but actual conversations. i tell them about my day, my coding problems, my existential crises. and here's the weird thing. they respond. not with words, obviously, but with growth patterns, leaf movements, even flowering cycles.</p>
-                        <p>my monstera started growing toward my desk when i was working on a particularly challenging algorithm. my snake plant bloomed for the first time ever the day i got my internship offer. plants are more intelligent than we give them credit for. they're just intelligent in a different way.</p>
-                        <p>it started as a joke. i was stressed about finals and started talking to my plants as a way to vent. "you wouldn't believe what this professor expects us to do," i'd say. "this algorithm is driving me crazy." and then i noticed something strange. the plants seemed to respond to my mood.</p>
-                        <p>when i was stressed, they'd droop a little. when i was excited about something, they'd perk up. when i was working late into the night, they'd turn their leaves toward my desk, as if they were trying to see what i was doing.</p>
-                        <p>at first, i thought i was imagining it. but then i started paying more attention, and the patterns became undeniable. my pothos plant, which had been growing slowly for months, suddenly started putting out new leaves when i was working on a particularly interesting coding project.</p>
-                        <p>my aloe vera, which i'd been neglecting, started growing again when i started talking to it regularly. my spider plant, which had been producing babies like crazy, suddenly stopped when i was going through a rough patch.</p>
-                        <p>i started doing some research, and it turns out that plants are much more sophisticated than we think. they can sense light, temperature, humidity, even sound. they can communicate with each other through chemical signals. they can remember past experiences and adjust their behavior accordingly.</p>
-                        <p>but what really blew my mind was learning that plants can respond to human emotions. there have been studies showing that plants grow better when people talk to them kindly, and worse when people are angry or stressed around them. it's like they can pick up on our emotional energy.</p>
-                        <p>now i have this whole routine with my plants. every morning, i check on them, tell them about my plans for the day. when i'm working on code, i explain what i'm trying to build. when i'm stressed, i tell them about my problems. and they respond in their own way.</p>
-                        <p>my roommates still think i'm crazy, but they can't deny that my plants are the healthiest in the apartment. maybe there's something to this plant whispering thing after all. or maybe i'm just really good at taking care of plants. either way, it's working.</p>
-                      </div>
-                    </div>
-                  )}
                   
-                  {selectedBlog === 'dream-decoder' && (
-                    <div>
-                      <h2 className="section-heading text-3xl mb-4">the night i built an ai that could read my dreams</h2>
-                      <div className="text-sm text-slate-400 mb-6">August 15, 2025 • 7 min read</div>
-                      <div className="body-text leading-relaxed space-y-4">
-                        <p>woke up at 3am with this crazy idea. what if i could train an AI to understand my dreams? not just analyze them, but actually decode the patterns, symbols, and emotions. spent the next six hours coding instead of sleeping, because that's what happens when you're obsessed with something.</p>
-                        <p>started with a simple dream journal app that tracked keywords, emotions, and recurring themes. but then i got ambitious. what if i could use computer vision to analyze the drawings i made of my dreams? what if i could use natural language processing to find patterns in my dream descriptions?</p>
-                        <p>the breakthrough came when i realized dreams aren't random. they're stories our brains tell us while we sleep, and like any story, they have structure, characters, and themes. built an algorithm that could identify dream archetypes, emotional patterns, and even predict what kind of dreams i might have based on my daily experiences.</p>
-                        <p>my favorite feature is the "dream mood board" generator. takes all my dream data and creates visual representations of my subconscious mind. turns out i dream about flying a lot when i'm working on difficult coding problems. i dream about water when i'm stressed. i dream about old buildings when i'm feeling nostalgic.</p>
-                        <p>the weirdest discovery? my dreams actually predicted some of my coding breakthroughs. had a dream about solving a complex algorithm problem, woke up, and the solution was right there in my head. the AI started noticing these patterns too, and now it can suggest when i should take breaks or switch to different types of problems.</p>
-                        <p>my roommate thinks i'm building a dream surveillance system, but really i'm just trying to understand myself better. dreams are like messages from our subconscious, and this AI is helping me decode them. sometimes the most innovative projects come from the most personal places.</p>
-                        <p>now i have this whole dream analysis routine. every morning, i describe my dreams to the AI, draw any images i remember, and let it analyze the patterns. it's like having a therapist who specializes in dream interpretation, except it's an algorithm i built myself.</p>
-                        <p>the funny thing is, the more i use it, the more accurate it gets. it's learning my dream language, my personal symbols, my emotional patterns. it's like training a very specialized AI that only understands one person's subconscious mind.</p>
-                        <p>maybe this is what the future of personal AI looks like. not general-purpose assistants, but highly specialized tools that understand us on a deeply personal level. tools that can read our dreams, understand our emotions, and help us understand ourselves better.</p>
-                      </div>
-                    </div>
-                  )}
                 </div>
               </div>
             )}
             
             <div className="space-y-8">
-              <div className="interactive-card p-8" onClick={() => setSelectedBlog('dream-decoder')}>
-                <div className="flex items-center justify-between mb-4">
-                                            <h3 className="section-heading text-xl">the night i built an ai that could read my dreams</h3>
-                  <span className="text-sm text-slate-400 bg-purple-900/50 px-3 py-1 rounded-full">August 15, 2025</span>
-                </div>
-                <p className="body-text leading-relaxed mb-4">
-                  woke up at 3am with this crazy idea. what if i could train an AI to understand my dreams? 
-                  not just analyze them, but actually decode the patterns, symbols, and emotions. spent the 
-                  next six hours coding instead of sleeping, because that's what happens when you're obsessed 
-                  with something. started with a simple dream journal app that tracked keywords, emotions, 
-                  and recurring themes. but then i got ambitious...
-                </p>
-                <div className="flex items-center text-sm text-slate-400">
-                  <span className="mr-4">🧠 AI & Dreams</span>
-                  <span className="mr-4">🌙 Subconscious</span>
-                  <span>7 min read</span>
-                </div>
-              </div>
 
-              <div className="interactive-card p-8" onClick={() => setSelectedBlog('philly-discovery')}>
-                <div className="flex items-center justify-between mb-4">
-                                            <h3 className="section-heading text-xl">the day i discovered philadelphia's secret underground</h3>
-                  <span className="text-sm text-slate-400 bg-blue-900/50 px-3 py-1 rounded-full">July 15, 2025</span>
-                </div>
-                <p className="body-text leading-relaxed mb-4">
-                  was walking to class when i noticed this weird door in the side of a building near campus. 
-                  it looked like it hadn't been opened in decades. curiosity got the best of me, and after 
-                  some investigating, i discovered it leads to an old subway tunnel from the 1920s. the city 
-                  forgot about it, but it's still there, perfectly preserved. spent the next three weekends 
-                  exploring it with my friends, documenting everything. philadelphia has so many hidden stories 
-                  waiting to be uncovered. sometimes the most fascinating discoveries are right under our feet...
-                </p>
-                <div className="flex items-center text-sm text-slate-400">
-                  <span className="mr-4">🏛️ Urban Exploration</span>
-                  <span className="mr-4">🚇 Hidden History</span>
-                  <span>5 min read</span>
-                </div>
-              </div>
 
 
 
@@ -1242,26 +1335,6 @@ export default function Portfolio() {
                 </div>
               </div>
 
-              <div className="interactive-card p-8" onClick={() => setSelectedBlog('plant-whisperer')}>
-                <div className="flex items-center justify-between mb-4">
-                                            <h3 className="section-heading text-xl">confessions of a plant whisperer</h3>
-                  <span className="text-sm text-slate-400 bg-orange-900/50 px-3 py-1 rounded-full">June 18, 2025</span>
-                </div>
-                <p className="body-text leading-relaxed mb-4">
-                  my roommates think i'm crazy because i talk to my plants. not just "oh, you're growing so 
-                  well!" but actual conversations. i tell them about my day, my coding problems, my existential 
-                  crises. and here's the weird thing. they respond. not with words, obviously, but with growth 
-                  patterns, leaf movements, even flowering cycles. my monstera started growing toward my desk 
-                  when i was working on a particularly challenging algorithm. my snake plant bloomed for the 
-                  first time ever the day i got my internship offer. plants are more intelligent than we give 
-                  them credit for. they're just intelligent in a different way...
-                </p>
-                <div className="flex items-center text-sm text-slate-400">
-                  <span className="mr-4">🌱 Plant Intelligence</span>
-                  <span className="mr-4">🏠 Room Life</span>
-                  <span>5 min read</span>
-                </div>
-              </div>
 
 
             </div>
@@ -1592,6 +1665,50 @@ export default function Portfolio() {
               ✕
             </button>
             
+            {selectedWork === 'aws' && (
+              <div>
+                <h2 className="section-heading text-3xl mb-4">Amazon Web Services - Software Development Engineer Intern</h2>
+                <div className="text-sm text-slate-400 mb-6">Infrastructure Supply Chain Management • Summer 2026</div>
+                <div className="body-text leading-relaxed space-y-4">
+                  <h3 className="section-heading text-xl mb-4">Full Project Details</h3>
+                  <div className="space-y-3">
+                    <div className="flex items-start gap-2">
+                      <span className="text-orange-400 mt-1">•</span>
+                      <p>Architected Java/TypeScript malware scanner for data center procurement</p>
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <span className="text-orange-400 mt-1">•</span>
+                      <p>Secured supplier document intake across 12 global AWS regions</p>
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <span className="text-orange-400 mt-1">•</span>
+                      <p>Engineered serverless Lambda and Fargate document scanning pipelines</p>
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <span className="text-orange-400 mt-1">•</span>
+                      <p>Automated supplier scanning workflows across enterprise procurement</p>
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <span className="text-orange-400 mt-1">•</span>
+                      <p>Provisioned infrastructure as code with AWS CDK for repeatable deploys</p>
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <span className="text-orange-400 mt-1">•</span>
+                      <p>Optimized JVM artifacts, cutting package size 45% from 287MB to 159MB</p>
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <span className="text-orange-400 mt-1">•</span>
+                      <p>Eliminated 90-minute delays by redesigning asynchronous SQS workflows</p>
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <span className="text-orange-400 mt-1">•</span>
+                      <p>Restored CloudWatch monitoring and alarms across the scanning service</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
             {selectedWork === 'very-good-ventures' && (
               <div>
                 <h2 className="section-heading text-3xl mb-4">Very Good Ventures - Software Engineering Intern</h2>
@@ -2014,6 +2131,208 @@ export default function Portfolio() {
               ✕
             </button>
             
+            {selectedProject === 'pgx-record' && (
+              <div>
+                <h2 className="section-heading text-3xl mb-4">Pharmacogenomic Record</h2>
+                <div className="text-sm text-slate-400 mb-6">Python • SQLite • PharmCAT • 452 tests</div>
+                <div className="body-text leading-relaxed space-y-4">
+                  <p>
+                    Your genes change how you metabolize certain drugs. CPIC publishes clinical guidelines for specific
+                    drug-gene pairs, and consumer DNA kits technically contain some of the relevant markers. This tool
+                    connects the two &mdash; but the interesting engineering is in everything it refuses to say.
+                  </p>
+                  <p>
+                    The central rule is that three answers must never collapse into each other: &ldquo;there is published
+                    guidance for this pair,&rdquo; &ldquo;there is no guidance for this pair,&rdquo; and &ldquo;this gene
+                    could not be assessed.&rdquo; That third one is the dangerous case. A 23andMe export covers only a
+                    fraction of the positions a gene needs, and the calling software assumes reference at every position it
+                    can&apos;t see &mdash; so a gene with 1 of 40 positions measured still yields a confident
+                    &ldquo;normal metabolizer.&rdquo; That is the most harmful output the software could produce, so
+                    partial coverage is reported as indeterminate rather than as a result.
+                  </p>
+                  <p>
+                    Measured against the real reference: of 1,226 positions, 208 carry no rsID and can never be joined from
+                    an array at all. A typical export leaves most genes fully uncovered. CYP2D6 &mdash; one of the most
+                    clinically important &mdash; is unresolvable from consumer data entirely, because it needs copy-number
+                    and structural variation an rsID join cannot detect.
+                  </p>
+                  <p>
+                    A late review found a real defect worth mentioning: coverage was decided by omission, so a gene in none
+                    of the coverage sets silently reached &ldquo;called&rdquo; with zero evidence behind it. About twenty
+                    test call sites had encoded the same wrong assumption, which is exactly why they didn&apos;t catch it.
+                    The fix was requiring full coverage to be proven explicitly rather than inferred from absence.
+                  </p>
+                  <div className="mt-6 pt-4 border-t border-slate-700">
+                    <a
+                      href="https://github.com/krrishapatel/Pharmacogenomic-Record"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={(e) => e.stopPropagation()}
+                      className="text-blue-300 hover:text-blue-200 text-sm"
+                    >
+                      github.com/krrishapatel/Pharmacogenomic-Record ↗
+                    </a>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {selectedProject === 'exchange-simulator' && (
+              <div>
+                <h2 className="section-heading text-3xl mb-4">Exchange Simulator</h2>
+                <div className="text-sm text-slate-400 mb-6">C++ • pybind11 • Gymnasium • React</div>
+                <div className="body-text leading-relaxed space-y-4">
+                  <p>
+                    A full simulated exchange, built so trading agents have something realistic to learn against. The
+                    matching engine is C++ with price-time priority and a zero-allocation hot path, which is what keeps the
+                    latency numbers where they are: ~61ns to add an order, ~34ns to cancel, ~118ns for a limit match,
+                    8.5M matches/sec. Everything stays under the 1μs target.
+                  </p>
+                  <p>
+                    It supports the order types that make market microstructure interesting rather than just the easy ones
+                    &mdash; IOC, FOK, iceberg, stop, pegged &mdash; plus opening and closing auctions.
+                  </p>
+                  <p>
+                    Above the engine: pybind11 bindings expose the full API to Python, a Gymnasium-compliant environment
+                    lets you train agents with PPO or SAC, and synthetic order flow is generated with Hawkes processes so
+                    you can replay calm, volatile, and flash-crash scenarios. A React dashboard streams the book, trades,
+                    and agent PnL live over WebSocket.
+                  </p>
+                  <div className="mt-6 pt-4 border-t border-slate-700">
+                    <a
+                      href="https://github.com/krrishapatel/exchange-simulator"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={(e) => e.stopPropagation()}
+                      className="text-blue-300 hover:text-blue-200 text-sm"
+                    >
+                      github.com/krrishapatel/exchange-simulator ↗
+                    </a>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {selectedProject === 'excel-diff' && (
+              <div>
+                <h2 className="section-heading text-3xl mb-4">Excel Workbook Diff &amp; Tie-Out</h2>
+                <div className="text-sm text-slate-400 mb-6">React • TypeScript • SpreadJS ExcelIO</div>
+                <div className="body-text leading-relaxed space-y-4">
+                  <p>
+                    Two of the most tedious tasks in tax preparation are comparing this year&apos;s workpapers against last
+                    year&apos;s, and verifying that the numbers on the filed return actually match the workbook that
+                    produced them. Both are done by hand, on deadline, by people who bill by the hour.
+                  </p>
+                  <p>
+                    The diff engine matches sheets by name, normalizes values so formatting noise doesn&apos;t register as a
+                    change, and filters by a materiality threshold in dollars &mdash; because a $3 rounding difference is
+                    not what anyone is looking for. The interface borrows from code review: side-by-side panes, linked
+                    scrolling, keyboard navigation between changes.
+                  </p>
+                  <p>
+                    The reconciliation half checks the PDF return against workbook cells, and handles sign flips, since
+                    debits and credits legitimately reverse between the workpaper and the form. Everything parses
+                    client-side, so no tax document ever leaves the machine.
+                  </p>
+                  <div className="mt-6 pt-4 border-t border-slate-700">
+                    <a
+                      href="https://github.com/krrishapatel/excel-diff-tool"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={(e) => e.stopPropagation()}
+                      className="text-blue-300 hover:text-blue-200 text-sm"
+                    >
+                      github.com/krrishapatel/excel-diff-tool ↗
+                    </a>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {selectedProject === 'doctoapi' && (
+              <div>
+                <h2 className="section-heading text-3xl mb-4">doctoapi</h2>
+                <div className="text-sm text-slate-400 mb-6">Python • FastAPI • LLMs</div>
+                <div className="body-text leading-relaxed space-y-4">
+                  <p>
+                    Upload a document, get a typed REST API over the data inside it. The alternatives are all worse in a
+                    specific way: manual entry is slow and error-prone, enterprise document AI is heavy to set up, and
+                    hand-written regex parsers break the moment a vendor changes their invoice layout.
+                  </p>
+                  <p>
+                    Instead of asking you to define a template up front, it infers the schema from the document, then
+                    extracts against it. That ordering is the whole point &mdash; it&apos;s what lets the same endpoint
+                    handle invoices, contracts, resumes, and medical forms without per-format configuration.
+                  </p>
+                  <p>Also shipped with ragchat, a companion project for asking questions across uploaded PDFs and getting answers with citations, running entirely on a local LLM via Ollama and ChromaDB.</p>
+                  <div className="mt-6 pt-4 border-t border-slate-700">
+                    <a
+                      href="https://github.com/krrishapatel/doctoapi"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={(e) => e.stopPropagation()}
+                      className="text-blue-300 hover:text-blue-200 text-sm"
+                    >
+                      github.com/krrishapatel/doctoapi ↗
+                    </a>
+                    <span className="text-slate-500 text-sm"> · </span>
+                    <a
+                      href="https://github.com/krrishapatel/ragchat"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={(e) => e.stopPropagation()}
+                      className="text-blue-300 hover:text-blue-200 text-sm"
+                    >
+                      ragchat ↗
+                    </a>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {selectedProject === 'open-source' && (
+              <div>
+                <h2 className="section-heading text-3xl mb-4">Open Source Contributions</h2>
+                <div className="text-sm text-slate-400 mb-6">Pull requests currently under review</div>
+                <div className="body-text leading-relaxed space-y-4">
+                  <p>
+                    Fixing narrow bugs in large codebases I didn&apos;t write. The work is mostly reading &mdash; finding
+                    where a project&apos;s own conventions say the fix belongs, then making the smallest change that closes
+                    the gap without disturbing anything around it.
+                  </p>
+                  <div className="space-y-3">
+                    <div className="flex items-start gap-2">
+                      <span className="text-blue-400 mt-1">•</span>
+                      <p><strong>Starlette</strong> &mdash; TrustedHostMiddleware mis-parsed IPv6 host headers, since splitting on &ldquo;:&rdquo; to strip a port also splits an IPv6 address.</p>
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <span className="text-blue-400 mt-1">•</span>
+                      <p><strong>Supervisor</strong> &mdash; a multi-byte character split across a buffer boundary crashed decoding; also added the real-time signals (SIGRTMIN..SIGRTMAX) missing from the signal table.</p>
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <span className="text-blue-400 mt-1">•</span>
+                      <p><strong>OpenTelemetry Python</strong> &mdash; documentation named an environment variable that didn&apos;t match the one the code actually reads.</p>
+                    </div>
+                  </div>
+                  <p className="text-sm text-slate-400">
+                    All open and awaiting maintainer review. Upstream review queues move on their own schedule, which is
+                    its own lesson in working with other people&apos;s projects.
+                  </p>
+                  <div className="mt-6 pt-4 border-t border-slate-700">
+                    <a
+                      href="https://github.com/krrishapatel"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={(e) => e.stopPropagation()}
+                      className="text-blue-300 hover:text-blue-200 text-sm"
+                    >
+                      github.com/krrishapatel ↗
+                    </a>
+                  </div>
+                </div>
+              </div>
+            )}
+
             {selectedProject === 'medical-llm' && (
               <div>
                 <h2 className="section-heading text-3xl mb-4">Distributed Inference Pipeline for Medical LLMs</h2>
@@ -2256,7 +2575,7 @@ export default function Portfolio() {
               <a href="https://github.com/krrishapatel" target="_blank" rel="noopener noreferrer" className="nav-link hover:text-blue-400 transition-colors">github</a>
             </div>
             <div className="body-text text-xs text-slate-500">
-              thanks for stopping by! last updated: august 2025
+              thanks for stopping by! last updated: august 2026
             </div>
           </div>
         </div>
