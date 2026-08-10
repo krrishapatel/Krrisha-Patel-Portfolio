@@ -1422,15 +1422,6 @@ export default function Portfolio() {
               <div className="interactive-card p-6" onClick={() => setSelectedProject('open-source')}>
                 <div className="flex justify-between items-start mb-3">
                   <h3 className="section-heading text-2xl">Open Source Contributions</h3>
-                  <a
-                    href="https://github.com/krrishapatel"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={(e) => e.stopPropagation()}
-                    className="text-xs text-blue-300 hover:text-blue-200 whitespace-nowrap border border-blue-800 rounded px-2 py-2 md:py-1"
-                  >
-                    github ↗
-                  </a>
                 </div>
                 <p className="body-text mb-3">
                   Open pull requests under review on Starlette, OpenTelemetry Python, and Supervisor: an IPv6 host
