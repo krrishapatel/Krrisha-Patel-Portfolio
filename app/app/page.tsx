@@ -995,8 +995,9 @@ export default function Portfolio() {
             
             {/* Jump links. Inline rather than a fixed side rail: the widened
                 content column leaves no room beside it, and the rail never
-                appeared on mobile at all. */}
-            <div className="flex flex-wrap gap-3 mb-12">
+                appeared on mobile at all. Uses .work-tabs so the gap and the
+                spacing down to the first card match the Work section's. */}
+            <div className="work-tabs">
               <button
                 onClick={() => {
                   const element = document.getElementById('projects-heading');
@@ -1006,7 +1007,7 @@ export default function Portfolio() {
                 }}
                 className="work-tab"
               >
-                📁 Projects
+                Projects
               </button>
               <button
                 onClick={() => {
@@ -1017,7 +1018,7 @@ export default function Portfolio() {
                 }}
                 className="work-tab"
               >
-                🏆 Awards
+                Awards
               </button>
               <button
                 onClick={() => {
@@ -1028,7 +1029,7 @@ export default function Portfolio() {
                 }}
                 className="work-tab"
               >
-                💻 Skills
+                Skills
               </button>
             </div>
 
@@ -1231,8 +1232,8 @@ export default function Portfolio() {
             </div>
 
             {/* Awards Section */}
-            <div className="mt-16">
-              <h3 id="awards-heading" className="section-heading text-2xl mb-6 text-center">Awards &amp; Recognition</h3>
+            <div className="mt-24">
+              <h3 id="awards-heading" className="section-heading text-2xl mb-8 text-center">Awards &amp; Recognition</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="interactive-card p-6">
                   <h4 className="font-semibold text-lg mb-3 text-slate-200">Academic Excellence</h4>
@@ -1297,8 +1298,8 @@ export default function Portfolio() {
             </div>
 
             {/* Technical Skills */}
-            <div className="mt-16">
-              <h3 id="skills-heading" className="section-heading text-2xl mb-6 text-center">Technical Skills</h3>
+            <div className="mt-24">
+              <h3 id="skills-heading" className="section-heading text-2xl mb-8 text-center">Technical Skills</h3>
               <div className="interactive-card p-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                   <div>
