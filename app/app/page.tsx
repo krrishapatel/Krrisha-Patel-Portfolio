@@ -9,6 +9,9 @@ const KRRISHA_LOCATION = {
   lng: -75.1652,
 };
 
+// The boot line typed out before the page renders.
+const INTRO_TEXT = '<hello world... :) />';
+
 export default function Portfolio() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('about');
@@ -32,7 +35,73 @@ export default function Portfolio() {
   const dragStartRef = useRef({ x: 0, y: 0 });
   const lastDragRef = useRef({ x: 0, y: 0 });
   const [selectedArtwork, setSelectedArtwork] = useState<string | null>(null);
+  // Intro overlay: starts hidden so a returning visitor never sees a flash of
+  // it before sessionStorage is read. The effect below decides whether to play.
+  const [introState, setIntroState] = useState<'pending' | 'typing' | 'leaving' | 'done'>('pending');
+  const [typedCount, setTypedCount] = useState(0);
 
+
+  // Decide once per browser session whether the intro plays.
+  useEffect(() => {
+    let alreadySeen = false;
+    try {
+      alreadySeen = sessionStorage.getItem('introSeen') === '1';
+    } catch {
+      // Private mode / storage blocked: fall through and just play it.
+    }
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (alreadySeen || reduceMotion) {
+      setIntroState('done');
+      return;
+    }
+    setIntroState('typing');
+  }, []);
+
+  // Type the line one character at a time, then hold and fade out.
+  useEffect(() => {
+    if (introState !== 'typing') return;
+
+    if (typedCount < INTRO_TEXT.length) {
+      const timer = setTimeout(() => setTypedCount((n) => n + 1), 55);
+      return () => clearTimeout(timer);
+    }
+
+    const timer = setTimeout(() => {
+      try {
+        sessionStorage.setItem('introSeen', '1');
+      } catch {
+        // Nothing to do; the intro just plays again next load.
+      }
+      setIntroState('leaving');
+    }, 700);
+    return () => clearTimeout(timer);
+  }, [introState, typedCount]);
+
+  // Unmount the overlay once its fade-out has run.
+  useEffect(() => {
+    if (introState !== 'leaving') return;
+    const timer = setTimeout(() => setIntroState('done'), 400);
+    return () => clearTimeout(timer);
+  }, [introState]);
+
+  // Let anyone skip it with a click or a key.
+  useEffect(() => {
+    if (introState !== 'typing') return;
+    const skip = () => {
+      try {
+        sessionStorage.setItem('introSeen', '1');
+      } catch {
+        // Same as above: harmless if storage is unavailable.
+      }
+      setIntroState('leaving');
+    };
+    window.addEventListener('keydown', skip);
+    window.addEventListener('pointerdown', skip);
+    return () => {
+      window.removeEventListener('keydown', skip);
+      window.removeEventListener('pointerdown', skip);
+    };
+  }, [introState]);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -202,6 +271,24 @@ export default function Portfolio() {
             <div className="sticker">🚀</div>
             <div className="sticker">💡</div>
       
+      {/* Boot intro: types one line, then hands off to the page */}
+      {introState !== 'done' && (
+        <div
+          className={`intro-overlay ${introState === 'leaving' ? 'intro-leaving' : ''}`}
+          role="presentation"
+        >
+          {introState !== 'pending' && (
+            <>
+              <div className="intro-line">
+                <span>{INTRO_TEXT.slice(0, typedCount)}</span>
+                <span className="intro-caret" aria-hidden="true" />
+              </div>
+              <div className="intro-skip">click anywhere to skip</div>
+            </>
+          )}
+        </div>
+      )}
+
       {/* Custom cursor */}
       <div
         ref={cursorRef}
@@ -217,7 +304,7 @@ export default function Portfolio() {
           </div>
           
           {/* Desktop Menu */}
-          <div className="hidden md:flex space-x-8">
+          <div className="hidden md:flex space-x-5 lg:space-x-8">
             <button 
               onClick={() => setActiveSection('about')}
               className={`nav-link ${activeSection === 'about' ? 'active' : ''}`}
@@ -229,6 +316,12 @@ export default function Portfolio() {
               className={`nav-link ${activeSection === 'work' ? 'active' : ''}`}
             >
               WORK
+            </button>
+            <button 
+              onClick={() => setActiveSection('ventures')}
+              className={`nav-link ${activeSection === 'ventures' ? 'active' : ''}`}
+            >
+              VENTURES
             </button>
             <button 
               onClick={() => setActiveSection('projects')}
@@ -274,6 +367,12 @@ export default function Portfolio() {
                 className="block w-full text-left text-lg hover:text-blue-400 nav-link"
               >
                 WORK
+              </button>
+              <button 
+                onClick={() => { setActiveSection('ventures'); closeMenu(); }}
+                className="block w-full text-left text-lg hover:text-blue-400 nav-link"
+              >
+                VENTURES
               </button>
               <button 
                 onClick={() => { setActiveSection('projects'); closeMenu(); }}
@@ -642,42 +741,6 @@ export default function Portfolio() {
             {/* Leadership Tab */}
             {activeWorkTab === 'leadership' && (
               <div className="space-y-8">
-                <div className="interactive-card p-6" onClick={() => setSelectedWork('passion4med')}>
-                  <div className="flex justify-between items-start mb-3">
-                    <h3 className="section-heading text-xl">Passion4Med</h3>
-                    <span className="text-sm text-slate-400 bg-pink-900/50 px-3 py-1 rounded-full">Jun 2019 - Dec 2024</span>
-                  </div>
-                  <p className="body-text text-slate-300 mb-2">Founder & CEO</p>
-                  <p className="body-text text-sm mb-3">
-                    Built global platform of 4,500+ members; designed 200+ educational resources for aspiring healthcare professionals. 
-                    Partnered with 15+ organizations, hosting 100+ events with 50,000+ views.
-                  </p>
-                  <div className="flex flex-wrap gap-2">
-                    <span className="px-2 py-1 bg-pink-900/50 text-pink-300 text-xs rounded">Leadership</span>
-                    <span className="px-2 py-1 bg-blue-900/50 text-blue-300 text-xs rounded">Healthcare</span>
-                    <span className="px-2 py-1 bg-green-900/50 text-green-300 text-xs rounded">Education</span>
-                  </div>
-                  <div className="mt-4 text-center text-slate-400 text-sm">Click for more details →</div>
-                </div>
-
-                <div className="interactive-card p-6" onClick={() => setSelectedWork('metahealth')}>
-                  <div className="flex justify-between items-start mb-3">
-                    <h3 className="section-heading text-xl">MetaHealth</h3>
-                    <span className="text-sm text-slate-400 bg-indigo-900/50 px-3 py-1 rounded-full">Jun 2022 - Aug 2024</span>
-                  </div>
-                  <p className="body-text text-slate-300 mb-2">Founder & CEO</p>
-                  <p className="body-text text-sm mb-3">
-                    Developed app prototype for 60+ users, offering personalized health tracking and metabolic syndrome management. 
-                    Conducted 20+ workshops, raising awareness across 5,000+ social media followers.
-                  </p>
-                  <div className="flex flex-wrap gap-2">
-                    <span className="px-2 py-1 bg-indigo-900/50 text-indigo-300 text-xs rounded">Health Tech</span>
-                    <span className="px-2 py-1 bg-green-900/50 text-green-300 text-xs rounded">App Development</span>
-                    <span className="px-2 py-1 bg-blue-900/50 text-blue-300 text-xs rounded">Workshops</span>
-                  </div>
-                  <div className="mt-4 text-center text-slate-400 text-sm">Click for more details →</div>
-                </div>
-
                 <div className="interactive-card p-6" onClick={() => setSelectedWork('microsoft')}>
                   <div className="flex justify-between items-start mb-3">
                     <h3 className="section-heading text-xl">Microsoft</h3>
@@ -694,6 +757,15 @@ export default function Portfolio() {
                     <span className="px-2 py-1 bg-purple-900/50 text-purple-300 text-xs rounded">Student Engagement</span>
                   </div>
                   <div className="mt-4 text-center text-slate-400 text-sm">Click for more details →</div>
+                </div>
+
+                <div className="interactive-card p-6" onClick={() => setActiveSection('ventures')}>
+                  <h3 className="section-heading text-xl mb-3">Passion4Med & MetaHealth</h3>
+                  <p className="body-text text-sm mb-3">
+                    The two organizations I founded and ran have their own section, with the full story
+                    behind each one.
+                  </p>
+                  <div className="text-blue-300 text-sm">go to ventures →</div>
                 </div>
               </div>
             )}
@@ -770,6 +842,134 @@ export default function Portfolio() {
                 </div>
               </div>
             )}
+          </div>
+        )}
+
+        {/* Ventures Section */}
+        {activeSection === 'ventures' && (
+          <div className="max-w-5xl">
+            <h2 className="section-heading text-5xl mb-4">VENTURES</h2>
+            <p className="body-text text-lg mb-12">organizations i founded and ran</p>
+
+            <div className="space-y-10">
+              {/* Passion4Med */}
+              <div className="venture-card p-6 md:p-8">
+                <div className="flex flex-wrap justify-between items-start gap-3 mb-2">
+                  <h3 className="section-heading text-2xl md:text-3xl">Passion4Med</h3>
+                  <span className="text-sm text-slate-400 bg-pink-900/50 px-3 py-1 rounded-full whitespace-nowrap">
+                    Jun 2019 &ndash; Dec 2024
+                  </span>
+                </div>
+                <p className="body-text text-slate-300 mb-6">Founder &amp; CEO &middot; 5.5 years</p>
+
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                  <div className="venture-stat">
+                    <div className="venture-stat-num">4,500+</div>
+                    <div className="venture-stat-label">members</div>
+                  </div>
+                  <div className="venture-stat">
+                    <div className="venture-stat-num">200+</div>
+                    <div className="venture-stat-label">resources</div>
+                  </div>
+                  <div className="venture-stat">
+                    <div className="venture-stat-num">100+</div>
+                    <div className="venture-stat-label">events</div>
+                  </div>
+                  <div className="venture-stat">
+                    <div className="venture-stat-num">50,000+</div>
+                    <div className="venture-stat-label">views</div>
+                  </div>
+                </div>
+
+                <div className="body-text leading-relaxed space-y-4">
+                  <p>
+                    I started Passion4Med at fifteen because the path into medicine is mostly hidden
+                    information. If you know a doctor, you know what a competitive application looks
+                    like, which summer programs matter, and how to ask for a shadowing placement. If
+                    you don&apos;t, you are guessing. That asymmetry has nothing to do with how good
+                    a physician someone would be.
+                  </p>
+                  <p>
+                    So I built the thing I had needed: a library of 200+ resources on applications,
+                    specialties, and research, plus events where students could hear directly from
+                    people a few steps ahead of them. It grew to 4,500+ members across multiple
+                    countries, 100+ events, and 50,000+ views, with 15+ partner organizations.
+                  </p>
+                  <p>
+                    The part I did not expect to be the actual job was running the organization.
+                    At its peak I was managing 85+ interns and volunteers, which meant writing role
+                    descriptions, running onboarding, and learning that a volunteer team falls apart
+                    quietly if nobody feels ownership over anything. I also ran year-long mentorship
+                    programs pairing 50 high school students with mentors, which was the piece that
+                    mattered most and scaled the worst, because real mentorship does not compress.
+                  </p>
+                  <p>
+                    I stepped back at the end of 2024 after five and a half years. The thing I took
+                    from it: reach is easy to count and easy to overvalue. The 50 students in the
+                    mentorship program got more out of it than the other 4,450 combined.
+                  </p>
+                </div>
+              </div>
+
+              {/* MetaHealth */}
+              <div className="venture-card p-6 md:p-8">
+                <div className="flex flex-wrap justify-between items-start gap-3 mb-2">
+                  <h3 className="section-heading text-2xl md:text-3xl">MetaHealth</h3>
+                  <span className="text-sm text-slate-400 bg-indigo-900/50 px-3 py-1 rounded-full whitespace-nowrap">
+                    Jun 2022 &ndash; Aug 2024
+                  </span>
+                </div>
+                <p className="body-text text-slate-300 mb-6">Founder &amp; CEO &middot; 2 years</p>
+
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                  <div className="venture-stat">
+                    <div className="venture-stat-num">60+</div>
+                    <div className="venture-stat-label">users</div>
+                  </div>
+                  <div className="venture-stat">
+                    <div className="venture-stat-num">20+</div>
+                    <div className="venture-stat-label">workshops</div>
+                  </div>
+                  <div className="venture-stat">
+                    <div className="venture-stat-num">5,000+</div>
+                    <div className="venture-stat-label">followers</div>
+                  </div>
+                  <div className="venture-stat">
+                    <div className="venture-stat-num">25%</div>
+                    <div className="venture-stat-label">engagement lift</div>
+                  </div>
+                </div>
+
+                <div className="body-text leading-relaxed space-y-4">
+                  <p>
+                    MetaHealth came out of watching people in my own family manage metabolic
+                    syndrome, which is not one condition but a cluster: blood pressure, blood sugar,
+                    cholesterol, weight. Every number lives in a different app or a different
+                    doctor&apos;s notes, and the whole point is that they interact. Nobody was
+                    looking at the cluster.
+                  </p>
+                  <p>
+                    I built an app prototype that tracked the markers together and surfaced them as
+                    one picture rather than four unrelated readouts. 60+ users tested it. Alongside
+                    it I ran 20+ workshops on prevention, because the tracking only helps if someone
+                    already knows which numbers matter, and grew the audience to 5,000+ followers,
+                    with engagement up 25% from targeted campaigns.
+                  </p>
+                  <p>
+                    The honest lesson is about the gap between a prototype and a product people
+                    depend on. Health tracking only works if someone opens it on the bad days, and
+                    the bad days are exactly when they don&apos;t. I could get people to try it. I
+                    could not get most of them to keep going, and I no longer think that is a
+                    feature problem you can design your way out of without something closer to a
+                    care relationship behind it.
+                  </p>
+                  <p>
+                    I wound it down in 2024. It is the most direct reason I now work on healthcare
+                    tooling with clinical guidelines behind it rather than consumer wellness apps.
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
         )}
 
@@ -2073,76 +2273,6 @@ export default function Portfolio() {
                     <div className="flex items-start gap-2">
                       <span className="text-teal-400 mt-1">•</span>
                       <p>Developing leadership skills for financial services industry</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-            {selectedWork === 'passion4med' && (
-              <div>
-                <h2 className="section-heading text-3xl mb-4">Passion4Med - Founder & CEO</h2>
-                <div className="text-sm text-slate-400 mb-6">Jun 2019 - Dec 2024</div>
-                <div className="body-text leading-relaxed space-y-4">
-                  <h3 className="section-heading text-xl mb-4">Full Project Details</h3>
-                  <div className="space-y-3">
-                    <div className="flex items-start gap-2">
-                      <span className="text-pink-400 mt-1">•</span>
-                      <p>Built global platform of 4,500+ members across multiple countries</p>
-                    </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-pink-400 mt-1">•</span>
-                      <p>Designed 200+ educational resources for aspiring healthcare professionals</p>
-                    </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-pink-400 mt-1">•</span>
-                      <p>Partnered with 15+ organizations to expand reach and impact</p>
-                    </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-pink-400 mt-1">•</span>
-                      <p>Hosted 100+ events with 50,000+ views and engagement</p>
-                    </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-pink-400 mt-1">•</span>
-                      <p>Managed cross-functional teams of 85+ interns and volunteers</p>
-                    </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-pink-400 mt-1">•</span>
-                      <p>Organized year-long mentorship programs for 50 high school students</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-            {selectedWork === 'metahealth' && (
-              <div>
-                <h2 className="section-heading text-3xl mb-4">MetaHealth - Founder & CEO</h2>
-                <div className="text-sm text-slate-400 mb-6">Jun 2022 - Aug 2024</div>
-                <div className="body-text leading-relaxed space-y-4">
-                  <h3 className="section-heading text-xl mb-4">Full Project Details</h3>
-                  <div className="space-y-3">
-                    <div className="flex items-start gap-2">
-                      <span className="text-indigo-400 mt-1">•</span>
-                      <p>Developed app prototype for 60+ users with personalized health tracking</p>
-                    </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-indigo-400 mt-1">•</span>
-                      <p>Offered metabolic syndrome management and monitoring features</p>
-                    </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-indigo-400 mt-1">•</span>
-                      <p>Conducted 20+ workshops on health awareness and prevention</p>
-                    </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-indigo-400 mt-1">•</span>
-                      <p>Raised awareness across 5,000+ social media followers</p>
-                    </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-indigo-400 mt-1">•</span>
-                      <p>Expanded user engagement by 25% through targeted campaigns</p>
-                    </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-indigo-400 mt-1">•</span>
-                      <p>Built community of health-conscious individuals and professionals</p>
                     </div>
                   </div>
                 </div>
