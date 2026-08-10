@@ -434,7 +434,7 @@ export default function Portfolio() {
                 <div className="body-text text-xl md:text-2xl leading-relaxed max-w-4xl">
                   cs, finance & stats @ upenn m&t, focused on ai, ml, and healthcare tech. building tools 
                   to solve real-world problems. outside of coding, i'm into origami engineering, oil painting, 
-                  tennis, swimming, exploring new dessert spots, and always looking for creative side projects.
+                  tennis, swimming, exploring new dessert spots &amp; always looking for creative side projects.
                 </div>
               </div>
             </div>
@@ -821,7 +821,7 @@ export default function Portfolio() {
                     <h3 className="venture-title">Passion4Med</h3>
                     <p className="venture-role">Founder &amp; CEO</p>
                   </div>
-                  <span className="venture-date">Jun 2019 &ndash; Dec 2024</span>
+                  <span className="venture-date">5.5 years</span>
                 </header>
 
                 <p className="venture-lede">
@@ -912,7 +912,7 @@ export default function Portfolio() {
                     <h3 className="venture-title">MetaHealth</h3>
                     <p className="venture-role">Founder &amp; CEO</p>
                   </div>
-                  <span className="venture-date">Jun 2022 &ndash; Aug 2024</span>
+                  <span className="venture-date">2 years</span>
                 </header>
 
                 <p className="venture-lede">
@@ -1042,17 +1042,8 @@ export default function Portfolio() {
               <div className="flex-1">
                 <div className="space-y-8">
               <div className="interactive-card p-6" onClick={() => setSelectedProject('pgx-record')}>
-                <div className="flex justify-between items-start mb-3 gap-3">
+                <div className="flex justify-between items-start mb-3">
                   <h3 className="section-heading text-xl">Pharmacogenomic Record</h3>
-                  <a
-                    href="https://github.com/krrishapatel/Pharmacogenomic-Record"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={(e) => e.stopPropagation()}
-                    className="text-xs text-blue-300 hover:text-blue-200 whitespace-nowrap border border-blue-800 rounded px-2 py-2 md:py-1"
-                  >
-                    source ↗
-                  </a>
                 </div>
                 <p className="body-text text-sm mb-3">
                   A drug-gene interaction checker built on CPIC guidelines that refuses to guess. Its core rule: never let
@@ -1069,17 +1060,8 @@ export default function Portfolio() {
               </div>
 
               <div className="interactive-card p-6" onClick={() => setSelectedProject('exchange-simulator')}>
-                <div className="flex justify-between items-start mb-3 gap-3">
+                <div className="flex justify-between items-start mb-3">
                   <h3 className="section-heading text-xl">Exchange Simulator</h3>
-                  <a
-                    href="https://github.com/krrishapatel/Exchange-Simulator"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={(e) => e.stopPropagation()}
-                    className="text-xs text-blue-300 hover:text-blue-200 whitespace-nowrap border border-blue-800 rounded px-2 py-2 md:py-1"
-                  >
-                    source ↗
-                  </a>
                 </div>
                 <p className="body-text text-sm mb-3">
                   A simulated exchange with a C++ matching engine on a zero-allocation hot path: ~61ns order adds,
@@ -1096,17 +1078,8 @@ export default function Portfolio() {
               </div>
 
               <div className="interactive-card p-6" onClick={() => setSelectedProject('excel-diff')}>
-                <div className="flex justify-between items-start mb-3 gap-3">
+                <div className="flex justify-between items-start mb-3">
                   <h3 className="section-heading text-xl">Excel Workbook Diff</h3>
-                  <a
-                    href="https://github.com/krrishapatel/Excel-Diff-Tool"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={(e) => e.stopPropagation()}
-                    className="text-xs text-blue-300 hover:text-blue-200 whitespace-nowrap border border-blue-800 rounded px-2 py-2 md:py-1"
-                  >
-                    source ↗
-                  </a>
                 </div>
                 <p className="body-text text-sm mb-3">
                   Built for tax preparers doing year-over-year workpaper review: diffs two workbooks cell by cell with a
@@ -1122,17 +1095,8 @@ export default function Portfolio() {
               </div>
 
               <div className="interactive-card p-6" onClick={() => setSelectedProject('doctoapi')}>
-                <div className="flex justify-between items-start mb-3 gap-3">
+                <div className="flex justify-between items-start mb-3">
                   <h3 className="section-heading text-xl">Doc To Api</h3>
-                  <a
-                    href="https://github.com/krrishapatel/Doc-To-API"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={(e) => e.stopPropagation()}
-                    className="text-xs text-blue-300 hover:text-blue-200 whitespace-nowrap border border-blue-800 rounded px-2 py-2 md:py-1"
-                  >
-                    source ↗
-                  </a>
                 </div>
                 <p className="body-text text-sm mb-3">
                   Upload any document, get a typed REST API. Infers a schema from the PDF itself instead of making you
@@ -1147,7 +1111,7 @@ export default function Portfolio() {
               </div>
 
               <div className="interactive-card p-6" onClick={() => setSelectedProject('open-source')}>
-                <div className="flex justify-between items-start mb-3 gap-3">
+                <div className="flex justify-between items-start mb-3">
                   <h3 className="section-heading text-xl">Open Source Contributions</h3>
                   <a
                     href="https://github.com/krrishapatel"
@@ -1173,17 +1137,8 @@ export default function Portfolio() {
               </div>
 
                                                              <div className="interactive-card p-6" onClick={() => setSelectedProject('llm-optimizer')}>
-                <div className="flex justify-between items-start mb-3 gap-3">
+                <div className="flex justify-between items-start mb-3">
                   <h3 className="section-heading text-xl">LLM-Aware Runtime Optimizer</h3>
-                  <a
-                    href="https://github.com/krrishapatel/LLM-Aware-Runtime-Optimizer"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={(e) => e.stopPropagation()}
-                    className="text-xs text-blue-300 hover:text-blue-200 whitespace-nowrap border border-blue-800 rounded px-2 py-2 md:py-1"
-                  >
-                    source ↗
-                  </a>
                 </div>
                 <p className="body-text text-sm mb-3">
                   Built MLIR-based runtime optimizer for quantized transformer LLMs, targeting low-latency edge deployment. 
@@ -1199,17 +1154,8 @@ export default function Portfolio() {
               </div>
 
                                                              <div className="interactive-card p-6" onClick={() => setSelectedProject('trading-simulator')}>
-                <div className="flex justify-between items-start mb-3 gap-3">
+                <div className="flex justify-between items-start mb-3">
                   <h3 className="section-heading text-xl">Real-Time AI Trading Simulator</h3>
-                  <a
-                    href="https://github.com/krrishapatel/Algorithmic-Trading-Simulator"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={(e) => e.stopPropagation()}
-                    className="text-xs text-blue-300 hover:text-blue-200 whitespace-nowrap border border-blue-800 rounded px-2 py-2 md:py-1"
-                  >
-                    source ↗
-                  </a>
                 </div>
                 <p className="body-text text-sm mb-3">
                   Created multithreaded trading engine processing 1,000+ datapoints/sec using real-time APIs and event loops. 
@@ -1225,17 +1171,8 @@ export default function Portfolio() {
               </div>
 
                               <div className="interactive-card p-6" onClick={() => setSelectedProject('medical-llm')}>
-                <div className="flex justify-between items-start mb-3 gap-3">
+                <div className="flex justify-between items-start mb-3">
                   <h3 className="section-heading text-xl">Distributed Inference Pipeline for Medical LLMs</h3>
-                  <a
-                    href="https://github.com/krrishapatel/Ragchat"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={(e) => e.stopPropagation()}
-                    className="text-xs text-blue-300 hover:text-blue-200 whitespace-nowrap border border-blue-800 rounded px-2 py-2 md:py-1"
-                  >
-                    source ↗
-                  </a>
                 </div>
                 <p className="body-text text-sm mb-3">
                   Built async LLM inference system with caching + cold-start mitigation; deployed using serverless AWS Lambda. 
@@ -1251,17 +1188,8 @@ export default function Portfolio() {
               </div>
 
                               <div className="interactive-card p-6" onClick={() => setSelectedProject('equity-forecaster')}>
-                <div className="flex justify-between items-start mb-3 gap-3">
+                <div className="flex justify-between items-start mb-3">
                   <h3 className="section-heading text-xl">Equity Price Forecaster</h3>
-                  <a
-                    href="https://github.com/krrishapatel/Blockhouse-Analysis"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={(e) => e.stopPropagation()}
-                    className="text-xs text-blue-300 hover:text-blue-200 whitespace-nowrap border border-blue-800 rounded px-2 py-2 md:py-1"
-                  >
-                    source ↗
-                  </a>
                 </div>
                 <p className="body-text text-sm mb-3">
                   Built predictive model using macro, firm-level data to forecast S&P 500 movements with ~92% accuracy over 30-day windows. 
@@ -1277,17 +1205,8 @@ export default function Portfolio() {
               </div>
 
                               <div className="interactive-card p-6" onClick={() => setSelectedProject('trading-bot')}>
-                <div className="flex justify-between items-start mb-3 gap-3">
+                <div className="flex justify-between items-start mb-3">
                   <h3 className="section-heading text-xl">Algorithmic Trading Bot</h3>
-                  <a
-                    href="https://github.com/krrishapatel/IMC-Prosperity2026"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={(e) => e.stopPropagation()}
-                    className="text-xs text-blue-300 hover:text-blue-200 whitespace-nowrap border border-blue-800 rounded px-2 py-2 md:py-1"
-                  >
-                    source ↗
-                  </a>
                 </div>
                 <p className="body-text text-sm mb-3">
                   Developed predictive models for market forecasting, projected ~$150 PnL/min, with 95% accuracy. 
@@ -1303,17 +1222,8 @@ export default function Portfolio() {
               </div>
 
                               <div className="interactive-card p-6" onClick={() => setSelectedProject('healthcare-analytics')}>
-                <div className="flex justify-between items-start mb-3 gap-3">
+                <div className="flex justify-between items-start mb-3">
                   <h3 className="section-heading text-xl">Healthcare Analytics Platform</h3>
-                  <a
-                    href="https://github.com/krrishapatel/Heart-Disease-AI-Platform"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={(e) => e.stopPropagation()}
-                    className="text-xs text-blue-300 hover:text-blue-200 whitespace-nowrap border border-blue-800 rounded px-2 py-2 md:py-1"
-                  >
-                    source ↗
-                  </a>
                 </div>
                 <p className="body-text text-sm mb-3">
                   Built comprehensive healthcare analytics platform integrating multiple data sources for patient insights. 
