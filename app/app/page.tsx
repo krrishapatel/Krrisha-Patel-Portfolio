@@ -278,13 +278,10 @@ export default function Portfolio() {
           role="presentation"
         >
           {introState !== 'pending' && (
-            <>
-              <div className="intro-line">
-                <span>{INTRO_TEXT.slice(0, typedCount)}</span>
-                <span className="intro-caret" aria-hidden="true" />
-              </div>
-              <div className="intro-skip">click anywhere to skip</div>
-            </>
+            <div className="intro-line">
+              <span>{INTRO_TEXT.slice(0, typedCount)}</span>
+              <span className="intro-caret" aria-hidden="true" />
+            </div>
           )}
         </div>
       )}
@@ -452,7 +449,7 @@ export default function Portfolio() {
               <div className="interactive-card p-6">
                 <h3 className="section-heading text-2xl mb-4">what i'm up to</h3>
                 <p className="body-text">
-                  building malware detection into AWS data center procurement, exploring the intersection of 
+                  building tooling for AWS data center procurement, exploring the intersection of 
                   healthcare and technology, and building products that actually make a difference in people's lives.
                   always learning, always building, always curious.
                 </p>
@@ -542,12 +539,6 @@ export default function Portfolio() {
                 className={`work-tab ${activeWorkTab === 'finance' ? 'active' : ''}`}
               >
                 Finance
-              </button>
-              <button 
-                onClick={() => setActiveWorkTab('leadership')}
-                className={`work-tab ${activeWorkTab === 'leadership' ? 'active' : ''}`}
-              >
-                Leadership
               </button>
               <button 
                 onClick={() => setActiveWorkTab('school')}
@@ -722,7 +713,7 @@ export default function Portfolio() {
                     <h3 className="section-heading text-xl">Phelps Forward</h3>
                     <span className="text-sm text-slate-400 bg-teal-900/50 px-3 py-1 rounded-full">Jan 2025 - Present</span>
                   </div>
-                  <p className="body-text text-slate-300 mb-2">Program Scholar and Summer Investing Program Participant</p>
+                  <p className="body-text text-slate-300 mb-2">Program Scholar and Summer Investing Program</p>
                   <p className="body-text text-sm mb-3">
                     Chosen for selective 3-year financial services career development program for first-gen women with leadership potential. 
                     Participate in 9-week immersive program on financial modeling and analysis.
@@ -734,38 +725,6 @@ export default function Portfolio() {
                     <span className="px-2 py-1 bg-pink-900/50 text-pink-300 text-xs rounded">Merger Analysis</span>
                   </div>
                   <div className="mt-4 text-center text-slate-400 text-sm">Click for more details →</div>
-                </div>
-              </div>
-            )}
-
-            {/* Leadership Tab */}
-            {activeWorkTab === 'leadership' && (
-              <div className="space-y-8">
-                <div className="interactive-card p-6" onClick={() => setSelectedWork('microsoft')}>
-                  <div className="flex justify-between items-start mb-3">
-                    <h3 className="section-heading text-xl">Microsoft</h3>
-                    <span className="text-sm text-slate-400 bg-blue-900/50 px-3 py-1 rounded-full">Jul 2025 - Present</span>
-                  </div>
-                  <p className="body-text text-slate-300 mb-2">Excel Student Ambassador</p>
-                  <p className="body-text text-sm mb-3">
-                    Promoted Excel adoption via workshops and digital content; collaborated with student orgs to drive product usage growth. 
-                    Encouraged adoption and gathered user feedback for product improvement recommendations.
-                  </p>
-                  <div className="flex flex-wrap gap-2">
-                    <span className="px-2 py-1 bg-blue-900/50 text-blue-300 text-xs rounded">Product Advocacy</span>
-                    <span className="px-2 py-1 bg-green-900/50 text-green-300 text-xs rounded">Workshops</span>
-                    <span className="px-2 py-1 bg-purple-900/50 text-purple-300 text-xs rounded">Student Engagement</span>
-                  </div>
-                  <div className="mt-4 text-center text-slate-400 text-sm">Click for more details →</div>
-                </div>
-
-                <div className="interactive-card p-6" onClick={() => setActiveSection('ventures')}>
-                  <h3 className="section-heading text-xl mb-3">Passion4Med & MetaHealth</h3>
-                  <p className="body-text text-sm mb-3">
-                    The two organizations I founded and ran have their own section, with the full story
-                    behind each one.
-                  </p>
-                  <div className="text-blue-300 text-sm">go to ventures →</div>
                 </div>
               </div>
             )}
@@ -2245,7 +2204,7 @@ export default function Portfolio() {
             )}
             {selectedWork === 'phelps-forward' && (
               <div>
-                <h2 className="section-heading text-3xl mb-4">Phelps Forward - Program Scholar and Summer Investing Program Participant</h2>
+                <h2 className="section-heading text-3xl mb-4">Phelps Forward - Program Scholar and Summer Investing Program</h2>
                 <div className="text-sm text-slate-400 mb-6">Jan 2025 - Present</div>
                 <div className="body-text leading-relaxed space-y-4">
                   <h3 className="section-heading text-xl mb-4">Full Project Details</h3>
@@ -2273,41 +2232,6 @@ export default function Portfolio() {
                     <div className="flex items-start gap-2">
                       <span className="text-teal-400 mt-1">•</span>
                       <p>Developing leadership skills for financial services industry</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-            {selectedWork === 'microsoft' && (
-              <div>
-                <h2 className="section-heading text-3xl mb-4">Microsoft - Excel Student Ambassador</h2>
-                <div className="text-sm text-slate-400 mb-6">Jul 2025 - Present</div>
-                <div className="body-text leading-relaxed space-y-4">
-                  <h3 className="section-heading text-xl mb-4">Full Project Details</h3>
-                  <div className="space-y-3">
-                    <div className="flex items-start gap-2">
-                      <span className="text-blue-400 mt-1">•</span>
-                      <p>Promoted Excel adoption via workshops and digital content creation</p>
-                    </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-blue-400 mt-1">•</span>
-                      <p>Collaborated with student organizations to drive product usage growth</p>
-                    </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-blue-400 mt-1">•</span>
-                      <p>Encouraged adoption and gathered user feedback for product improvements</p>
-                    </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-blue-400 mt-1">•</span>
-                      <p>Increased peer engagement through interactive Excel training sessions</p>
-                    </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-blue-400 mt-1">•</span>
-                      <p>Provided product improvement recommendations based on user feedback</p>
-                    </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-blue-400 mt-1">•</span>
-                      <p>Built community of Excel power users across campus</p>
                     </div>
                   </div>
                 </div>

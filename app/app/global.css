@@ -551,13 +551,6 @@ a:focus {
   to { opacity: 0; }
 }
 
-.intro-skip {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.7rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--text-muted);
-}
 
 /* Mobile-only refinements (desktop layout unchanged) */
 @media (max-width: 767px) {
