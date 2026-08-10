@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
@@ -33,7 +34,7 @@ html,
 body {
   max-width: 100vw;
   overflow-x: hidden;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: 'Manrope', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background: var(--navy-dark);
@@ -322,7 +323,7 @@ a:focus {
 
 /* Body text */
 .body-text {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Manrope', 'Inter', sans-serif;
   font-weight: 400;
   line-height: 1.7;
   color: var(--text-secondary);
@@ -463,6 +464,79 @@ a:focus {
     transform: translateX(0);
     opacity: 1;
   }
+}
+
+/* Scroll cue between the About cards and the artworks grid. Nudges
+   downward on a loop so it reads as "keep going" rather than as a control. */
+.scroll-cue {
+  /* Pinned just above the fixed footer instead of sitting in the flow. On a
+     ~776px-tall window only ~30px separate the About cards from the footer, so
+     an in-flow cue is hidden behind it. (position: sticky can't help here —
+     body has overflow-x: hidden, making it a scroll container.) */
+  position: fixed;
+  left: 50%;
+  bottom: 76px;
+  z-index: 40;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(6px);
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+  /* Hidden until the observer says the artworks are off screen. */
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.scroll-cue.is-shown {
+  opacity: 0.65;
+  pointer-events: auto;
+  animation: scroll-cue-nudge 2s ease-in-out infinite;
+}
+
+.scroll-cue.is-shown:hover {
+  opacity: 1;
+  color: var(--accent-blue);
+  border-color: var(--accent-blue);
+}
+
+/* The footer stacks its links on a phone and grows to ~81px, so the cue needs
+   to sit higher to clear it. Tucked to the right margin as well: the cards run
+   nearly edge to edge on a phone, and dead centre lands mid-sentence. */
+@media (max-width: 767px) {
+  .scroll-cue {
+    bottom: 96px;
+    left: auto;
+    right: 16px;
+    transform: none;
+  }
+  .scroll-cue.is-shown { animation: scroll-cue-nudge-flat 2s ease-in-out infinite; }
+}
+
+/* Same nudge, without the centering translate the pinned desktop cue needs. */
+@keyframes scroll-cue-nudge-flat {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(5px); }
+}
+
+/* translateX is part of the pinned centering, so the nudge has to carry it. */
+@keyframes scroll-cue-nudge {
+  0%, 100% { transform: translate(-50%, 0); }
+  50%      { transform: translate(-50%, 5px); }
+}
+
+/* Respect a reduced-motion preference: keep the cue, drop the loop. */
+@media (prefers-reduced-motion: reduce) {
+  .scroll-cue { animation: none; }
 }
 
 /* Role subtitle under a company/project name. Dimmer than body copy, which
@@ -852,14 +926,12 @@ html {
 /* Subtle sticker elements */
 .sticker {
   position: absolute;
-  font-size: 1.2rem;
+  width: 64px;
+  height: 64px;
   opacity: 0.6;
 }
 
-.sticker:nth-child(1) { top: 15%; left: 8%; }
-.sticker:nth-child(2) { top: 25%; right: 12%; }
-.sticker:nth-child(3) { bottom: 35%; left: 18%; }
-.sticker:nth-child(4) { bottom: 25%; right: 8%; }
+
 
 /* Cool background pattern */
 .bg-pattern {
@@ -989,17 +1061,36 @@ html {
 /* Creative floating elements */
 .sticker {
   position: absolute;
-  font-size: 1.2rem;
-  opacity: 0.4;
+  /* Line-art SVG rather than a glyph, so this sizes the box, not a font. */
+  width: 72px;
+  height: 72px;
+  color: var(--accent-purple);
+  opacity: 0.16;
   filter: drop-shadow(0 0 8px rgba(167, 139, 250, 0.3));
   user-select: none;
   pointer-events: none;
 }
 
-.sticker:nth-child(1) { top: 15%; right: 12%; animation: float1 6s ease-in-out infinite; }
-.sticker:nth-child(2) { bottom: 25%; left: 8%; animation: float2 8s ease-in-out infinite; }
-.sticker:nth-child(3) { top: 60%; right: 5%; animation: float3 7s ease-in-out infinite; }
-.sticker:nth-child(4) { bottom: 15%; right: 20%; animation: float4 9s ease-in-out infinite; }
+.sticker svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* These sit at percentage offsets, so below ~1400px the content column has
+   grown wide enough that they'd land on top of the copy. Hide rather than
+   reposition — they're decoration, and the margins are genuinely gone. */
+@media (max-width: 1400px) {
+  .sticker { display: none; }
+}
+
+/* Positioned by explicit class, not :nth-child — these sit alongside
+   .bg-pattern and .city-bg, so child indices don't line up with the
+   ornament order. Kept in the outer margins, clear of the content column. */
+.sticker-1 { top: 18%; right: 3%; animation: float1 6s ease-in-out infinite; }
+.sticker-2 { top: 62%; left: 2.5%; animation: float2 8s ease-in-out infinite; }
+.sticker-3 { top: 38%; left: 3%; animation: float3 7s ease-in-out infinite; }
+.sticker-4 { top: 76%; right: 4%; animation: float4 9s ease-in-out infinite; }
 
 @keyframes float1 {
   0%, 100% { transform: translateY(0px) rotate(0deg); }
@@ -1070,7 +1161,8 @@ html {
 .rotating-word {
   display: inline-block;
   position: relative;
-  min-width: 120px;
+  /* Holds space for the longest word so the name doesn't shift as they cycle. */
+  min-width: 140px;
 }
 
 .rotating-word::after {
@@ -1078,7 +1170,9 @@ html {
   position: absolute;
   left: 0;
   top: 0;
-  width: 100%;
+  /* Sized to its own content, not to the parent's min-width: "innovator" needs
+     124px at 36px Playfair and a 120px box clipped its final letter. */
+  white-space: nowrap;
   animation: rotateWords 8s ease-in-out infinite;
   background: linear-gradient(45deg, var(--accent-blue), var(--accent-purple), var(--accent-pink));
   -webkit-background-clip: text;

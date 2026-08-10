@@ -39,7 +39,30 @@ export default function Portfolio() {
   // it before sessionStorage is read. The effect below decides whether to play.
   const [introState, setIntroState] = useState<'pending' | 'typing' | 'leaving' | 'done'>('pending');
   const [typedCount, setTypedCount] = useState(0);
+  const [showScrollCue, setShowScrollCue] = useState(false);
 
+
+  // Show the scroll cue only while the artworks are out of view. It's pinned
+  // above the fixed footer rather than sitting in the flow: on a ~776px-tall
+  // window there are barely 30px between the About cards and the footer, so an
+  // in-flow cue lands underneath it. (position: sticky is not an option —
+  // body has overflow-x: hidden, which makes it a scroll container.)
+  useEffect(() => {
+    if (activeSection !== 'about') {
+      setShowScrollCue(false);
+      return;
+    }
+    const target = document.getElementById('artworks-heading');
+    if (!target) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setShowScrollCue(!entry.isIntersecting),
+      // The bottom ~110px are covered by the fixed footer and the cue itself,
+      // so a heading that far down is on screen but not actually readable.
+      { threshold: 0.15, rootMargin: '0px 0px -110px 0px' }
+    );
+    observer.observe(target);
+    return () => observer.disconnect();
+  }, [activeSection]);
 
   // Decide once per browser session whether the intro plays.
   useEffect(() => {
@@ -268,11 +291,40 @@ export default function Portfolio() {
       {/* City background at bottom */}
       <div className="city-bg"></div>
       
-                  {/* Creative floating elements */}
-            <div className="sticker">✨</div>
-            <div className="sticker">💫</div>
-            <div className="sticker">🚀</div>
-            <div className="sticker">💡</div>
+      {/* Floating line-art ornaments in the margins. Drawn rather than set in
+          emoji so they read as part of the design and render identically on
+          every platform. Purely decorative, so they're hidden from AT. */}
+      <div className="sticker sticker-1" aria-hidden="true">
+        {/* concentric rings */}
+        <svg viewBox="0 0 64 64" fill="none" stroke="currentColor">
+          <circle cx="32" cy="32" r="30" strokeWidth="1" />
+          <circle cx="32" cy="32" r="19" strokeWidth="1" />
+          <circle cx="32" cy="32" r="8" strokeWidth="1" />
+        </svg>
+      </div>
+      <div className="sticker sticker-2" aria-hidden="true">
+        {/* dot lattice */}
+        <svg viewBox="0 0 64 64" fill="currentColor">
+          <circle cx="8" cy="8" r="2" /><circle cx="32" cy="8" r="2" /><circle cx="56" cy="8" r="2" />
+          <circle cx="8" cy="32" r="2" /><circle cx="32" cy="32" r="2" /><circle cx="56" cy="32" r="2" />
+          <circle cx="8" cy="56" r="2" /><circle cx="32" cy="56" r="2" /><circle cx="56" cy="56" r="2" />
+        </svg>
+      </div>
+      <div className="sticker sticker-3" aria-hidden="true">
+        {/* nested triangles, a nod to the origami */}
+        <svg viewBox="0 0 64 64" fill="none" stroke="currentColor">
+          <path d="M32 4 L60 56 L4 56 Z" strokeWidth="1" />
+          <path d="M32 22 L47 52 L17 52 Z" strokeWidth="1" />
+        </svg>
+      </div>
+      <div className="sticker sticker-4" aria-hidden="true">
+        {/* open arcs */}
+        <svg viewBox="0 0 64 64" fill="none" stroke="currentColor">
+          <path d="M4 60 A56 56 0 0 1 60 4" strokeWidth="1" />
+          <path d="M4 60 A38 38 0 0 1 42 22" strokeWidth="1" />
+          <path d="M4 60 A20 20 0 0 1 24 40" strokeWidth="1" />
+        </svg>
+      </div>
       
       {/* Boot intro: types one line, then hands off to the page */}
       {introState !== 'done' && (
@@ -416,16 +468,16 @@ export default function Portfolio() {
       )}
 
       {/* Main Content */}
-              <main className="pt-28 md:pt-40 pb-32 md:pb-24">
+              <main className="pt-32 md:pt-48 pb-32 md:pb-24">
         {/* About Section */}
         {activeSection === 'about' && (
           <div className="max-w-6xl mx-auto px-5 md:px-8">
-            <div className="flex flex-col md:flex-row items-start gap-6 md:gap-8 mb-12 md:mb-16">
+            <div className="flex flex-col md:flex-row items-start gap-6 md:gap-8 mb-10 md:mb-12">
               <div className="headshot shrink-0">
                 <img src="/headshot.jpeg" alt="Krrisha Patel" className="w-full h-full rounded-full object-cover" />
               </div>
               <div className="flex-1">
-                <div className="main-name text-5xl sm:text-6xl lg:text-[5rem] tracking-tighter leading-none mb-8 md:mb-12 flex flex-col md:flex-row md:items-center gap-0 md:gap-10">
+                <div className="main-name text-5xl sm:text-6xl lg:text-[5rem] tracking-tighter leading-none mb-6 md:mb-8 flex flex-col md:flex-row md:items-center gap-0 md:gap-10">
                   Krrisha Patel
                   <span className="text-2xl lg:text-4xl font-medium">
                     <span className="rotating-word" data-words="dreamer,doer,innovator"></span>
@@ -440,7 +492,7 @@ export default function Portfolio() {
             </div>
             
             {/* Current focus section */}
-            <div className="mt-16 grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="interactive-card p-6">
                 <h3 className="section-heading text-2xl mb-4">currently obsessed with</h3>
                 <p className="body-text">
@@ -461,9 +513,24 @@ export default function Portfolio() {
             
 
 
+                {/* Scroll cue. The artworks sit below the fold on a short window,
+                    so this is the only thing signalling they exist. */}
+                <button
+                  onClick={() => {
+                    const element = document.getElementById('artworks-heading');
+                    if (element) {
+                      window.scrollTo({ top: element.offsetTop - 100, behavior: 'smooth' });
+                    }
+                  }}
+                  className={`scroll-cue ${showScrollCue ? 'is-shown' : ''}`}
+                  aria-label="Scroll to artworks"
+                >
+                  ↓
+                </button>
+
                 {/* Your Latest Works */}
-                <div className="mt-32">
-                  <h3 className="section-heading text-2xl mb-8 text-center">some of my latest artworks</h3>
+                <div className="mt-12">
+                  <h3 id="artworks-heading" className="section-heading text-2xl mb-8 text-center">some of my latest artworks</h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                     <div 
                       className={`group cursor-pointer overflow-hidden rounded-lg border border-slate-700 hover:border-slate-500 hover:shadow-lg hover:shadow-blue-500/20 transition-all duration-300 h-48 ${
@@ -1656,11 +1723,41 @@ export default function Portfolio() {
             
             <div className="space-y-8">
               <div className="interactive-card p-6">
-                <h3 className="section-heading text-2xl mb-4">what's the most challenging project you've ever built?</h3>
+                <h3 className="section-heading text-2xl mb-4">what's something you're passionate about that might surprise people?</h3>
                 <p className="body-text leading-relaxed">
-                  definitely the LLM-aware runtime optimizer. trying to squeeze every last millisecond out of transformer models 
-                  while maintaining accuracy was like solving a 1000-piece puzzle blindfolded. but when we finally got that 48% 
-                  latency reduction, it felt like discovering fire all over again.
+                  i'm absolutely obsessed with escape room design. there's something fascinating about creating puzzles that 
+                  challenge both logic and creativity. i've designed several escape rooms for friends, and the best part is 
+                  watching people's faces when they finally solve a particularly tricky puzzle. it's like watching someone 
+                  discover a new superpower.
+                </p>
+              </div>
+
+              <div className="interactive-card p-6">
+                <h3 className="section-heading text-2xl mb-4">what's a useless skill you have that's actually kind of impressive?</h3>
+                <p className="body-text leading-relaxed">
+                  i can remember song lyrics from years ago but forget what i ate for breakfast. it's like my brain has 
+                  a separate hard drive just for music. also, i can spot typos from a mile away and predict what song 
+                  will play next on shuffle with scary accuracy. my brain is just weird about patterns and letters.
+                </p>
+              </div>
+
+              <div className="interactive-card p-6">
+                <h3 className="section-heading text-2xl mb-4">what color combinations do you absolutely hate?</h3>
+                <p className="body-text leading-relaxed">
+                  mustard yellow and brown together makes me physically uncomfortable. it's like someone tried to create 
+                  the most depressing color palette possible. also, bright orange with hot pink feels like my eyes are being 
+                  assaulted by a neon sign. but weirdly, i love both colors separately. it's just something about them together 
+                  that triggers my fight or flight response.
+                </p>
+              </div>
+
+              <div className="interactive-card p-6">
+                <h3 className="section-heading text-2xl mb-4">what's something you think is weird but actually makes perfect sense?</h3>
+                <p className="body-text leading-relaxed">
+                  the fact that we spend 8 hours a day staring at screens, then come home and immediately grab our phones 
+                  to scroll through more screens. it's like we're training ourselves to be digital creatures. but then i realize 
+                  that's exactly what's happening - we're evolving to process information differently. our brains are literally 
+                  rewiring to handle the digital world. so maybe it's not weird at all, just evolution in real-time.
                 </p>
               </div>
 
@@ -1681,16 +1778,6 @@ export default function Portfolio() {
                   language by immediately trying to build something with it, even if it's terrible. you learn more from 
                   making mistakes than from reading perfect examples. plus, there's nothing like the satisfaction of 
                   getting something working, even if it's held together with duct tape and prayers.
-                </p>
-              </div>
-
-              <div className="interactive-card p-6">
-                <h3 className="section-heading text-2xl mb-4">what's something you're passionate about that might surprise people?</h3>
-                <p className="body-text leading-relaxed">
-                  i'm absolutely obsessed with escape room design. there's something fascinating about creating puzzles that 
-                  challenge both logic and creativity. i've designed several escape rooms for friends, and the best part is 
-                  watching people's faces when they finally solve a particularly tricky puzzle. it's like watching someone 
-                  discover a new superpower.
                 </p>
               </div>
 
@@ -1723,31 +1810,11 @@ export default function Portfolio() {
               </div>
 
               <div className="interactive-card p-6">
-                <h3 className="section-heading text-2xl mb-4">what color combinations do you absolutely hate?</h3>
+                <h3 className="section-heading text-2xl mb-4">what's the most challenging project you've ever built?</h3>
                 <p className="body-text leading-relaxed">
-                  mustard yellow and brown together makes me physically uncomfortable. it's like someone tried to create 
-                  the most depressing color palette possible. also, bright orange with hot pink feels like my eyes are being 
-                  assaulted by a neon sign. but weirdly, i love both colors separately. it's just something about them together 
-                  that triggers my fight or flight response.
-                </p>
-              </div>
-
-              <div className="interactive-card p-6">
-                <h3 className="section-heading text-2xl mb-4">what's something you think is weird but actually makes perfect sense?</h3>
-                <p className="body-text leading-relaxed">
-                  the fact that we spend 8 hours a day staring at screens, then come home and immediately grab our phones 
-                  to scroll through more screens. it's like we're training ourselves to be digital creatures. but then i realize 
-                  that's exactly what's happening - we're evolving to process information differently. our brains are literally 
-                  rewiring to handle the digital world. so maybe it's not weird at all, just evolution in real-time.
-                </p>
-              </div>
-
-              <div className="interactive-card p-6">
-                <h3 className="section-heading text-2xl mb-4">what's a useless skill you have that's actually kind of impressive?</h3>
-                <p className="body-text leading-relaxed">
-                  i can remember song lyrics from years ago but forget what i ate for breakfast. it's like my brain has 
-                  a separate hard drive just for music. also, i can spot typos from a mile away and predict what song 
-                  will play next on shuffle with scary accuracy. my brain is just weird about patterns and letters.
+                  definitely the LLM-aware runtime optimizer. trying to squeeze every last millisecond out of transformer models 
+                  while maintaining accuracy was like solving a 1000-piece puzzle blindfolded. but when we finally got that 48% 
+                  latency reduction, it felt like discovering fire all over again.
                 </p>
               </div>
             </div>
