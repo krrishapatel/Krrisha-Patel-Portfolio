@@ -12,6 +12,139 @@ const KRRISHA_LOCATION = {
 // The boot line typed out before the page renders.
 const INTRO_TEXT = '<hello world... :) />';
 
+// Ornament motifs. Each is a plain line drawing on a 64x64 grid; `currentColor`
+// lets one CSS rule tint them all.
+const ORN = {
+  rings: (
+    <svg viewBox="0 0 64 64" fill="none" stroke="currentColor">
+      <circle cx="32" cy="32" r="30" strokeWidth="1" />
+      <circle cx="32" cy="32" r="19" strokeWidth="1" />
+      <circle cx="32" cy="32" r="8" strokeWidth="1" />
+    </svg>
+  ),
+  lattice: (
+    <svg viewBox="0 0 64 64" fill="currentColor">
+      <circle cx="8" cy="8" r="2" /><circle cx="32" cy="8" r="2" /><circle cx="56" cy="8" r="2" />
+      <circle cx="8" cy="32" r="2" /><circle cx="32" cy="32" r="2" /><circle cx="56" cy="32" r="2" />
+      <circle cx="8" cy="56" r="2" /><circle cx="32" cy="56" r="2" /><circle cx="56" cy="56" r="2" />
+    </svg>
+  ),
+  folds: (
+    <svg viewBox="0 0 64 64" fill="none" stroke="currentColor">
+      <path d="M32 4 L60 56 L4 56 Z" strokeWidth="1" />
+      <path d="M32 22 L47 52 L17 52 Z" strokeWidth="1" />
+    </svg>
+  ),
+  arcs: (
+    <svg viewBox="0 0 64 64" fill="none" stroke="currentColor">
+      <path d="M4 60 A56 56 0 0 1 60 4" strokeWidth="1" />
+      <path d="M4 60 A38 38 0 0 1 42 22" strokeWidth="1" />
+      <path d="M4 60 A20 20 0 0 1 24 40" strokeWidth="1" />
+    </svg>
+  ),
+  grid: (
+    <svg viewBox="0 0 64 64" fill="none" stroke="currentColor">
+      <rect x="4" y="4" width="56" height="56" strokeWidth="1" />
+      <path d="M4 23 H60 M4 42 H60 M23 4 V60 M42 4 V60" strokeWidth="0.6" />
+    </svg>
+  ),
+  wave: (
+    <svg viewBox="0 0 64 64" fill="none" stroke="currentColor">
+      <path d="M2 30 Q14 8 26 30 T50 30" strokeWidth="1" />
+      <path d="M2 46 Q14 24 26 46 T50 46" strokeWidth="1" />
+    </svg>
+  ),
+  cross: (
+    <svg viewBox="0 0 64 64" fill="none" stroke="currentColor">
+      <path d="M32 2 V62 M2 32 H62" strokeWidth="0.8" />
+      <circle cx="32" cy="32" r="12" strokeWidth="1" />
+    </svg>
+  ),
+  chevrons: (
+    <svg viewBox="0 0 64 64" fill="none" stroke="currentColor">
+      <path d="M10 14 L32 32 L10 50" strokeWidth="1" />
+      <path d="M30 14 L52 32 L30 50" strokeWidth="1" />
+    </svg>
+  ),
+  hex: (
+    <svg viewBox="0 0 64 64" fill="none" stroke="currentColor">
+      <path d="M32 3 L56 17 V47 L32 61 L8 47 V17 Z" strokeWidth="1" />
+      <path d="M32 19 L44 26 V40 L32 47 L20 40 V26 Z" strokeWidth="1" />
+    </svg>
+  ),
+  spiral: (
+    <svg viewBox="0 0 64 64" fill="none" stroke="currentColor">
+      <path d="M32 32 A6 6 0 1 1 38 26 A14 14 0 1 1 24 12 A26 26 0 1 1 58 46" strokeWidth="1" />
+    </svg>
+  ),
+  bars: (
+    <svg viewBox="0 0 64 64" fill="none" stroke="currentColor">
+      <path d="M10 54 V34 M24 54 V18 M38 54 V40 M52 54 V8" strokeWidth="2" />
+    </svg>
+  ),
+  ticks: (
+    <svg viewBox="0 0 64 64" fill="none" stroke="currentColor">
+      <path d="M6 10 H58 M6 26 H40 M6 42 H52 M6 58 H30" strokeWidth="1" />
+    </svg>
+  ),
+};
+
+// Which motifs each section gets, and where. `top` is a percentage of the
+// section's full scroll height, so they stay spread out however long the page
+// runs; `side`/`inset` keep every piece in the outer margin, clear of the
+// content column. Deliberately different per section so the six tabs don't
+// share one wallpaper.
+const ORNAMENTS: Record<
+  string,
+  { art: React.ReactNode; top: string; side: 'left' | 'right'; inset: string }[]
+> = {
+  about: [
+    { art: ORN.rings, top: '14%', side: 'right', inset: '3%' },
+    { art: ORN.folds, top: '32%', side: 'left', inset: '3%' },
+    { art: ORN.lattice, top: '54%', side: 'left', inset: '2.5%' },
+    { art: ORN.arcs, top: '70%', side: 'right', inset: '4%' },
+    { art: ORN.spiral, top: '88%', side: 'left', inset: '3.5%' },
+  ],
+  work: [
+    { art: ORN.grid, top: '10%', side: 'right', inset: '3.5%' },
+    { art: ORN.bars, top: '26%', side: 'left', inset: '3%' },
+    { art: ORN.chevrons, top: '44%', side: 'right', inset: '2.5%' },
+    { art: ORN.ticks, top: '62%', side: 'left', inset: '3.5%' },
+    { art: ORN.grid, top: '78%', side: 'right', inset: '3%' },
+    { art: ORN.bars, top: '92%', side: 'left', inset: '2.5%' },
+  ],
+  ventures: [
+    { art: ORN.hex, top: '12%', side: 'left', inset: '3%' },
+    { art: ORN.cross, top: '30%', side: 'right', inset: '3.5%' },
+    { art: ORN.hex, top: '52%', side: 'right', inset: '2.5%' },
+    { art: ORN.lattice, top: '72%', side: 'left', inset: '3.5%' },
+    { art: ORN.cross, top: '90%', side: 'right', inset: '3%' },
+  ],
+  projects: [
+    { art: ORN.chevrons, top: '8%', side: 'left', inset: '3%' },
+    { art: ORN.hex, top: '24%', side: 'right', inset: '3%' },
+    { art: ORN.lattice, top: '40%', side: 'left', inset: '2.5%' },
+    { art: ORN.grid, top: '56%', side: 'right', inset: '3.5%' },
+    { art: ORN.spiral, top: '72%', side: 'left', inset: '3%' },
+    { art: ORN.chevrons, top: '88%', side: 'right', inset: '2.5%' },
+  ],
+  blog: [
+    { art: ORN.ticks, top: '12%', side: 'right', inset: '3%' },
+    { art: ORN.wave, top: '34%', side: 'left', inset: '3%' },
+    { art: ORN.ticks, top: '56%', side: 'left', inset: '2.5%' },
+    { art: ORN.arcs, top: '76%', side: 'right', inset: '3.5%' },
+    { art: ORN.wave, top: '92%', side: 'right', inset: '3%' },
+  ],
+  faq: [
+    { art: ORN.wave, top: '10%', side: 'left', inset: '3%' },
+    { art: ORN.spiral, top: '28%', side: 'right', inset: '3%' },
+    { art: ORN.rings, top: '46%', side: 'left', inset: '2.5%' },
+    { art: ORN.cross, top: '64%', side: 'right', inset: '3.5%' },
+    { art: ORN.folds, top: '82%', side: 'left', inset: '3%' },
+    { art: ORN.rings, top: '94%', side: 'right', inset: '2.5%' },
+  ],
+};
+
 export default function Portfolio() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('about');
@@ -284,48 +417,30 @@ export default function Portfolio() {
   }, [isDragging]);
 
   return (
-    <div className="min-h-screen bg-slate-900 text-white">
+    <div className="min-h-screen bg-slate-900 text-white relative">
       {/* Background pattern */}
       <div className="bg-pattern"></div>
       
       {/* City background at bottom */}
       <div className="city-bg"></div>
       
-      {/* Floating line-art ornaments in the margins. Drawn rather than set in
-          emoji so they read as part of the design and render identically on
-          every platform. Purely decorative, so they're hidden from AT. */}
-      <div className="sticker sticker-1" aria-hidden="true">
-        {/* concentric rings */}
-        <svg viewBox="0 0 64 64" fill="none" stroke="currentColor">
-          <circle cx="32" cy="32" r="30" strokeWidth="1" />
-          <circle cx="32" cy="32" r="19" strokeWidth="1" />
-          <circle cx="32" cy="32" r="8" strokeWidth="1" />
-        </svg>
+      {/* Line-art ornaments in the page margins. Drawn rather than set in emoji
+          so they read as part of the design and render identically everywhere.
+          Each section gets its own motif set and its own vertical offsets, so
+          scrolling never runs through empty background and no two tabs look
+          alike. Purely decorative, so hidden from AT. */}
+      <div className="ornaments" aria-hidden="true">
+        {(ORNAMENTS[activeSection] ?? []).map((o, n) => (
+          <div
+            key={n}
+            className="sticker"
+            style={{ top: o.top, [o.side]: o.inset, animationDelay: `${n * 0.8}s` }}
+          >
+            {o.art}
+          </div>
+        ))}
       </div>
-      <div className="sticker sticker-2" aria-hidden="true">
-        {/* dot lattice */}
-        <svg viewBox="0 0 64 64" fill="currentColor">
-          <circle cx="8" cy="8" r="2" /><circle cx="32" cy="8" r="2" /><circle cx="56" cy="8" r="2" />
-          <circle cx="8" cy="32" r="2" /><circle cx="32" cy="32" r="2" /><circle cx="56" cy="32" r="2" />
-          <circle cx="8" cy="56" r="2" /><circle cx="32" cy="56" r="2" /><circle cx="56" cy="56" r="2" />
-        </svg>
-      </div>
-      <div className="sticker sticker-3" aria-hidden="true">
-        {/* nested triangles, a nod to the origami */}
-        <svg viewBox="0 0 64 64" fill="none" stroke="currentColor">
-          <path d="M32 4 L60 56 L4 56 Z" strokeWidth="1" />
-          <path d="M32 22 L47 52 L17 52 Z" strokeWidth="1" />
-        </svg>
-      </div>
-      <div className="sticker sticker-4" aria-hidden="true">
-        {/* open arcs */}
-        <svg viewBox="0 0 64 64" fill="none" stroke="currentColor">
-          <path d="M4 60 A56 56 0 0 1 60 4" strokeWidth="1" />
-          <path d="M4 60 A38 38 0 0 1 42 22" strokeWidth="1" />
-          <path d="M4 60 A20 20 0 0 1 24 40" strokeWidth="1" />
-        </svg>
-      </div>
-      
+
       {/* Boot intro: types one line, then hands off to the page */}
       {introState !== 'done' && (
         <div
@@ -529,7 +644,7 @@ export default function Portfolio() {
                 </button>
 
                 {/* Your Latest Works */}
-                <div className="mt-12">
+                <div className="mt-24">
                   <h3 id="artworks-heading" className="section-heading text-2xl mb-8 text-center">some of my latest artworks</h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                     <div 
@@ -888,7 +1003,7 @@ export default function Portfolio() {
                     <h3 className="section-heading text-2xl">Passion4Med</h3>
                     <p className="body-text text-slate-300 mt-2">Founder &amp; CEO</p>
                   </div>
-                  <span className="text-sm text-slate-400 bg-pink-900/50 px-3 py-1 rounded-full whitespace-nowrap">5.5 years</span>
+                  <span className="text-sm text-slate-400 bg-pink-900/50 px-3 py-1 rounded-full whitespace-nowrap">5.5+ years</span>
                 </header>
 
                 <p className="body-text text-lg venture-lede">
@@ -979,7 +1094,7 @@ export default function Portfolio() {
                     <h3 className="section-heading text-2xl">MetaHealth</h3>
                     <p className="body-text text-slate-300 mt-2">Founder &amp; CEO</p>
                   </div>
-                  <span className="text-sm text-slate-400 bg-indigo-900/50 px-3 py-1 rounded-full whitespace-nowrap">2 years</span>
+                  <span className="text-sm text-slate-400 bg-indigo-900/50 px-3 py-1 rounded-full whitespace-nowrap">2+ years</span>
                 </header>
 
                 <p className="body-text text-lg venture-lede">
