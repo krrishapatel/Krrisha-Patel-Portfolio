@@ -452,7 +452,7 @@ export default function Portfolio() {
               <div className="interactive-card p-6">
                 <h3 className="section-heading text-2xl mb-4">what i'm up to</h3>
                 <p className="body-text">
-                  building secure document infrastructure at AWS, exploring the intersection of 
+                  building malware detection into AWS data center procurement, exploring the intersection of 
                   healthcare and technology, and building products that actually make a difference in people's lives.
                   always learning, always building, always curious.
                 </p>
