@@ -463,6 +463,26 @@ a:focus {
   }
 }
 
+/* Mobile-only refinements (desktop layout unchanged) */
+@media (max-width: 767px) {
+  .work-tab {
+    padding: 12px 16px;
+  }
+
+  .headshot {
+    width: 96px;
+    height: 96px;
+  }
+
+  .distance-widget {
+    top: auto;
+    bottom: 96px;
+    right: 12px;
+    max-width: 170px;
+    padding: 12px;
+  }
+}
+
 /* Work tabs styling */
 .work-tabs {
   display: flex;
@@ -606,12 +626,6 @@ html {
   position: absolute;
   font-size: 1.2rem;
   opacity: 0.6;
-  transition: all 0.3s ease;
-}
-
-.sticker:hover {
-  opacity: 1;
-  transform: scale(1.2);
 }
 
 .sticker:nth-child(1) { top: 15%; left: 8%; }
@@ -698,12 +712,7 @@ html {
   position: absolute;
   right: 20px;
   top: 20px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.subtle-interaction:hover {
-  transform: scale(1.1);
+  pointer-events: none;
 }
 
 .interaction-dot {
@@ -715,11 +724,6 @@ html {
   transition: all 0.3s ease;
 }
 
-.subtle-interaction:hover .interaction-dot {
-  background: var(--accent-pink);
-  box-shadow: 0 0 12px rgba(244, 114, 182, 0.6);
-  transform: scale(1.5);
-}
 
 /* City background at bottom */
 .city-bg {
@@ -759,21 +763,9 @@ html {
   position: absolute;
   font-size: 1.2rem;
   opacity: 0.4;
-  transition: all 0.4s ease;
   filter: drop-shadow(0 0 8px rgba(167, 139, 250, 0.3));
-  cursor: pointer;
   user-select: none;
-}
-
-.sticker:hover {
-  opacity: 0.9;
-  transform: scale(1.4) rotate(15deg);
-  filter: drop-shadow(0 0 20px rgba(167, 139, 250, 0.8));
-}
-
-.sticker:active {
-  transform: scale(0.9) rotate(-5deg);
-  transition: all 0.1s ease;
+  pointer-events: none;
 }
 
 .sticker:nth-child(1) { top: 15%; right: 12%; animation: float1 6s ease-in-out infinite; }

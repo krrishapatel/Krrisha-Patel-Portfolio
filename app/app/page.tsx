@@ -2,6 +2,13 @@
 
 import { useState, useEffect, useRef } from 'react';
 
+// Update these coordinates when you move. The distance widget reads from here,
+// so this is the only place that needs to change.
+const KRRISHA_LOCATION = {
+  lat: 39.9526,
+  lng: -75.1652,
+};
+
 export default function Portfolio() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('about');
@@ -60,14 +67,14 @@ export default function Portfolio() {
 
 
 
-  // Calculate distance from user to Krrisha (Philadelphia coordinates)
+  // Calculate distance from the visitor to KRRISHA_LOCATION (defined at the top of this file)
   useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
         const userLat = position.coords.latitude;
         const userLng = position.coords.longitude;
-        const krrishaLat = 39.9526; // Philadelphia
-        const krrishaLng = -75.1652;
+        const krrishaLat = KRRISHA_LOCATION.lat;
+        const krrishaLng = KRRISHA_LOCATION.lng;
         
         const R = 3959; // Earth's radius in miles
         const dLat = (krrishaLat - userLat) * Math.PI / 180;
@@ -130,7 +137,7 @@ export default function Portfolio() {
     // it off document enter/leave, so it was true almost all the time.
     const handleOver = (e: MouseEvent) => {
       const target = e.target as Element | null;
-      setIsHovering(Boolean(target?.closest?.('a, button, [role="button"], .interactive-card, .sticker')));
+      setIsHovering(Boolean(target?.closest?.('a, button, [role="button"], .interactive-card')));
     };
 
     const handleLeave = () => {
@@ -190,10 +197,10 @@ export default function Portfolio() {
       <div className="city-bg"></div>
       
                   {/* Creative floating elements */}
-            <div className="sticker" onClick={() => alert('✨ you found a secret!')}>✨</div>
-            <div className="sticker" onClick={() => alert('💫 another secret!')}>💫</div>
-            <div className="sticker" onClick={() => alert('🚀 rocket power!')}>🚀</div>
-            <div className="sticker" onClick={() => alert('💡 lightbulb moment!')}>💡</div>
+            <div className="sticker">✨</div>
+            <div className="sticker">💫</div>
+            <div className="sticker">🚀</div>
+            <div className="sticker">💡</div>
       
       {/* Custom cursor */}
       <div
@@ -246,7 +253,7 @@ export default function Portfolio() {
           {/* Mobile Menu Button */}
           <button 
             onClick={toggleMenu}
-            className="md:hidden nav-link text-xl"
+            className="md:hidden nav-link text-xl px-3 py-2 -mr-3"
           >
             MENU
           </button>
@@ -303,23 +310,23 @@ export default function Portfolio() {
           <div className="text-center">
             <div className="text-2xl mb-2">📍</div>
             <p className="text-sm text-slate-300">
-              you're <span className="font-bold text-blue-400">{distance}</span> miles away from Krrisha!
+              you're <span className="font-bold text-blue-400">{distance}</span> miles from Krrisha!
             </p>
           </div>
         </div>
       )}
 
       {/* Main Content */}
-              <main className="pt-40 px-8 pb-24">
+              <main className="pt-28 md:pt-40 px-5 md:px-8 pb-32 md:pb-24">
         {/* About Section */}
         {activeSection === 'about' && (
           <div className="max-w-5xl">
-            <div className="flex items-start gap-8 mb-12">
-              <div className="headshot">
+            <div className="flex flex-col md:flex-row items-start gap-6 md:gap-8 mb-12">
+              <div className="headshot shrink-0">
                 <img src="/headshot.jpeg" alt="Krrisha Patel" className="w-full h-full rounded-full object-cover" />
               </div>
               <div className="flex-1">
-                <div className="main-name text-6xl md:text-7xl lg:text-8xl tracking-tighter leading-none mb-12 flex items-center gap-10">
+                <div className="main-name text-5xl sm:text-6xl md:text-7xl lg:text-8xl tracking-tighter leading-none mb-8 md:mb-12 flex flex-col md:flex-row md:items-center gap-0 md:gap-10">
                   Krrisha Patel
                   <span className="text-2xl md:text-3xl font-medium">
                     <span className="rotating-word" data-words="dreamer,doer,innovator"></span>
@@ -457,9 +464,9 @@ export default function Portfolio() {
                 <div className="interactive-card p-6" onClick={() => setSelectedWork('aws')}>
                   <div className="flex justify-between items-start mb-3">
                     <h3 className="section-heading text-xl">Amazon Web Services</h3>
-                    <span className="text-sm text-slate-400 bg-orange-900/50 px-3 py-1 rounded-full">Summer 2026</span>
+                    <span className="text-sm text-slate-400 bg-orange-900/50 px-3 py-1 rounded-full">Jun 2026 - Aug 2026</span>
                   </div>
-                  <p className="body-text text-slate-300 mb-2">Software Development Engineer Intern, Infrastructure Supply Chain Management</p>
+                  <p className="body-text text-slate-300 mb-2">Software Development Engineer Intern</p>
                   <p className="body-text text-sm mb-3">
                     Architected Java/TypeScript malware scanner securing data center procurement across 12 global regions.
                     Cut deployment artifact size 45% (287MB → 159MB) with serverless Lambda/Fargate pipelines.
@@ -477,7 +484,7 @@ export default function Portfolio() {
                 <div className="interactive-card p-6" onClick={() => setSelectedWork('very-good-ventures')}>
                   <div className="flex justify-between items-start mb-3">
                     <h3 className="section-heading text-xl">Very Good Ventures</h3>
-                    <span className="text-sm text-slate-400 bg-blue-900/50 px-3 py-1 rounded-full">Dec 2024 - Present</span>
+                    <span className="text-sm text-slate-400 bg-blue-900/50 px-3 py-1 rounded-full">Jun 2025 - Aug 2025</span>
                   </div>
                   <p className="body-text text-slate-300 mb-2">Software Engineering Intern</p>
                   <p className="body-text text-sm mb-3">
@@ -774,7 +781,7 @@ export default function Portfolio() {
             
             {/* Side Menu */}
             <div className="flex gap-4">
-              <div className="w-48 flex-shrink-0">
+              <div className="w-48 flex-shrink-0 hidden md:block">
                 <div className="fixed top-80 left-8 space-y-3">
                   <button 
                     onClick={() => {
@@ -828,7 +835,7 @@ export default function Portfolio() {
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={(e) => e.stopPropagation()}
-                    className="text-xs text-blue-300 hover:text-blue-200 whitespace-nowrap border border-blue-800 rounded px-2 py-1"
+                    className="text-xs text-blue-300 hover:text-blue-200 whitespace-nowrap border border-blue-800 rounded px-2 py-2 md:py-1"
                   >
                     source ↗
                   </a>
@@ -851,11 +858,11 @@ export default function Portfolio() {
                 <div className="flex justify-between items-start mb-3 gap-3">
                   <h3 className="section-heading text-xl">Exchange Simulator</h3>
                   <a
-                    href="https://github.com/krrishapatel/exchange-simulator"
+                    href="https://github.com/krrishapatel/Exchange-Simulator"
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={(e) => e.stopPropagation()}
-                    className="text-xs text-blue-300 hover:text-blue-200 whitespace-nowrap border border-blue-800 rounded px-2 py-1"
+                    className="text-xs text-blue-300 hover:text-blue-200 whitespace-nowrap border border-blue-800 rounded px-2 py-2 md:py-1"
                   >
                     source ↗
                   </a>
@@ -876,13 +883,13 @@ export default function Portfolio() {
 
               <div className="interactive-card p-6" onClick={() => setSelectedProject('excel-diff')}>
                 <div className="flex justify-between items-start mb-3 gap-3">
-                  <h3 className="section-heading text-xl">Excel Workbook Diff & Tie-Out</h3>
+                  <h3 className="section-heading text-xl">Excel Workbook Diff</h3>
                   <a
-                    href="https://github.com/krrishapatel/excel-diff-tool"
+                    href="https://github.com/krrishapatel/Excel-Diff-Tool"
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={(e) => e.stopPropagation()}
-                    className="text-xs text-blue-300 hover:text-blue-200 whitespace-nowrap border border-blue-800 rounded px-2 py-1"
+                    className="text-xs text-blue-300 hover:text-blue-200 whitespace-nowrap border border-blue-800 rounded px-2 py-2 md:py-1"
                   >
                     source ↗
                   </a>
@@ -902,13 +909,13 @@ export default function Portfolio() {
 
               <div className="interactive-card p-6" onClick={() => setSelectedProject('doctoapi')}>
                 <div className="flex justify-between items-start mb-3 gap-3">
-                  <h3 className="section-heading text-xl">doctoapi</h3>
+                  <h3 className="section-heading text-xl">Doc To Api</h3>
                   <a
-                    href="https://github.com/krrishapatel/doctoapi"
+                    href="https://github.com/krrishapatel/Doc-To-API"
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={(e) => e.stopPropagation()}
-                    className="text-xs text-blue-300 hover:text-blue-200 whitespace-nowrap border border-blue-800 rounded px-2 py-1"
+                    className="text-xs text-blue-300 hover:text-blue-200 whitespace-nowrap border border-blue-800 rounded px-2 py-2 md:py-1"
                   >
                     source ↗
                   </a>
@@ -933,13 +940,13 @@ export default function Portfolio() {
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={(e) => e.stopPropagation()}
-                    className="text-xs text-blue-300 hover:text-blue-200 whitespace-nowrap border border-blue-800 rounded px-2 py-1"
+                    className="text-xs text-blue-300 hover:text-blue-200 whitespace-nowrap border border-blue-800 rounded px-2 py-2 md:py-1"
                   >
                     github ↗
                   </a>
                 </div>
                 <p className="body-text text-sm mb-3">
-                  Open pull requests under review on Starlette, OpenTelemetry Python, and Supervisor &mdash; an IPv6 host
+                  Open pull requests under review on Starlette, OpenTelemetry Python, and Supervisor: an IPv6 host
                   header parsing bug, a multi-byte decode crash, and missing real-time signals. Mostly an exercise in
                   reading large unfamiliar codebases well enough to fix something narrow without breaking anything.
                 </p>
@@ -952,7 +959,18 @@ export default function Portfolio() {
               </div>
 
                                                              <div className="interactive-card p-6" onClick={() => setSelectedProject('llm-optimizer')}>
-                <h3 className="section-heading text-xl mb-3">LLM-Aware Runtime Optimizer</h3>
+                <div className="flex justify-between items-start mb-3 gap-3">
+                  <h3 className="section-heading text-xl">LLM-Aware Runtime Optimizer</h3>
+                  <a
+                    href="https://github.com/krrishapatel/LLM-Aware-Runtime-Optimizer"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(e) => e.stopPropagation()}
+                    className="text-xs text-blue-300 hover:text-blue-200 whitespace-nowrap border border-blue-800 rounded px-2 py-2 md:py-1"
+                  >
+                    source ↗
+                  </a>
+                </div>
                 <p className="body-text text-sm mb-3">
                   Built MLIR-based runtime optimizer for quantized transformer LLMs, targeting low-latency edge deployment. 
                   Reduced latency by 48% on NVIDIA GPUs using TensorRT + ONNX rewriting.
@@ -967,7 +985,18 @@ export default function Portfolio() {
               </div>
 
                                                              <div className="interactive-card p-6" onClick={() => setSelectedProject('trading-simulator')}>
-                <h3 className="section-heading text-xl mb-3">Real-Time AI Trading Simulator</h3>
+                <div className="flex justify-between items-start mb-3 gap-3">
+                  <h3 className="section-heading text-xl">Real-Time AI Trading Simulator</h3>
+                  <a
+                    href="https://github.com/krrishapatel/Algorithmic-Trading-Simulator"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(e) => e.stopPropagation()}
+                    className="text-xs text-blue-300 hover:text-blue-200 whitespace-nowrap border border-blue-800 rounded px-2 py-2 md:py-1"
+                  >
+                    source ↗
+                  </a>
+                </div>
                 <p className="body-text text-sm mb-3">
                   Created multithreaded trading engine processing 1,000+ datapoints/sec using real-time APIs and event loops. 
                   Implemented VWAP logic and limit orders; benchmarked PnL performance against S&P and sector indices.
@@ -982,7 +1011,18 @@ export default function Portfolio() {
               </div>
 
                               <div className="interactive-card p-6" onClick={() => setSelectedProject('medical-llm')}>
-                <h3 className="section-heading text-xl mb-3">Distributed Inference Pipeline for Medical LLMs</h3>
+                <div className="flex justify-between items-start mb-3 gap-3">
+                  <h3 className="section-heading text-xl">Distributed Inference Pipeline for Medical LLMs</h3>
+                  <a
+                    href="https://github.com/krrishapatel/Ragchat"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(e) => e.stopPropagation()}
+                    className="text-xs text-blue-300 hover:text-blue-200 whitespace-nowrap border border-blue-800 rounded px-2 py-2 md:py-1"
+                  >
+                    source ↗
+                  </a>
+                </div>
                 <p className="body-text text-sm mb-3">
                   Built async LLM inference system with caching + cold-start mitigation; deployed using serverless AWS Lambda. 
                   Reached 98.4% interpretation accuracy; reduced response time by 30% with streaming and rate-limiting layers.
@@ -997,7 +1037,18 @@ export default function Portfolio() {
               </div>
 
                               <div className="interactive-card p-6" onClick={() => setSelectedProject('equity-forecaster')}>
-                <h3 className="section-heading text-xl mb-3">Equity Price Forecaster</h3>
+                <div className="flex justify-between items-start mb-3 gap-3">
+                  <h3 className="section-heading text-xl">Equity Price Forecaster</h3>
+                  <a
+                    href="https://github.com/krrishapatel/Blockhouse-Analysis"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(e) => e.stopPropagation()}
+                    className="text-xs text-blue-300 hover:text-blue-200 whitespace-nowrap border border-blue-800 rounded px-2 py-2 md:py-1"
+                  >
+                    source ↗
+                  </a>
+                </div>
                 <p className="body-text text-sm mb-3">
                   Built predictive model using macro, firm-level data to forecast S&P 500 movements with ~92% accuracy over 30-day windows. 
                   Deployed pipeline with Snowflake, Airflow for daily ETL; visualized forecasts in Tableau for decision-ready insights.
@@ -1012,7 +1063,18 @@ export default function Portfolio() {
               </div>
 
                               <div className="interactive-card p-6" onClick={() => setSelectedProject('trading-bot')}>
-                <h3 className="section-heading text-xl mb-3">Algorithmic Trading Bot</h3>
+                <div className="flex justify-between items-start mb-3 gap-3">
+                  <h3 className="section-heading text-xl">Algorithmic Trading Bot</h3>
+                  <a
+                    href="https://github.com/krrishapatel/IMC-Prosperity2026"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(e) => e.stopPropagation()}
+                    className="text-xs text-blue-300 hover:text-blue-200 whitespace-nowrap border border-blue-800 rounded px-2 py-2 md:py-1"
+                  >
+                    source ↗
+                  </a>
+                </div>
                 <p className="body-text text-sm mb-3">
                   Developed predictive models for market forecasting, projected ~$150 PnL/min, with 95% accuracy. 
                   Implemented real-time data pipelines and APIs for market data analysis and forecasting.
@@ -1027,7 +1089,18 @@ export default function Portfolio() {
               </div>
 
                               <div className="interactive-card p-6" onClick={() => setSelectedProject('healthcare-analytics')}>
-                <h3 className="section-heading text-xl mb-3">Healthcare Analytics Platform</h3>
+                <div className="flex justify-between items-start mb-3 gap-3">
+                  <h3 className="section-heading text-xl">Healthcare Analytics Platform</h3>
+                  <a
+                    href="https://github.com/krrishapatel/Heart-Disease-AI-Platform"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(e) => e.stopPropagation()}
+                    className="text-xs text-blue-300 hover:text-blue-200 whitespace-nowrap border border-blue-800 rounded px-2 py-2 md:py-1"
+                  >
+                    source ↗
+                  </a>
+                </div>
                 <p className="body-text text-sm mb-3">
                   Built comprehensive healthcare analytics platform integrating multiple data sources for patient insights. 
                   Implemented real-time dashboards and predictive analytics for early disease detection.
@@ -1230,10 +1303,13 @@ export default function Portfolio() {
             
             {/* Blog Modal */}
             {selectedBlog && (
-              <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[9999] flex items-center justify-center p-4">
-                <div 
-                  className="bg-slate-900 rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto p-8 relative border border-slate-700 cursor-pointer"
-                  onClick={() => setSelectedBlog(null)}
+              <div
+                className="fixed inset-0 bg-black/65 backdrop-blur-sm z-[9999] flex items-center justify-center p-4"
+                onClick={() => setSelectedBlog(null)}
+              >
+                <div
+                  className="bg-slate-900 rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto p-5 md:p-8 relative border border-slate-700"
+                  onClick={(e) => e.stopPropagation()}
                 >
                   <button 
                     onClick={(e) => {
@@ -1247,39 +1323,99 @@ export default function Portfolio() {
                   
                   
                   
-                  {selectedBlog === 'startup-lessons' && (
+                  {selectedBlog === 'origami-obsession' && (
                     <div>
-                      <h2 className="section-heading text-3xl mb-4">what i learned from building 3 failed startups before 20</h2>
-                      <div className="text-sm text-slate-400 mb-6">July 1, 2025 • 6 min read</div>
+                      <h2 className="section-heading text-3xl mb-4">the origami obsession that started with a paper tractor</h2>
+                      <div className="text-sm text-slate-400 mb-6">July 20, 2025 • 4 min read</div>
                       <div className="body-text leading-relaxed space-y-4">
-                        <p>started my first company at 16, convinced i was going to revolutionize the world. it failed spectacularly. so did the second one. and the third. but each failure taught me something crucial: the first startup failed because i built something i thought was cool, not something people actually needed.</p>
-                        <p>the second failed because i focused on the wrong metrics. the third failed because i tried to scale too fast. now i'm building my fourth, and this time i'm obsessed with understanding the problem before writing a single line of code.</p>
-                        <p>my first startup was a social media app for high school students. i spent months building features i thought were cool. custom filters, anonymous posting, group challenges. but when i launched it, hardly anyone used it. turns out high school students already have social media, and they don't need another one.</p>
-                        <p>the lesson? build for a real problem, not for what you think is cool. i should have spent time talking to potential users, understanding their pain points, figuring out what they actually needed. instead, i built what i wanted to build.</p>
-                        <p>my second startup was an AI-powered study app. this time i did talk to users, but i focused on the wrong metrics. i was obsessed with user acquisition, getting as many people as possible to download the app. but i wasn't paying attention to retention. how many people actually kept using it.</p>
-                        <p>turns out, getting people to try something is easy. getting them to keep using it is hard. i had thousands of downloads but only a few dozen active users. the lesson? focus on retention, not acquisition. it's better to have 100 people who love your product than 10,000 who try it once.</p>
-                        <p>my third startup was a marketplace for freelance developers. this time i had users and retention, but i tried to scale too fast. i started expanding to new markets, adding new features, hiring people. all before the core product was solid. it was like trying to build a skyscraper on a foundation of sand.</p>
-                        <p>the lesson? get the core product right before you try to scale. make sure you have product-market fit, that people actually want what you're building, before you start adding bells and whistles.</p>
-                        <p>now i'm working on my fourth startup, and this time i'm doing things differently. i'm spending weeks just talking to potential users, understanding their problems, making sure i'm building something they actually need. i'm starting small, with a minimal viable product, and i'm focusing on getting that right before i add anything else.</p>
-                        <p>the funny thing is, all these failures have made me a much better entrepreneur. i know what not to do, which is almost as valuable as knowing what to do. and i've learned that failure isn't the end. it's just part of the learning process.</p>
+                        <p>second grade, show and tell. my classmate pulls out a piece of paper, folds it maybe fifteen times, and suddenly there&apos;s a tractor sitting on his desk. an actual tractor, with wheels and everything, made from one flat square of paper. i remember staring at it like he&apos;d just performed a magic trick.</p>
+                        <p>i asked him right there if he could teach me. he showed me a few basic folds during recess, and that was it, i was completely hooked. spent the next few weeks folding everything i could get my hands on. napkins, homework pages i wasn&apos;t supposed to touch, gift wrap. my parents started buying me actual origami paper because i was destroying every piece of paper in the house.</p>
+                        <p>what got me wasn&apos;t just that it looked cool. it was the math hiding inside it. every fold had to be precise or the whole structure fell apart. i didn&apos;t have language for it back then, but i was basically doing geometry for fun, angles and symmetry and structural integrity, except it felt like play instead of a worksheet.</p>
+                        <p>years later i found an article about how NASA uses origami folding patterns to fit massive structures into tiny rocket compartments, unfolding them perfectly once in space. my brain kind of short circuited. the same folds i&apos;d learned to make a paper tractor were the same principles behind spacecraft engineering. that&apos;s when origami stopped being a hobby and started feeling like an actual gateway into how i think about problems, taking something complex and finding the fold, the exact right sequence of steps that makes it collapse into something simple and functional.</p>
+                        <p>i still fold when i&apos;m stuck on a hard problem. something about the repetitive, precise motion helps me think.</p>
                       </div>
                     </div>
                   )}
-                  
-                  {selectedBlog === 'coffee-philosophy' && (
+
+                  {selectedBlog === 'three-businesses' && (
                     <div>
-                      <h2 className="section-heading text-3xl mb-4">the philosophy of coffee shop conversations</h2>
-                      <div className="text-sm text-slate-400 mb-6">June 25, 2025 • 4 min read</div>
+                      <h2 className="section-heading text-3xl mb-4">what i learned from building 3 businesses before 18</h2>
+                      <div className="text-sm text-slate-400 mb-6">July 8, 2025 • 6 min read</div>
                       <div className="body-text leading-relaxed space-y-4">
-                        <p>philadelphia has this incredible coffee culture that i've become obsessed with. not because the coffee is particularly amazing, but because of the conversations that happen in these spaces. there's something about the combination of caffeine, comfortable seating, and the right lighting that makes people open up.</p>
-                        <p>i've had conversations about quantum physics, startup ideas, and life philosophy with complete strangers. the best part? these conversations never happen in the same way twice. each coffee shop has its own personality, its own rhythm. it's like each one is a different stage for human connection.</p>
-                        <p>my favorite spot is this tiny place in old city called "the gathering." it's not fancy. just a few tables, some comfortable chairs, and really good coffee. but there's something about the atmosphere that encourages conversation. maybe it's the warm lighting, or the way the tables are arranged, or the fact that there's no wifi, so people actually talk to each other.</p>
-                        <p>i've met some of the most interesting people there. there's this retired physics professor who comes in every morning and always has fascinating stories about his research. there's a startup founder who's building something in the healthcare space. there's even a local artist who creates these incredible sculptures out of found objects.</p>
-                        <p>the conversations i've had there have changed how i think about everything from technology to art to human nature. there's something about the informal setting that makes people more willing to share their ideas, to challenge conventional thinking, to explore new possibilities.</p>
-                        <p>i think it's because coffee shops exist in this liminal space between work and home, between public and private. they're not as formal as a business meeting, but not as casual as hanging out with friends. they're perfect for the kind of conversations that don't fit anywhere else.</p>
-                        <p>and philadelphia has so many different types of coffee shops, each with its own character. there are the hipster spots in fishtown, the academic ones near the universities, the touristy ones in center city. each attracts different types of people, which means different types of conversations.</p>
-                        <p>i've started making it a habit to visit a new coffee shop every week, just to see what kinds of conversations happen there. it's like urban anthropology. studying how different environments shape human interaction. and the more i do it, the more i realize that coffee shops are some of the most important social spaces in our cities.</p>
-                        <p>they're where ideas are born, where connections are made, where the boundaries between different worlds are crossed. in a city as diverse as philadelphia, that's incredibly valuable. coffee shops are the great equalizers, where a penn student can have a conversation with a retired factory worker, where a tech entrepreneur can share ideas with an artist.</p>
+                        <p>started my first &quot;business&quot; in elementary school selling mini origami school supplies. tiny paper pencil holders, folded boxes, little origami bookmarks shaped like animals, eventually even small folded organizers with compartments for pens. classmates would request custom designs, a pencil holder shaped like their favorite animal, and i&apos;d spend weekends prototyping folds that could actually hold weight without collapsing, which turned out to be way harder than making something that just looked nice sitting still. sold everything for five dollars a piece to kids who thought i was some kind of paper wizard. it wasn&apos;t really a business, i just liked folding things and my classmates liked buying weird stuff, but it taught me something i didn&apos;t appreciate until later: people will pay for things that feel handmade and specific, not just useful.</p>
+                        <p>the second thing was in middle school. i built a platform trying to connect high schoolers with university professors for research opportunities. i was convinced this was genius, students needed mentors, professors had knowledge, i&apos;d just connect them. except i completely underestimated how busy professors actually are and how intimidating it feels for a fourteen year old to cold email a phd asking for their time. maybe three professors responded out of five hundred emails. the platform mostly just sat there.</p>
+                        <p>the third one actually made real money, weirdly. i used to build elaborate escape rooms in my backyard out of cardboard boxes, yarn, and whatever toys i could sacrifice for the cause, hiding clues under flowerpots and inside shoeboxes. what started as something i did for fun with neighborhood kids eventually turned into an actual thing people paid for. i started charging a couple dollars admission per kid, redesigning the puzzles every few weeks so repeat customers had something new to solve. i had to think constantly about difficulty balance, too easy and kids blew through it and lost interest, too hard and they gave up and wandered off looking for snacks instead. i kept redesigning based on watching real people struggle in real time, which is a skill i didn&apos;t realize i was practicing until years later, debugging actual software and noticing the same instinct kick in: watch where people get stuck, then fix that exact spot, not the spot you assumed would be hard.</p>
+                        <p>three completely different scales of building things, but the same lesson kept showing up every time: understand what actually makes something valuable to someone else, not just what feels cool to you.</p>
+                      </div>
+                    </div>
+                  )}
+
+                  {selectedBlog === 'moms-coo' && (
+                    <div>
+                      <h2 className="section-heading text-3xl mb-4">the summer i became my mom&apos;s unofficial coo</h2>
+                      <div className="text-sm text-slate-400 mb-6">June 30, 2025 • 5 min read</div>
+                      <div className="body-text leading-relaxed space-y-4">
+                        <p>in middle school i noticed my mom&apos;s salon losing regular customers to competitors with slick websites. she kept every appointment in a paper notebook, split between gujarati and english, along with all her inventory counts and expenses scribbled in the margins, because building anything digital had never felt like an option for her.</p>
+                        <p>so i appointed myself unofficial coo of a one woman salon, despite not knowing a single line of code or having any real business background.</p>
+                        <p>the tech side started first. i spent weeks on youtube tutorials, breaking my laptop&apos;s browser more times than i&apos;d like to admit, until i had something resembling a booking system. but once i was actually looking at her business up close, i couldn&apos;t unsee the other problems.</p>
+                        <p>she was reordering hair products whenever she ran out instead of tracking usage, which meant she&apos;d either overbuy and waste money or run out mid appointment and have to reschedule a client. i built a simple inventory tracker so she could see what was actually moving fast versus sitting on a shelf for months.</p>
+                        <p>i also sat in when her landlord tried to raise her rent, going through her actual monthly numbers with her beforehand so she&apos;d walk in prepared instead of just accepting whatever he threw out. we ended up negotiating it down.</p>
+                        <p>showed her the booking system first, expecting applause. instead she squinted at the screen and asked how her clients, half of whom barely typed in english, were supposed to use it. i&apos;d built the entire thing assuming everyone would book like i did.</p>
+                        <p>so i ripped out the forms and rebuilt them bilingual, and did the same thing with the inventory tracker once i realized she needed to log things by product name in her own language, not some generic english label i&apos;d assumed made sense.</p>
+                        <p>watching her first online appointment come through, no phone call, no confusion, just a name appearing on the screen, felt disproportionately exciting for something so small. but honestly the inventory system and the rent negotiation taught me just as much. building something isn&apos;t only about writing code. sometimes it&apos;s just sitting with someone&apos;s actual numbers long enough to help them see what they&apos;re already dealing with more clearly.</p>
+                      </div>
+                    </div>
+                  )}
+
+                  {selectedBlog === 'figure-drawing' && (
+                    <div>
+                      <h2 className="section-heading text-3xl mb-4">the figure drawing workshop that taught me more than any cs class</h2>
+                      <div className="text-sm text-slate-400 mb-6">June 18, 2025 • 4 min read</div>
+                      <div className="body-text leading-relaxed space-y-4">
+                        <p>went to an art studio i&apos;d been attending for five years, but this particular workshop felt different. my art teacher had picked me to join a session with experienced artists from around the state, most of them way older, way more skilled, easels already covered in intricate sketches before i&apos;d even set up mine.</p>
+                        <p>the instructor, an artist named mog, came around giving feedback. when he got to me, i&apos;d barely started, hesitant lines, unsure of myself. he studied it for a minute and said &quot;you have the foundation, but there&apos;s hesitancy in your strokes. art is about boldness, trusting your instincts.&quot; i felt even more insecure hearing that.</p>
+                        <p>he must&apos;ve seen it on my face because he told me about his own struggles, feeling unsure surrounded by talented artists early on. &quot;there&apos;s only one you,&quot; he said. that stuck with me more than any technical advice could have.</p>
+                        <p>i spent the rest of the workshop talking to other artists, asking how they got into it, experimenting with techniques i&apos;d never tried, pushing past feeling like i needed to draw like everyone else in the room. by the end i&apos;d captured the human form with actual confidence instead of copying someone else&apos;s style.</p>
+                        <p>what i took from that day wasn&apos;t really about art. it was about asking for help instead of quietly struggling, and understanding that the goal was never to be as good as the person next to me, it was to get better at being specifically myself. i think about that constantly now, especially in engineering, where it&apos;s so easy to compare your messy in-progress work to someone else&apos;s polished final product.</p>
+                      </div>
+                    </div>
+                  )}
+
+                  {selectedBlog === 'head-vs-feet' && (
+                    <div>
+                      <h2 className="section-heading text-3xl mb-4">the four hour debate about whether our head grows faster than our feet</h2>
+                      <div className="text-sm text-slate-400 mb-6">June 5, 2025 • 3 min read</div>
+                      <div className="body-text leading-relaxed space-y-4">
+                        <p>my brother and i have this ongoing tradition where we debate completely absurd questions until one of us gives up or my grandmother yells at us to go to sleep. last week&apos;s topic: does your head grow faster than your feet.</p>
+                        <p>i took the biology angle, citing how bone and muscle development rates change throughout childhood. my brother went full physics, something about center of gravity and relativity that honestly still doesn&apos;t fully make sense to me. we pulled up actual studies. we brought our parents in as judges. nobody won, technically, but we both walked away slightly more informed and significantly more stubborn.</p>
+                        <p>this happens constantly in my house. we&apos;ve debated whether cereal is a soup, whether a hot dog is a sandwich, whether time moves differently when you&apos;re bored versus having fun. every single one starts as a joke and somehow turns into an actual research session.</p>
+                        <p>i think what i love about it isn&apos;t winning, it&apos;s watching two completely different approaches to the same problem collide. i default to data and studies. my brother defaults to first principles and theory. neither of us is more right, we&apos;re just built to solve problems differently, and honestly some of my favorite ideas have come from these ridiculous late night arguments about nothing that matters at all.</p>
+                      </div>
+                    </div>
+                  )}
+
+                  {selectedBlog === 'bead-collection' && (
+                    <div>
+                      <h2 className="section-heading text-3xl mb-4">why i collect beads off the floor at every cultural event</h2>
+                      <div className="text-sm text-slate-400 mb-6">May 22, 2025 • 3 min read</div>
+                      <div className="body-text leading-relaxed space-y-4">
+                        <p>i have this habit that confuses literally everyone who knows me. at big cultural gatherings, weddings, festivals, dance performances, i&apos;m the person crouched down scanning the floor for loose beads and crystals that fall off people&apos;s outfits while they&apos;re dancing.</p>
+                        <p>it started when i was five, mesmerized by how they caught the light under the party lighting. i started collecting them, just tiny handfuls at a time, and stashing them in an old phone pouch my mom gave me. i have hundreds now, sorted loosely by color, no real system beyond &quot;this one is pretty.&quot;</p>
+                        <p>i use them for everything. i&apos;ve glued them onto homemade circuit bracelets, added them to a 3d printed coral reef project, scattered them across a mini wind powered car i built for a physics assignment just because plain metal looked boring. every random engineering project i make somehow ends up slightly more sparkly than it needs to be.</p>
+                        <p>my family thinks it&apos;s a little strange that i still do this in college. honestly, i think it&apos;s less about the beads themselves and more about refusing to let any project be purely functional. if i&apos;m going to build something, it might as well also be a little bit beautiful, even if nobody else notices the tiny crystal glued to the corner of a breadboard.</p>
+                      </div>
+                    </div>
+                  )}
+
+                  {selectedBlog === 'linear-b' && (
+                    <div>
+                      <h2 className="section-heading text-3xl mb-4">the summer i tried to decode a language nobody speaks anymore</h2>
+                      <div className="text-sm text-slate-400 mb-6">May 9, 2025 • 3 min read</div>
+                      <div className="body-text leading-relaxed space-y-4">
+                        <p>got weirdly obsessed with linear b for a few weeks last year, which is this ancient script used in bronze age greece that took decades for actual linguists to decipher. i have no formal training in linguistics whatsoever, i just found it fascinating that people used to communicate in symbols we forgot how to read for thousands of years.</p>
+                        <p>spent way too many nights trying to understand the syllabic structure, comparing it to how modern languages encode meaning, basically treating it like a puzzle instead of an academic subject. i wasn&apos;t trying to become an expert, i just liked the process of pattern matching against something genuinely ancient and mysterious.</p>
+                        <p>what got me hooked was realizing decipherment is essentially reverse engineering with zero documentation. no api reference, no comments in the code, just thousands of symbols and the assumption that whoever wrote them was trying to communicate something logical. michael ventris, the guy who actually cracked linear b in the 1950s, wasn&apos;t even a professional linguist, he was an architect who treated it like a hobby.</p>
+                        <p>i never got anywhere close to actually reading it fluently, but the process taught me something i didn&apos;t expect: sometimes the most interesting problems are the ones with absolutely no practical application, and you solve them purely because not knowing bothers you more than anything else could.</p>
                       </div>
                     </div>
                   )}
@@ -1294,44 +1430,94 @@ export default function Portfolio() {
 
 
 
-              <div className="interactive-card p-8" onClick={() => setSelectedBlog('startup-lessons')}>
+              <div className="interactive-card p-8" onClick={() => setSelectedBlog('origami-obsession')}>
                 <div className="flex items-center justify-between mb-4">
-                                            <h3 className="section-heading text-xl">what i learned from building 3 failed startups before 20</h3>
-                  <span className="text-sm text-slate-400 bg-green-900/50 px-3 py-1 rounded-full">July 1, 2025</span>
+                  <h3 className="section-heading text-xl">the origami obsession that started with a paper tractor</h3>
+                  <span className="text-sm text-slate-400 bg-green-900/50 px-3 py-1 rounded-full">July 20, 2025</span>
                 </div>
                 <p className="body-text leading-relaxed mb-4">
-                  started my first company at 16, convinced i was going to revolutionize the world. it failed 
-                  spectacularly. so did the second one. and the third. but each failure taught me something 
-                  crucial: the first startup failed because i built something i thought was cool, not something 
-                  people actually needed. the second failed because i focused on the wrong metrics. the third 
-                  failed because i tried to scale too fast. now i'm building my fourth, and this time i'm 
-                  obsessed with understanding the problem before writing a single line of code...
+                  second grade, show and tell. my classmate pulls out a piece of paper, folds it maybe fifteen times, and suddenly there&apos;s a tractor sitting on his desk. an actual tractor, with wheels and everything, made from one flat square of paper. i remember staring at it like he&apos;d just performed a magic trick.
                 </p>
                 <div className="flex items-center text-sm text-slate-400">
-                  <span className="mr-4">🚀 Entrepreneurship</span>
-                  <span className="mr-4">💡 Lessons Learned</span>
+                  <span>4 min read</span>
+                </div>
+              </div>
+
+              <div className="interactive-card p-8" onClick={() => setSelectedBlog('three-businesses')}>
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="section-heading text-xl">what i learned from building 3 businesses before 18</h3>
+                  <span className="text-sm text-slate-400 bg-pink-900/50 px-3 py-1 rounded-full">July 8, 2025</span>
+                </div>
+                <p className="body-text leading-relaxed mb-4">
+                  started my first &quot;business&quot; in elementary school selling mini origami school supplies. tiny paper pencil holders, folded boxes, little origami bookmarks shaped like animals, eventually even small folded organizers with compartments for pens. classmates would request custom designs, a pencil holder shaped like their favorite animal, and i&apos;d spend weekends prototyping folds that could actually hold weight without...
+                </p>
+                <div className="flex items-center text-sm text-slate-400">
                   <span>6 min read</span>
                 </div>
               </div>
 
-              <div className="interactive-card p-8" onClick={() => setSelectedBlog('coffee-philosophy')}>
+              <div className="interactive-card p-8" onClick={() => setSelectedBlog('moms-coo')}>
                 <div className="flex items-center justify-between mb-4">
-                                            <h3 className="section-heading text-xl">the philosophy of coffee shop conversations</h3>
-                  <span className="text-sm text-slate-400 bg-pink-900/50 px-3 py-1 rounded-full">June 25, 2025</span>
+                  <h3 className="section-heading text-xl">the summer i became my mom&apos;s unofficial coo</h3>
+                  <span className="text-sm text-slate-400 bg-blue-900/50 px-3 py-1 rounded-full">June 30, 2025</span>
                 </div>
                 <p className="body-text leading-relaxed mb-4">
-                  philadelphia has this incredible coffee culture that i've become obsessed with. not because 
-                  the coffee is particularly amazing, but because of the conversations that happen in these 
-                  spaces. there's something about the combination of caffeine, comfortable seating, and 
-                  the right lighting that makes people open up. i've had conversations about quantum physics, 
-                  startup ideas, and life philosophy with complete strangers. the best part? these conversations 
-                  never happen in the same way twice. each coffee shop has its own personality, its own 
-                  rhythm. it's like each one is a different stage for human connection...
+                  in middle school i noticed my mom&apos;s salon losing regular customers to competitors with slick websites. she kept every appointment in a paper notebook, split between gujarati and english, along with all her inventory counts and expenses scribbled in the margins, because building anything digital had never felt like an option for her.
                 </p>
                 <div className="flex items-center text-sm text-slate-400">
-                  <span className="mr-4">☕ Coffee Culture</span>
-                  <span className="mr-4">🗣️ Human Connection</span>
+                  <span>5 min read</span>
+                </div>
+              </div>
+
+              <div className="interactive-card p-8" onClick={() => setSelectedBlog('figure-drawing')}>
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="section-heading text-xl">the figure drawing workshop that taught me more than any cs class</h3>
+                  <span className="text-sm text-slate-400 bg-purple-900/50 px-3 py-1 rounded-full">June 18, 2025</span>
+                </div>
+                <p className="body-text leading-relaxed mb-4">
+                  went to an art studio i&apos;d been attending for five years, but this particular workshop felt different. my art teacher had picked me to join a session with experienced artists from around the state, most of them way older, way more skilled, easels already covered in intricate sketches before i&apos;d even set up mine.
+                </p>
+                <div className="flex items-center text-sm text-slate-400">
                   <span>4 min read</span>
+                </div>
+              </div>
+
+              <div className="interactive-card p-8" onClick={() => setSelectedBlog('head-vs-feet')}>
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="section-heading text-xl">the four hour debate about whether our head grows faster than our feet</h3>
+                  <span className="text-sm text-slate-400 bg-amber-900/50 px-3 py-1 rounded-full">June 5, 2025</span>
+                </div>
+                <p className="body-text leading-relaxed mb-4">
+                  my brother and i have this ongoing tradition where we debate completely absurd questions until one of us gives up or my grandmother yells at us to go to sleep. last week&apos;s topic: does your head grow faster than your feet.
+                </p>
+                <div className="flex items-center text-sm text-slate-400">
+                  <span>3 min read</span>
+                </div>
+              </div>
+
+              <div className="interactive-card p-8" onClick={() => setSelectedBlog('bead-collection')}>
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="section-heading text-xl">why i collect beads off the floor at every cultural event</h3>
+                  <span className="text-sm text-slate-400 bg-teal-900/50 px-3 py-1 rounded-full">May 22, 2025</span>
+                </div>
+                <p className="body-text leading-relaxed mb-4">
+                  i have this habit that confuses literally everyone who knows me. at big cultural gatherings, weddings, festivals, dance performances, i&apos;m the person crouched down scanning the floor for loose beads and crystals that fall off people&apos;s outfits while they&apos;re dancing.
+                </p>
+                <div className="flex items-center text-sm text-slate-400">
+                  <span>3 min read</span>
+                </div>
+              </div>
+
+              <div className="interactive-card p-8" onClick={() => setSelectedBlog('linear-b')}>
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="section-heading text-xl">the summer i tried to decode a language nobody speaks anymore</h3>
+                  <span className="text-sm text-slate-400 bg-indigo-900/50 px-3 py-1 rounded-full">May 9, 2025</span>
+                </div>
+                <p className="body-text leading-relaxed mb-4">
+                  got weirdly obsessed with linear b for a few weeks last year, which is this ancient script used in bronze age greece that took decades for actual linguists to decipher. i have no formal training in linguistics whatsoever, i just found it fascinating that people used to communicate in symbols we forgot how to read for thousands of years.
+                </p>
+                <div className="flex items-center text-sm text-slate-400">
+                  <span>3 min read</span>
                 </div>
               </div>
 
@@ -1349,7 +1535,7 @@ export default function Portfolio() {
             
             {/* Subtle Interactive Element */}
             <div className="relative mb-16">
-              <div className="subtle-interaction" onClick={() => alert('🎯 You found the subtle interactive element!')}>
+              <div className="subtle-interaction">
                 <div className="interaction-dot"></div>
               </div>
             </div>
@@ -1531,129 +1717,16 @@ export default function Portfolio() {
         )}
       </main>
 
-      {/* Blog Modal */}
-      {selectedBlog && (
-        <div className="blog-modal" onClick={() => setSelectedBlog(null)}>
-          <div 
-            className="blog-content cursor-pointer" 
-            onClick={(e) => {
-              e.stopPropagation();
-              setSelectedBlog(null);
-            }}
-          >
-            <button 
-              className="close-btn" 
-              onClick={(e) => {
-                e.stopPropagation();
-                setSelectedBlog(null);
-              }}
-            >
-              ×
-            </button>
-            {selectedBlog === 'ai-context' && (
-              <div>
-                <h2 className="section-heading text-3xl mb-6">the art of building ai that actually understands context</h2>
-                <div className="body-text space-y-4">
-                  <p>
-                    after spending months building LLM pipelines that sounded great in theory but failed spectacularly in practice, 
-                    i've learned that the key isn't just throwing more compute at the problem. it's about understanding that AI is 
-                    fundamentally a human problem, not a technical one.
-                  </p>
-                  <p>
-                    the breakthrough came when i stopped thinking about AI as a black box that processes text and started thinking 
-                    about it as a conversation partner. real conversations have context, memory, and understanding. they build on 
-                    previous exchanges and adapt to the person you're talking to.
-                  </p>
-                  <p>
-                    so i redesigned the entire pipeline around conversation flow rather than isolated prompts. instead of sending 
-                    each query as a standalone request, i built a context window that maintains conversation history, user preferences, 
-                    and even emotional state. suddenly, the AI started responding like it actually remembered what we talked about 
-                    five minutes ago.
-                  </p>
-                  <p>
-                    the funny thing is, this approach actually uses less compute than the brute-force method. by being smarter about 
-                    context, we can be more efficient with resources. it's like the difference between having a meaningful conversation 
-                    with someone who's actually listening versus talking to someone who's just waiting for their turn to speak.
-                  </p>
-                  <p>
-                    the lesson? sometimes the most elegant solution isn't the most complex one. it's the one that understands 
-                    the fundamental nature of what you're trying to build.
-                  </p>
-                </div>
-              </div>
-            )}
-            {selectedBlog === 'edge-computing' && (
-              <div>
-                <h2 className="section-heading text-3xl mb-6">why i'm obsessed with edge computing</h2>
-                <div className="body-text space-y-4">
-                  <p>
-                    there's something magical about running complex ML models on devices that fit in your pocket. 
-                    it's like having a supercomputer in your backpack. but the real beauty isn't the technology—it's 
-                    the democratization of AI.
-                  </p>
-                  <p>
-                    suddenly, anyone can build intelligent applications without needing a massive cloud budget. 
-                    a student in their dorm room can create an AI-powered photo editor that runs entirely on their phone. 
-                    a small business can deploy computer vision for quality control without worrying about internet connectivity.
-                  </p>
-                  <p>
-                    i've been experimenting with edge deployment for medical AI applications, and the results are mind-blowing. 
-                    we can now run sophisticated diagnostic models on devices that cost less than $100, making healthcare 
-                    technology accessible to communities that previously couldn't afford it.
-                  </p>
-                  <p>
-                    the challenges are fascinating too. how do you compress a model that's 10GB down to 50MB without losing accuracy? 
-                    how do you handle the limited memory and processing power of edge devices? it's like solving a puzzle where 
-                    every constraint makes the solution more elegant.
-                  </p>
-                  <p>
-                    edge computing isn't just about making things faster or cheaper. it's about making AI truly ubiquitous, 
-                    embedded in every device around us, working seamlessly in the background to make our lives better.
-                  </p>
-                </div>
-              </div>
-            )}
-            {selectedBlog === 'financial-modeling' && (
-              <div>
-                <h2 className="section-heading text-3xl mb-6">The Hidden Beauty of Financial Modeling</h2>
-                <div className="body-text space-y-4">
-                  <p>
-                    most people think financial modeling is just about spreadsheets and numbers. but when you really dive deep, 
-                    you realize it's actually a form of storytelling. every assumption, every projection, every scenario analysis 
-                    is a narrative about how the future might unfold.
-                  </p>
-                  <p>
-                    and like any good story, the best models reveal hidden truths about human behavior and market psychology. 
-                    why do people buy certain stocks? how do they react to market volatility? what drives their investment decisions? 
-                    these aren't just mathematical problems—they're windows into human nature.
-                  </p>
-                  <p>
-                    i've been building models that incorporate behavioral economics, trying to predict not just what will happen 
-                    in the market, but how people will react to it. it's fascinating to see how fear, greed, and herd mentality 
-                    can completely change market dynamics.
-                  </p>
-                  <p>
-                    the most beautiful models are the ones that capture the complexity of human behavior while remaining elegant 
-                    and understandable. it's like writing a novel where every character has their own motivations, but the plot 
-                    still makes perfect sense.
-                  </p>
-                  <p>
-                    financial modeling taught me that the best predictions come from understanding people, not just numbers. 
-                    the models are just the tools we use to tell the story.
-                  </p>
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-      )}
 
       {/* Work Modal */}
       {selectedWork && (
-        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[9999] flex items-center justify-center p-4">
-          <div 
-            className="bg-slate-900 rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto p-8 relative border border-slate-700 cursor-pointer"
-            onClick={() => setSelectedWork(null)}
+        <div
+          className="fixed inset-0 bg-black/65 backdrop-blur-sm z-[9999] flex items-center justify-center p-4"
+          onClick={() => setSelectedWork(null)}
+        >
+          <div
+            className="bg-slate-900 rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto p-5 md:p-8 relative border border-slate-700"
+            onClick={(e) => e.stopPropagation()}
           >
             <button 
               onClick={(e) => {
@@ -1668,7 +1741,7 @@ export default function Portfolio() {
             {selectedWork === 'aws' && (
               <div>
                 <h2 className="section-heading text-3xl mb-4">Amazon Web Services - Software Development Engineer Intern</h2>
-                <div className="text-sm text-slate-400 mb-6">Infrastructure Supply Chain Management • Summer 2026</div>
+                <div className="text-sm text-slate-400 mb-6">Jun 2026 - Aug 2026</div>
                 <div className="body-text leading-relaxed space-y-4">
                   <h3 className="section-heading text-xl mb-4">Full Project Details</h3>
                   <div className="space-y-3">
@@ -1712,7 +1785,7 @@ export default function Portfolio() {
             {selectedWork === 'very-good-ventures' && (
               <div>
                 <h2 className="section-heading text-3xl mb-4">Very Good Ventures - Software Engineering Intern</h2>
-                <div className="text-sm text-slate-400 mb-6">Dec 2024 - Present</div>
+                <div className="text-sm text-slate-400 mb-6">Jun 2025 - Aug 2025</div>
                 <div className="body-text leading-relaxed space-y-4">
                   <h3 className="section-heading text-xl mb-4">Full Project Details</h3>
                   <div className="space-y-3">
@@ -2116,10 +2189,13 @@ export default function Portfolio() {
 
       {/* Project Modal */}
       {selectedProject && (
-        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[9999] flex items-center justify-center p-4">
-          <div 
-            className="bg-slate-900 rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto p-8 relative border border-slate-700 cursor-pointer"
-            onClick={() => setSelectedProject(null)}
+        <div
+          className="fixed inset-0 bg-black/65 backdrop-blur-sm z-[9999] flex items-center justify-center p-4"
+          onClick={() => setSelectedProject(null)}
+        >
+          <div
+            className="bg-slate-900 rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto p-5 md:p-8 relative border border-slate-700"
+            onClick={(e) => e.stopPropagation()}
           >
             <button 
               onClick={(e) => {
@@ -2139,21 +2215,21 @@ export default function Portfolio() {
                   <p>
                     Your genes change how you metabolize certain drugs. CPIC publishes clinical guidelines for specific
                     drug-gene pairs, and consumer DNA kits technically contain some of the relevant markers. This tool
-                    connects the two &mdash; but the interesting engineering is in everything it refuses to say.
+                    connects the two, but the interesting engineering is in everything it refuses to say.
                   </p>
                   <p>
                     The central rule is that three answers must never collapse into each other: &ldquo;there is published
                     guidance for this pair,&rdquo; &ldquo;there is no guidance for this pair,&rdquo; and &ldquo;this gene
                     could not be assessed.&rdquo; That third one is the dangerous case. A 23andMe export covers only a
                     fraction of the positions a gene needs, and the calling software assumes reference at every position it
-                    can&apos;t see &mdash; so a gene with 1 of 40 positions measured still yields a confident
+                    can&apos;t see, so a gene with 1 of 40 positions measured still yields a confident
                     &ldquo;normal metabolizer.&rdquo; That is the most harmful output the software could produce, so
                     partial coverage is reported as indeterminate rather than as a result.
                   </p>
                   <p>
                     Measured against the real reference: of 1,226 positions, 208 carry no rsID and can never be joined from
-                    an array at all. A typical export leaves most genes fully uncovered. CYP2D6 &mdash; one of the most
-                    clinically important &mdash; is unresolvable from consumer data entirely, because it needs copy-number
+                    an array at all. A typical export leaves most genes fully uncovered. CYP2D6, one of the most
+                    clinically important, is unresolvable from consumer data entirely, because it needs copy-number
                     and structural variation an rsID join cannot detect.
                   </p>
                   <p>
@@ -2190,7 +2266,7 @@ export default function Portfolio() {
                   </p>
                   <p>
                     It supports the order types that make market microstructure interesting rather than just the easy ones
-                    &mdash; IOC, FOK, iceberg, stop, pegged &mdash; plus opening and closing auctions.
+                    (IOC, FOK, iceberg, stop, pegged) plus opening and closing auctions.
                   </p>
                   <p>
                     Above the engine: pybind11 bindings expose the full API to Python, a Gymnasium-compliant environment
@@ -2200,13 +2276,13 @@ export default function Portfolio() {
                   </p>
                   <div className="mt-6 pt-4 border-t border-slate-700">
                     <a
-                      href="https://github.com/krrishapatel/exchange-simulator"
+                      href="https://github.com/krrishapatel/Exchange-Simulator"
                       target="_blank"
                       rel="noopener noreferrer"
                       onClick={(e) => e.stopPropagation()}
                       className="text-blue-300 hover:text-blue-200 text-sm"
                     >
-                      github.com/krrishapatel/exchange-simulator ↗
+                      github.com/krrishapatel/Exchange-Simulator ↗
                     </a>
                   </div>
                 </div>
@@ -2215,7 +2291,7 @@ export default function Portfolio() {
 
             {selectedProject === 'excel-diff' && (
               <div>
-                <h2 className="section-heading text-3xl mb-4">Excel Workbook Diff &amp; Tie-Out</h2>
+                <h2 className="section-heading text-3xl mb-4">Excel Workbook Diff</h2>
                 <div className="text-sm text-slate-400 mb-6">React • TypeScript • SpreadJS ExcelIO</div>
                 <div className="body-text leading-relaxed space-y-4">
                   <p>
@@ -2225,7 +2301,7 @@ export default function Portfolio() {
                   </p>
                   <p>
                     The diff engine matches sheets by name, normalizes values so formatting noise doesn&apos;t register as a
-                    change, and filters by a materiality threshold in dollars &mdash; because a $3 rounding difference is
+                    change, and filters by a materiality threshold in dollars, because a $3 rounding difference is
                     not what anyone is looking for. The interface borrows from code review: side-by-side panes, linked
                     scrolling, keyboard navigation between changes.
                   </p>
@@ -2236,13 +2312,13 @@ export default function Portfolio() {
                   </p>
                   <div className="mt-6 pt-4 border-t border-slate-700">
                     <a
-                      href="https://github.com/krrishapatel/excel-diff-tool"
+                      href="https://github.com/krrishapatel/Excel-Diff-Tool"
                       target="_blank"
                       rel="noopener noreferrer"
                       onClick={(e) => e.stopPropagation()}
                       className="text-blue-300 hover:text-blue-200 text-sm"
                     >
-                      github.com/krrishapatel/excel-diff-tool ↗
+                      github.com/krrishapatel/Excel-Diff-Tool ↗
                     </a>
                   </div>
                 </div>
@@ -2251,7 +2327,7 @@ export default function Portfolio() {
 
             {selectedProject === 'doctoapi' && (
               <div>
-                <h2 className="section-heading text-3xl mb-4">doctoapi</h2>
+                <h2 className="section-heading text-3xl mb-4">Doc To Api</h2>
                 <div className="text-sm text-slate-400 mb-6">Python • FastAPI • LLMs</div>
                 <div className="body-text leading-relaxed space-y-4">
                   <p>
@@ -2261,29 +2337,18 @@ export default function Portfolio() {
                   </p>
                   <p>
                     Instead of asking you to define a template up front, it infers the schema from the document, then
-                    extracts against it. That ordering is the whole point &mdash; it&apos;s what lets the same endpoint
+                    extracts against it. That ordering is the whole point: it&apos;s what lets the same endpoint
                     handle invoices, contracts, resumes, and medical forms without per-format configuration.
                   </p>
-                  <p>Also shipped with ragchat, a companion project for asking questions across uploaded PDFs and getting answers with citations, running entirely on a local LLM via Ollama and ChromaDB.</p>
                   <div className="mt-6 pt-4 border-t border-slate-700">
                     <a
-                      href="https://github.com/krrishapatel/doctoapi"
+                      href="https://github.com/krrishapatel/Doc-To-API"
                       target="_blank"
                       rel="noopener noreferrer"
                       onClick={(e) => e.stopPropagation()}
                       className="text-blue-300 hover:text-blue-200 text-sm"
                     >
-                      github.com/krrishapatel/doctoapi ↗
-                    </a>
-                    <span className="text-slate-500 text-sm"> · </span>
-                    <a
-                      href="https://github.com/krrishapatel/ragchat"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      onClick={(e) => e.stopPropagation()}
-                      className="text-blue-300 hover:text-blue-200 text-sm"
-                    >
-                      ragchat ↗
+                      github.com/krrishapatel/Doc-To-API ↗
                     </a>
                   </div>
                 </div>
@@ -2296,28 +2361,24 @@ export default function Portfolio() {
                 <div className="text-sm text-slate-400 mb-6">Pull requests currently under review</div>
                 <div className="body-text leading-relaxed space-y-4">
                   <p>
-                    Fixing narrow bugs in large codebases I didn&apos;t write. The work is mostly reading &mdash; finding
+                    Fixing narrow bugs in large codebases I didn&apos;t write. The work is mostly reading: finding
                     where a project&apos;s own conventions say the fix belongs, then making the smallest change that closes
                     the gap without disturbing anything around it.
                   </p>
                   <div className="space-y-3">
                     <div className="flex items-start gap-2">
                       <span className="text-blue-400 mt-1">•</span>
-                      <p><strong>Starlette</strong> &mdash; TrustedHostMiddleware mis-parsed IPv6 host headers, since splitting on &ldquo;:&rdquo; to strip a port also splits an IPv6 address.</p>
+                      <p><strong>Starlette</strong>: TrustedHostMiddleware mis-parsed IPv6 host headers, since splitting on &ldquo;:&rdquo; to strip a port also splits an IPv6 address.</p>
                     </div>
                     <div className="flex items-start gap-2">
                       <span className="text-blue-400 mt-1">•</span>
-                      <p><strong>Supervisor</strong> &mdash; a multi-byte character split across a buffer boundary crashed decoding; also added the real-time signals (SIGRTMIN..SIGRTMAX) missing from the signal table.</p>
+                      <p><strong>Supervisor</strong>: a multi-byte character split across a buffer boundary crashed decoding; also added the real-time signals (SIGRTMIN..SIGRTMAX) missing from the signal table.</p>
                     </div>
                     <div className="flex items-start gap-2">
                       <span className="text-blue-400 mt-1">•</span>
-                      <p><strong>OpenTelemetry Python</strong> &mdash; documentation named an environment variable that didn&apos;t match the one the code actually reads.</p>
+                      <p><strong>OpenTelemetry Python</strong>: documentation named an environment variable that didn&apos;t match the one the code actually reads.</p>
                     </div>
                   </div>
-                  <p className="text-sm text-slate-400">
-                    All open and awaiting maintainer review. Upstream review queues move on their own schedule, which is
-                    its own lesson in working with other people&apos;s projects.
-                  </p>
                   <div className="mt-6 pt-4 border-t border-slate-700">
                     <a
                       href="https://github.com/krrishapatel"
@@ -2336,41 +2397,27 @@ export default function Portfolio() {
             {selectedProject === 'medical-llm' && (
               <div>
                 <h2 className="section-heading text-3xl mb-4">Distributed Inference Pipeline for Medical LLMs</h2>
+                <div className="text-sm text-slate-400 mb-6">Python • FastAPI • AWS Lambda • MongoDB</div>
                 <div className="body-text leading-relaxed space-y-4">
-                  <h3 className="section-heading text-xl mb-4">Full Project Details</h3>
-                  <div className="space-y-3">
-                    <div className="flex items-start gap-2">
-                      <span className="text-blue-400 mt-1">•</span>
-                      <p>Built async LLM inference system with caching and cold-start mitigation</p>
-                    </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-blue-400 mt-1">•</span>
-                      <p>Deployed using serverless AWS Lambda for scalable processing</p>
-                    </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-blue-400 mt-1">•</span>
-                      <p>Reached 98.4% interpretation accuracy for medical reports</p>
-                    </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-blue-400 mt-1">•</span>
-                      <p>Reduced response time by 30% with streaming and rate-limiting layers</p>
-                    </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-blue-400 mt-1">•</span>
-                      <p>Implemented intelligent caching system for frequently accessed data</p>
-                    </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-blue-400 mt-1">•</span>
-                      <p>Built comprehensive monitoring and alerting for system health</p>
-                    </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-blue-400 mt-1">•</span>
-                      <p>Integrated with hospital EMR systems for seamless data flow</p>
-                    </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-blue-400 mt-1">•</span>
-                      <p>Created automated testing pipeline with 95% code coverage</p>
-                    </div>
+                  <p>
+                    Medical report interpretation is bursty. Nothing happens for hours, then a batch arrives and every request is urgent. Provisioning for the peak wastes money and provisioning for the average means the peak times out.
+                  </p>
+                  <p>
+                    Serverless fits that shape, so the pipeline runs async inference on AWS Lambda, with a caching layer for repeated queries and explicit cold-start mitigation, because the first request after a quiet period is exactly the one a clinician is waiting on. Streaming responses and a rate-limiting layer brought response time down 30%.
+                  </p>
+                  <p>
+                    It reached 98.4% interpretation accuracy on the report set, integrates with hospital EMR systems so data does not have to be moved by hand, and ships with monitoring, alerting, and a test pipeline at 95% coverage. In this domain the tests are not about code quality, they are about being able to prove what the system did.
+                  </p>
+                  <div className="mt-6 pt-4 border-t border-slate-700">
+                    <a
+                      href="https://github.com/krrishapatel/Ragchat"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={(e) => e.stopPropagation()}
+                      className="text-blue-300 hover:text-blue-200 text-sm"
+                    >
+                      github.com/krrishapatel/Ragchat ↗
+                    </a>
                   </div>
                 </div>
               </div>
@@ -2378,37 +2425,27 @@ export default function Portfolio() {
             {selectedProject === 'equity-forecaster' && (
               <div>
                 <h2 className="section-heading text-3xl mb-4">Equity Price Forecaster</h2>
+                <div className="text-sm text-slate-400 mb-6">Python • SQL • Tableau • Scikit-learn</div>
                 <div className="body-text leading-relaxed space-y-4">
-                  <h3 className="section-heading text-xl mb-4">Full Project Details</h3>
-                  <div className="space-y-3">
-                    <div className="flex items-start gap-2">
-                      <span className="text-blue-400 mt-1">•</span>
-                      <p>Built predictive model using macro and firm-level data for S&P 500 forecasting</p>
-                    </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-blue-400 mt-1">•</span>
-                      <p>Achieved ~92% accuracy over 30-day prediction windows</p>
-                    </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-blue-400 mt-1">•</span>
-                      <p>Deployed pipeline with Snowflake and Airflow for daily ETL processes</p>
-                    </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-blue-400 mt-1">•</span>
-                      <p>Visualized forecasts in Tableau for decision-ready insights</p>
-                    </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-blue-400 mt-1">•</span>
-                      <p>Integrated real-time market data feeds and economic indicators</p>
-                    </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-blue-400 mt-1">•</span>
-                      <p>Built automated model retraining pipeline for continuous improvement</p>
-                    </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-blue-400 mt-1">•</span>
-                      <p>Implemented risk management and confidence scoring for predictions</p>
-                    </div>
+                  <p>
+                    Most equity models pick a lane: either macro indicators or company fundamentals. Using both is harder because the data arrives on completely different schedules, monthly releases against quarterly filings against daily prices.
+                  </p>
+                  <p>
+                    The model combines macro and firm-level features to forecast S&P 500 movement over 30-day windows, reaching roughly 92% directional accuracy in testing. Snowflake and Airflow handle the daily ETL, and an automated retraining pipeline keeps the model from slowly decaying as market conditions drift away from whatever it was fit on.
+                  </p>
+                  <p>
+                    Every forecast carries a confidence score, which is the part I care about most. A prediction with no stated uncertainty invites people to act on the ones the model was least sure about. Output goes to Tableau so the result is something a person can read and decide from, rather than a number in a log file.
+                  </p>
+                  <div className="mt-6 pt-4 border-t border-slate-700">
+                    <a
+                      href="https://github.com/krrishapatel/Blockhouse-Analysis"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={(e) => e.stopPropagation()}
+                      className="text-blue-300 hover:text-blue-200 text-sm"
+                    >
+                      github.com/krrishapatel/Blockhouse-Analysis ↗
+                    </a>
                   </div>
                 </div>
               </div>
@@ -2416,37 +2453,27 @@ export default function Portfolio() {
             {selectedProject === 'trading-bot' && (
               <div>
                 <h2 className="section-heading text-3xl mb-4">Algorithmic Trading Bot</h2>
+                <div className="text-sm text-slate-400 mb-6">Python • TensorFlow • APIs • Scikit-learn</div>
                 <div className="body-text leading-relaxed space-y-4">
-                  <h3 className="section-heading text-xl mb-4">Full Project Details</h3>
-                  <div className="space-y-3">
-                    <div className="flex items-start gap-2">
-                      <span className="text-blue-400 mt-1">•</span>
-                      <p>Developed predictive models for market forecasting with 95% accuracy</p>
-                    </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-blue-400 mt-1">•</span>
-                      <p>Projected ~$150 PnL/min through optimized trading strategies</p>
-                    </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-blue-400 mt-1">•</span>
-                      <p>Implemented real-time data pipelines for market data analysis</p>
-                    </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-blue-400 mt-1">•</span>
-                      <p>Built APIs for market data access and strategy execution</p>
-                    </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-blue-400 mt-1">•</span>
-                      <p>Created comprehensive backtesting framework for strategy validation</p>
-                    </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-blue-400 mt-1">•</span>
-                      <p>Integrated with multiple exchanges for diversified trading opportunities</p>
-                    </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-blue-400 mt-1">•</span>
-                      <p>Implemented risk management and position sizing algorithms</p>
-                    </div>
+                  <p>
+                    This started as a question about whether short-horizon market movement has any learnable structure at all, and turned into a bot that trades on the answer.
+                  </p>
+                  <p>
+                    The predictive models hit 95% accuracy on the forecasting task and projected around $150 PnL per minute in testing. Real-time data pipelines feed market data in, and a small API layer sits between the models and execution so a strategy can be swapped without touching the plumbing. It connects to multiple exchanges, partly for diversification and partly because pricing disagreements between venues are their own opportunity.
+                  </p>
+                  <p>
+                    The backtesting framework and the position sizing rules are the parts that keep it honest. Accuracy on direction says nothing about whether you survive the trades you get wrong, so risk management and sizing came before any attempt to make the returns bigger.
+                  </p>
+                  <div className="mt-6 pt-4 border-t border-slate-700">
+                    <a
+                      href="https://github.com/krrishapatel/IMC-Prosperity2026"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={(e) => e.stopPropagation()}
+                      className="text-blue-300 hover:text-blue-200 text-sm"
+                    >
+                      github.com/krrishapatel/IMC-Prosperity2026 ↗
+                    </a>
                   </div>
                 </div>
               </div>
@@ -2454,37 +2481,27 @@ export default function Portfolio() {
             {selectedProject === 'healthcare-analytics' && (
               <div>
                 <h2 className="section-heading text-3xl mb-4">Healthcare Analytics Platform</h2>
+                <div className="text-sm text-slate-400 mb-6">Python • React • PostgreSQL • D3.js</div>
                 <div className="body-text leading-relaxed space-y-4">
-                  <h3 className="section-heading text-xl mb-4">Full Project Details</h3>
-                  <div className="space-y-3">
-                    <div className="flex items-start gap-2">
-                      <span className="text-blue-400 mt-1">•</span>
-                      <p>Built comprehensive healthcare analytics platform integrating multiple data sources</p>
-                    </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-blue-400 mt-1">•</span>
-                      <p>Implemented real-time dashboards for patient insights and monitoring</p>
-                    </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-blue-400 mt-1">•</span>
-                      <p>Created predictive analytics for early disease detection and prevention</p>
-                    </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-blue-400 mt-1">•</span>
-                      <p>Integrated with hospital EMR systems and wearable device data</p>
-                    </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-blue-400 mt-1">•</span>
-                      <p>Built machine learning models for patient outcome prediction</p>
-                    </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-blue-400 mt-1">•</span>
-                      <p>Implemented data visualization using D3.js for intuitive insights</p>
-                    </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-blue-400 mt-1">•</span>
-                      <p>Created automated reporting system for healthcare providers</p>
-                    </div>
+                  <p>
+                    Patient data is scattered across EMR systems, lab results, and now wearables, each with its own format and update cadence. The signal that would flag a problem early is usually present, just split across three places nobody looks at together.
+                  </p>
+                  <p>
+                    The platform consolidates those sources and puts real-time dashboards on top, with machine learning models for patient outcome prediction and early disease detection. Visualization is built with D3 rather than a chart library because clinical data needs views that off-the-shelf charts do not have.
+                  </p>
+                  <p>
+                    Automated reporting closes the loop for providers who are not going to log into a dashboard between appointments. The whole design assumption is that an insight nobody sees is not an insight, so getting the result in front of the right person on time mattered more than adding another model.
+                  </p>
+                  <div className="mt-6 pt-4 border-t border-slate-700">
+                    <a
+                      href="https://github.com/krrishapatel/Heart-Disease-AI-Platform"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={(e) => e.stopPropagation()}
+                      className="text-blue-300 hover:text-blue-200 text-sm"
+                    >
+                      github.com/krrishapatel/Heart-Disease-AI-Platform ↗
+                    </a>
                   </div>
                 </div>
               </div>
@@ -2492,33 +2509,27 @@ export default function Portfolio() {
             {selectedProject === 'llm-optimizer' && (
               <div>
                 <h2 className="section-heading text-3xl mb-4">LLM-Aware Runtime Optimizer</h2>
+                <div className="text-sm text-slate-400 mb-6">Python • CUDA • MLIR • TensorRT</div>
                 <div className="body-text leading-relaxed space-y-4">
-                  <h3 className="section-heading text-xl mb-4">Full Project Details</h3>
-                  <div className="space-y-3">
-                    <div className="flex items-start gap-2">
-                      <span className="text-blue-400 mt-1">•</span>
-                      <p>Developed custom MLIR passes for transformer model optimization targeting edge devices</p>
-                    </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-blue-400 mt-1">•</span>
-                      <p>Implemented quantization-aware training pipeline reducing model size by 75%</p>
-                    </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-blue-400 mt-1">•</span>
-                      <p>Built ONNX model rewriting engine for TensorRT compatibility</p>
-                    </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-blue-400 mt-1">•</span>
-                      <p>Deployed via AWS SageMaker endpoints with auto-scaling</p>
-                    </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-blue-400 mt-1">•</span>
-                      <p>Created comprehensive benchmarking suite for performance validation</p>
-                    </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-blue-400 mt-1">•</span>
-                      <p>Integrated with HuggingFace transformers library for model compatibility</p>
-                    </div>
+                  <p>
+                    Transformer models are trained in the cloud and then asked to run somewhere much smaller. The gap between those two environments is where most of the latency lives, and generic compiler passes do not know enough about attention to close it.
+                  </p>
+                  <p>
+                    So the optimizer works at the MLIR level with custom passes written specifically for transformer structure, paired with a quantization-aware training pipeline that cuts model size by 75% without pushing the accuracy loss into the range where it matters. An ONNX rewriting engine reshapes the graph into something TensorRT will actually accept, which turned out to be most of the real work.
+                  </p>
+                  <p>
+                    Net effect was 48% lower latency on NVIDIA GPUs. It deploys through SageMaker endpoints with auto-scaling and reads standard HuggingFace checkpoints, so a model does not need to be special to go through it. The benchmarking suite exists because a 48% claim is worthless if you cannot reproduce it on demand.
+                  </p>
+                  <div className="mt-6 pt-4 border-t border-slate-700">
+                    <a
+                      href="https://github.com/krrishapatel/LLM-Aware-Runtime-Optimizer"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={(e) => e.stopPropagation()}
+                      className="text-blue-300 hover:text-blue-200 text-sm"
+                    >
+                      github.com/krrishapatel/LLM-Aware-Runtime-Optimizer ↗
+                    </a>
                   </div>
                 </div>
               </div>
@@ -2526,33 +2537,27 @@ export default function Portfolio() {
             {selectedProject === 'trading-simulator' && (
               <div>
                 <h2 className="section-heading text-3xl mb-4">Real-Time AI Trading Simulator</h2>
+                <div className="text-sm text-slate-400 mb-6">Python • WebSockets • SQL • Multithreading</div>
                 <div className="body-text leading-relaxed space-y-4">
-                  <h3 className="section-heading text-xl mb-4">Full Project Details</h3>
-                  <div className="space-y-3">
-                    <div className="flex items-start gap-2">
-                      <span className="text-blue-400 mt-1">•</span>
-                      <p>Created multithreaded trading engine processing 1,000+ datapoints/sec</p>
-                    </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-blue-400 mt-1">•</span>
-                      <p>Implemented VWAP logic and limit orders for advanced trading strategies</p>
-                    </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-blue-400 mt-1">•</span>
-                      <p>Benchmarked PnL performance against S&P and sector indices</p>
-                    </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-blue-400 mt-1">•</span>
-                      <p>Built real-time data processing pipeline with WebSocket integration</p>
-                    </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-blue-400 mt-1">•</span>
-                      <p>Implemented event-driven architecture for high-frequency trading</p>
-                    </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-blue-400 mt-1">•</span>
-                      <p>Created comprehensive backtesting framework for strategy validation</p>
-                    </div>
+                  <p>
+                    Backtesting on daily bars tells you almost nothing about whether a strategy survives contact with a live market. The interesting failures happen at the resolution of individual ticks, in the gap between deciding to trade and the order actually resting.
+                  </p>
+                  <p>
+                    This is a multithreaded engine that handles 1,000+ datapoints per second off live WebSocket feeds, with an event-driven core so the strategy logic reacts to market events rather than polling on a timer. It supports VWAP execution and limit orders, which is the minimum needed before any result is believable.
+                  </p>
+                  <p>
+                    Every run is benchmarked against the S&P and the relevant sector index, because a strategy that made money in a month when everything made money has not proven anything. The backtesting framework runs the same code path as live trading, so there is no separate simulation logic to quietly disagree with reality.
+                  </p>
+                  <div className="mt-6 pt-4 border-t border-slate-700">
+                    <a
+                      href="https://github.com/krrishapatel/Algorithmic-Trading-Simulator"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={(e) => e.stopPropagation()}
+                      className="text-blue-300 hover:text-blue-200 text-sm"
+                    >
+                      github.com/krrishapatel/Algorithmic-Trading-Simulator ↗
+                    </a>
                   </div>
                 </div>
               </div>
@@ -2569,10 +2574,10 @@ export default function Portfolio() {
           </div>
           
           <div className="text-sm text-slate-400">
-            <div className="flex space-x-8 mb-2">
-              <a href="mailto:krrishapatel26@gmail.com" className="nav-link hover:text-blue-400 transition-colors">email</a>
-              <a href="https://linkedin.com/in/krrishapatel" target="_blank" rel="noopener noreferrer" className="nav-link hover:text-blue-400 transition-colors">linkedin</a>
-              <a href="https://github.com/krrishapatel" target="_blank" rel="noopener noreferrer" className="nav-link hover:text-blue-400 transition-colors">github</a>
+            <div className="flex space-x-6 md:space-x-8 mb-2">
+              <a href="mailto:krrishapatel26@gmail.com" className="nav-link hover:text-blue-400 transition-colors inline-block py-2 md:py-0">email</a>
+              <a href="https://linkedin.com/in/krrishapatel" target="_blank" rel="noopener noreferrer" className="nav-link hover:text-blue-400 transition-colors inline-block py-2 md:py-0">linkedin</a>
+              <a href="https://github.com/krrishapatel" target="_blank" rel="noopener noreferrer" className="nav-link hover:text-blue-400 transition-colors inline-block py-2 md:py-0">github</a>
             </div>
             <div className="body-text text-xs text-slate-500">
               thanks for stopping by! last updated: august 2026
