@@ -365,13 +365,43 @@ a:focus {
 .interactive-card {
   position: relative;
   overflow: hidden;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+              box-shadow 0.4s ease, border-color 0.4s ease;
   background:
-    linear-gradient(180deg, var(--accent-blue), var(--accent-purple)) left / 3px 100% no-repeat,
-    linear-gradient(rgb(30 41 59 / 0.3), rgb(30 41 59 / 0.3));
-  border: 1px solid rgb(71 85 105);
-  border-radius: 12px;
+    /* accent stripe down the left edge */
+    linear-gradient(180deg, var(--section-accent, var(--accent-blue)), var(--accent-purple))
+      left / 3px 100% no-repeat,
+    /* a faint wash out of the top-left corner, so the surface isn't one flat
+       tone the way it read before */
+    radial-gradient(120% 140% at 0% 0%, rgb(96 165 250 / 0.07), transparent 60%),
+    linear-gradient(160deg, rgb(30 41 59 / 0.55), rgb(15 23 42 / 0.35));
+  border: 1px solid rgb(71 85 105 / 0.7);
+  border-radius: 14px;
+  box-shadow: 0 1px 0 rgb(255 255 255 / 0.03) inset,
+              0 10px 30px rgb(2 6 23 / 0.35);
   cursor: pointer;
+}
+
+/* Hairline corner bracket in the top-right. Reads as a crop mark and gives the
+   otherwise-empty corner something to hold. */
+.interactive-card::after {
+  content: '';
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 16px;
+  height: 16px;
+  border-top: 1px solid var(--section-accent, var(--accent-blue));
+  border-right: 1px solid var(--section-accent, var(--accent-blue));
+  opacity: 0.28;
+  transition: opacity 0.4s ease, width 0.4s ease, height 0.4s ease;
+  pointer-events: none;
+}
+
+.interactive-card:hover::after {
+  opacity: 0.85;
+  width: 24px;
+  height: 24px;
 }
 
 .interactive-card::before {
@@ -390,9 +420,12 @@ a:focus {
 }
 
 .interactive-card:hover {
-  transform: scale(1.05);
-  box-shadow: 0 25px 50px rgba(96, 165, 250, 0.3);
-  border-color: rgb(59 130 246);
+  /* Lift rather than scale: at 1.05 a wide card's text visibly resampled. */
+  transform: translateY(-4px);
+  box-shadow: 0 1px 0 rgb(255 255 255 / 0.05) inset,
+              0 18px 40px rgb(2 6 23 / 0.5),
+              0 0 0 1px var(--section-accent, var(--accent-blue));
+  border-color: transparent;
 }
 
 /* Floating animation for elements */
@@ -560,7 +593,133 @@ a:focus {
 
 .interactive-card:hover .card-more {
   opacity: 1;
-  color: var(--accent-blue);
+  color: var(--section-accent, var(--accent-blue));
+  transform: translateX(4px);
+}
+
+/* Section headers. Each page had a bare gradient word over one line of
+   subtitle, which read flat and identical across all five. This adds a
+   numbered eyebrow, a rule that runs to the edge of the column, and a
+   per-section accent so the tabs are distinguishable at a glance. */
+.section-head {
+  position: relative;
+  margin-bottom: 48px;
+}
+
+.section-head-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.section-head-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.18em;
+  color: var(--section-accent);
+  opacity: 0.9;
+}
+
+/* Fades out rightward so it reads as a hairline, not a border. */
+.section-head-rule {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    var(--section-accent),
+    rgb(148 163 184 / 0.25) 45%,
+    transparent
+  );
+}
+
+.section-head-title {
+  /* .section-heading supplies the gradient fill; this only sets metrics. */
+  letter-spacing: -0.03em;
+  margin-bottom: 10px;
+}
+
+.section-head-sub {
+  font-size: 1.0625rem;
+  color: var(--text-muted);
+  letter-spacing: 0.01em;
+}
+
+/* One accent per section, declared on the section wrapper so the header, the
+   tab row and every card inside inherit the same hue. The gradient on
+   .section-heading is shared, so this is what makes the six tabs distinct. */
+.section-scope-work     { --section-accent: var(--accent-blue); }
+.section-scope-ventures { --section-accent: var(--accent-pink); }
+.section-scope-projects { --section-accent: var(--accent-purple); }
+.section-scope-blog     { --section-accent: var(--accent-green); }
+.section-scope-faq      { --section-accent: var(--accent-orange); }
+
+/* FAQ list. Eight visually identical Q&A blocks read as a wall of text, so
+   each card carries a counter in its own margin — enough rhythm to track
+   position in the list without adding chrome to the cards themselves. */
+.faq-list {
+  counter-reset: faq;
+}
+
+.faq-list > .interactive-card {
+  counter-increment: faq;
+  /* Room for the number, which sits inside the card's padding box. */
+  padding-left: 64px;
+}
+
+.faq-list > .interactive-card::before {
+  content: counter(faq, decimal-leading-zero);
+  position: absolute;
+  top: 26px;
+  left: 22px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8125rem;
+  letter-spacing: 0.08em;
+  color: var(--section-accent, var(--accent-blue));
+  opacity: 0.45;
+  transition: opacity 0.4s ease;
+}
+
+.faq-list > .interactive-card:hover::before {
+  opacity: 1;
+}
+
+/* The counter needs the full padding to sit in; on a phone that padding would
+   eat most of the line length, so the number moves above the question. */
+@media (max-width: 640px) {
+  .faq-list > .interactive-card {
+    padding-left: 24px;
+    padding-top: 44px;
+  }
+  .faq-list > .interactive-card::before {
+    top: 18px;
+    left: 24px;
+  }
+}
+
+/* Blog card footer. The read time sat alone on a dim line with no hint the
+   card was clickable; this pairs it with an affordance and rules it off from
+   the excerpt above. */
+.card-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid rgb(71 85 105 / 0.35);
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.card-foot-more {
+  color: var(--section-accent, var(--accent-blue));
+  opacity: 0.5;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.interactive-card:hover .card-foot-more {
+  opacity: 1;
   transform: translateX(4px);
 }
 
@@ -571,10 +730,14 @@ a:focus {
 .venture-card {
   position: relative;
   background:
-    linear-gradient(180deg, var(--accent-blue), var(--accent-purple)) left / 3px 100% no-repeat,
-    linear-gradient(rgb(30 41 59 / 0.3), rgb(30 41 59 / 0.3));
-  border: 1px solid rgb(71 85 105);
-  border-radius: 12px;
+    linear-gradient(180deg, var(--section-accent, var(--accent-blue)), var(--accent-purple))
+      left / 3px 100% no-repeat,
+    radial-gradient(120% 140% at 0% 0%, rgb(96 165 250 / 0.07), transparent 60%),
+    linear-gradient(160deg, rgb(30 41 59 / 0.55), rgb(15 23 42 / 0.35));
+  border: 1px solid rgb(71 85 105 / 0.7);
+  border-radius: 14px;
+  box-shadow: 0 1px 0 rgb(255 255 255 / 0.03) inset,
+              0 10px 30px rgb(2 6 23 / 0.35);
   padding: 24px 24px 0;
 }
 
@@ -789,7 +952,11 @@ a:focus {
 .work-tabs {
   display: flex;
   gap: 14px;
-  margin-bottom: 24px;
+  /* Hairline above the row so the pills read as a control strip rather than
+     three loose buttons floating under the title. */
+  border-top: 1px solid rgb(71 85 105 / 0.35);
+  padding-top: 20px;
+  margin-bottom: 28px;
   flex-wrap: wrap;
 }
 
@@ -806,15 +973,16 @@ a:focus {
 }
 
 .work-tab:hover {
-  background: var(--accent-blue);
+  background: var(--section-accent, var(--accent-blue));
   color: var(--navy-dark);
+  border-color: var(--section-accent, var(--accent-blue));
   transform: translateY(-2px);
 }
 
 .work-tab.active {
-  background: var(--accent-blue);
+  background: var(--section-accent, var(--accent-blue));
   color: var(--navy-dark);
-  border-color: var(--accent-blue);
+  border-color: var(--section-accent, var(--accent-blue));
 }
 
 /* Blog modal styling */

@@ -600,7 +600,7 @@ export default function Portfolio() {
                 </div>
                 <div className="body-text text-xl md:text-2xl leading-relaxed max-w-4xl">
                   cs, finance & stats @ upenn m&t, focused on ai, ml, and healthcare tech. building tools 
-                  to solve real-world problems. outside of coding, i'm into origami engineering, oil painting, 
+                  to solve real-world problems. outside of class, i'm into origami engineering, oil painting, 
                   tennis, swimming, exploring new dessert spots &amp; always looking for creative side projects.
                 </div>
               </div>
@@ -707,9 +707,15 @@ export default function Portfolio() {
 
         {/* Work Section */}
         {activeSection === 'work' && (
-          <div className="max-w-6xl mx-auto px-5 md:px-8">
-            <h2 className="section-heading text-5xl mb-12">WORK</h2>
-            <p className="body-text text-lg mb-12">professional experience & leadership</p>
+          <div className="section-scope section-scope-work max-w-6xl mx-auto px-5 md:px-8">
+            <header className="section-head">
+              <div className="section-head-eyebrow">
+                <span className="section-head-num">01</span>
+                <span className="section-head-rule" aria-hidden="true" />
+              </div>
+              <h2 className="section-heading section-head-title text-5xl">WORK</h2>
+              <p className="body-text section-head-sub">professional experience & leadership</p>
+            </header>
             
             {/* Work Tabs */}
             <div className="work-tabs">
@@ -991,9 +997,15 @@ export default function Portfolio() {
 
         {/* Ventures Section */}
         {activeSection === 'ventures' && (
-          <div className="max-w-6xl mx-auto px-5 md:px-8">
-            <h2 className="section-heading text-5xl mb-12">VENTURES</h2>
-            <p className="body-text text-lg mb-12">orgs i founded &amp; ran</p>
+          <div className="section-scope section-scope-ventures max-w-6xl mx-auto px-5 md:px-8">
+            <header className="section-head">
+              <div className="section-head-eyebrow">
+                <span className="section-head-num">02</span>
+                <span className="section-head-rule" aria-hidden="true" />
+              </div>
+              <h2 className="section-heading section-head-title text-5xl">VENTURES</h2>
+              <p className="body-text section-head-sub">orgs i founded &amp; ran</p>
+            </header>
 
             <div className="space-y-8">
               {/* Passion4Med */}
@@ -1171,9 +1183,15 @@ export default function Portfolio() {
 
         {/* Projects Section */}
         {activeSection === 'projects' && (
-          <div className="max-w-6xl mx-auto px-5 md:px-8">
-            <h2 id="projects-heading" className="section-heading text-5xl mb-12">PROJECTS</h2>
-            <p className="body-text text-lg mb-12">technical projects & innovations</p>
+          <div className="section-scope section-scope-projects max-w-6xl mx-auto px-5 md:px-8">
+            <header className="section-head">
+              <div className="section-head-eyebrow">
+                <span className="section-head-num">03</span>
+                <span className="section-head-rule" aria-hidden="true" />
+              </div>
+              <h2 id="projects-heading" className="section-heading section-head-title text-5xl">PROJECTS</h2>
+              <p className="body-text section-head-sub">technical projects &amp; innovations</p>
+            </header>
             
             {/* Jump links. Inline rather than a fixed side rail: the widened
                 content column leaves no room beside it, and the rail never
@@ -1593,9 +1611,15 @@ export default function Portfolio() {
 
         {/* Blog Section */}
         {activeSection === 'blog' && (
-          <div className="max-w-6xl mx-auto px-5 md:px-8">
-            <h2 className="section-heading text-5xl mb-12">BLOG</h2>
-            <p className="body-text text-lg mb-12">random thoughts & insights</p>
+          <div className="section-scope section-scope-blog max-w-6xl mx-auto px-5 md:px-8">
+            <header className="section-head">
+              <div className="section-head-eyebrow">
+                <span className="section-head-num">04</span>
+                <span className="section-head-rule" aria-hidden="true" />
+              </div>
+              <h2 className="section-heading section-head-title text-5xl">BLOG</h2>
+              <p className="body-text section-head-sub">random thoughts &amp; insights</p>
+            </header>
             
             {/* Blog Modal */}
             {selectedBlog && (
@@ -1734,8 +1758,9 @@ export default function Portfolio() {
                 <p className="body-text leading-relaxed mb-4">
                   second grade, show and tell. my classmate pulls out a piece of paper, folds it maybe fifteen times, and suddenly there&apos;s a tractor sitting on his desk. an actual tractor, with wheels and everything, made from one flat square of paper. i remember staring at it like he&apos;d just performed a magic trick.
                 </p>
-                <div className="flex items-center text-sm text-slate-400">
+                <div className="card-foot">
                   <span>4 min read</span>
+                  <span className="card-foot-more" aria-hidden="true">read →</span>
                 </div>
               </div>
 
@@ -1747,8 +1772,9 @@ export default function Portfolio() {
                 <p className="body-text leading-relaxed mb-4">
                   started my first &quot;business&quot; in elementary school selling mini origami school supplies. tiny paper pencil holders, folded boxes, little origami bookmarks shaped like animals, eventually even small folded organizers with compartments for pens. classmates would request custom designs, a pencil holder shaped like their favorite animal, and i&apos;d spend weekends prototyping folds that could actually hold weight without...
                 </p>
-                <div className="flex items-center text-sm text-slate-400">
+                <div className="card-foot">
                   <span>6 min read</span>
+                  <span className="card-foot-more" aria-hidden="true">read →</span>
                 </div>
               </div>
 
@@ -1760,8 +1786,9 @@ export default function Portfolio() {
                 <p className="body-text leading-relaxed mb-4">
                   in middle school i noticed my mom&apos;s salon losing regular customers to competitors with slick websites. she kept every appointment in a paper notebook, split between gujarati and english, along with all her inventory counts and expenses scribbled in the margins, because building anything digital had never felt like an option for her.
                 </p>
-                <div className="flex items-center text-sm text-slate-400">
+                <div className="card-foot">
                   <span>5 min read</span>
+                  <span className="card-foot-more" aria-hidden="true">read →</span>
                 </div>
               </div>
 
@@ -1773,8 +1800,9 @@ export default function Portfolio() {
                 <p className="body-text leading-relaxed mb-4">
                   went to an art studio i&apos;d been attending for five years, but this particular workshop felt different. my art teacher had picked me to join a session with experienced artists from around the state, most of them way older, way more skilled, easels already covered in intricate sketches before i&apos;d even set up mine.
                 </p>
-                <div className="flex items-center text-sm text-slate-400">
+                <div className="card-foot">
                   <span>4 min read</span>
+                  <span className="card-foot-more" aria-hidden="true">read →</span>
                 </div>
               </div>
 
@@ -1786,8 +1814,9 @@ export default function Portfolio() {
                 <p className="body-text leading-relaxed mb-4">
                   my brother and i have this ongoing tradition where we debate completely absurd questions until one of us gives up or my grandmother yells at us to go to sleep. last week&apos;s topic: does your head grow faster than your feet.
                 </p>
-                <div className="flex items-center text-sm text-slate-400">
+                <div className="card-foot">
                   <span>3 min read</span>
+                  <span className="card-foot-more" aria-hidden="true">read →</span>
                 </div>
               </div>
 
@@ -1799,8 +1828,9 @@ export default function Portfolio() {
                 <p className="body-text leading-relaxed mb-4">
                   i have this habit that confuses literally everyone who knows me. at big cultural gatherings, weddings, festivals, dance performances, i&apos;m the person crouched down scanning the floor for loose beads and crystals that fall off people&apos;s outfits while they&apos;re dancing.
                 </p>
-                <div className="flex items-center text-sm text-slate-400">
+                <div className="card-foot">
                   <span>3 min read</span>
+                  <span className="card-foot-more" aria-hidden="true">read →</span>
                 </div>
               </div>
 
@@ -1812,8 +1842,9 @@ export default function Portfolio() {
                 <p className="body-text leading-relaxed mb-4">
                   got weirdly obsessed with linear b for a few weeks last year, which is this ancient script used in bronze age greece that took decades for actual linguists to decipher. i have no formal training in linguistics whatsoever, i just found it fascinating that people used to communicate in symbols we forgot how to read for thousands of years.
                 </p>
-                <div className="flex items-center text-sm text-slate-400">
+                <div className="card-foot">
                   <span>3 min read</span>
+                  <span className="card-foot-more" aria-hidden="true">read →</span>
                 </div>
               </div>
 
@@ -1825,9 +1856,15 @@ export default function Portfolio() {
 
         {/* FAQ Section */}
         {activeSection === 'faq' && (
-          <div className="max-w-6xl mx-auto px-5 md:px-8">
-            <h2 className="section-heading text-5xl mb-12">FAQ</h2>
-            <p className="body-text text-lg mb-12">infrequently asked questions</p>
+          <div className="section-scope section-scope-faq max-w-6xl mx-auto px-5 md:px-8">
+            <header className="section-head">
+              <div className="section-head-eyebrow">
+                <span className="section-head-num">05</span>
+                <span className="section-head-rule" aria-hidden="true" />
+              </div>
+              <h2 className="section-heading section-head-title text-5xl">FAQ</h2>
+              <p className="body-text section-head-sub">infrequently asked questions</p>
+            </header>
             
             {/* Subtle Interactive Element */}
             <div className="relative mb-16">
@@ -1836,7 +1873,7 @@ export default function Portfolio() {
               </div>
             </div>
             
-            <div className="space-y-8">
+            <div className="faq-list space-y-8">
               <div className="interactive-card p-6">
                 <h3 className="section-heading text-2xl mb-4">what's something you're passionate about that might surprise people?</h3>
                 <p className="body-text leading-relaxed">
