@@ -314,6 +314,22 @@ export default function Portfolio() {
     return () => observer.disconnect();
   }, [activeSection]);
 
+  // Switching tabs starts you at the top, the way following a link on a
+  // multi-page site would. Without this, coming back to a section drops you at
+  // whatever offset you left it — and worse, jumping from deep in Projects to
+  // a short section leaves you scrolled past the end of the new one. Instant
+  // rather than smooth: this is a page change, not a jump within a page, so
+  // watching it glide up reads as lag. Skips the first render so it can't
+  // fight the browser's own restoration on reload.
+  const isFirstRender = useRef(true);
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+    window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
+  }, [activeSection]);
+
   // Decide once per browser session whether the intro plays.
   useEffect(() => {
     let alreadySeen = false;
@@ -1544,37 +1560,32 @@ export default function Portfolio() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="interactive-card p-6">
                   <h4 className="font-semibold text-lg mb-3 text-slate-200">Academic Excellence</h4>
-                  <div className="space-y-3 text-sm">
-                    <div className="flex items-start gap-2">
-                      <span className="text-yellow-400 mt-1">🏆</span>
+                  <div className="detail-list detail-list-static text-sm">
+                    <div className="detail-row detail-amber">
                       <p>FS-ISAC Women in Cybersecurity Scholarship ($10,000)</p>
                     </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-yellow-400 mt-1">🏆</span>
+                    <div className="detail-row detail-amber">
                       <p>National Videogame Museum Women in Tech Scholarship ($5,000)</p>
                     </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-yellow-400 mt-1">🏆</span>
+                    <div className="detail-row detail-amber">
                       <p>Association for the Advancement of Medical Instrumentation Foundation Michael J Miller Scholarship ($3,000)</p>
                     </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-yellow-400 mt-1">🥇</span>
+                    <div className="detail-row detail-amber">
+                      <p>American Academy of Pediatrics Youth Achievement Award</p>
+                    </div>
+                    <div className="detail-row detail-amber">
                       <p>1st Place - KISS Institute for Practical Robotics National Robotics Competition</p>
                     </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-yellow-400 mt-1">🥈</span>
+                    <div className="detail-row detail-amber">
                       <p>Silver Medal - RWJBarnabas STEM Showcase</p>
                     </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-yellow-400 mt-1">🥉</span>
+                    <div className="detail-row detail-amber">
                       <p>3rd Place - National Science League Biology</p>
                     </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-yellow-400 mt-1">🥉</span>
+                    <div className="detail-row detail-amber">
                       <p>3rd Place - National Science League Physics</p>
                     </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-yellow-400 mt-1">🥈</span>
+                    <div className="detail-row detail-amber">
                       <p>2nd Place - Andrushkiw Math Competition</p>
                     </div>
                   </div>
@@ -1582,22 +1593,15 @@ export default function Portfolio() {
                 
                 <div className="interactive-card p-6">
                   <h4 className="font-semibold text-lg mb-3 text-slate-200">Research & Publications</h4>
-                  <div className="space-y-3 text-sm">
-                    <div className="flex items-start gap-2">
-                      <span className="text-blue-400 mt-1">📚</span>
+                  <div className="detail-list detail-list-static text-sm">
+                    <div className="detail-row detail-blue">
                       <p>Co-authored "A Systematic Review of Implementing the Race Glomerular Filtration Rate"</p>
                     </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-blue-400 mt-1">🎯</span>
+                    <div className="detail-row detail-blue">
                       <p>Accepted in Inaugural Anti-Racism in MedEd Symposium</p>
                     </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-blue-400 mt-1">📖</span>
+                    <div className="detail-row detail-blue">
                       <p>Co-authored "The Future Is STEM" Book (#1 Release)</p>
-                    </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-blue-400 mt-1">🏥</span>
-                      <p>American Academy of Pediatrics Youth Achievement Award</p>
                     </div>
                   </div>
                 </div>
@@ -1727,11 +1731,11 @@ export default function Portfolio() {
             {/* Blog Modal */}
             {selectedBlog && (
               <div
-                className="fixed inset-0 bg-black/65 backdrop-blur-sm z-[9999] flex items-center justify-center p-4"
+                className="modal-scrim fixed inset-0 bg-black/65 backdrop-blur-sm z-[9999] flex items-center justify-center p-4"
                 onClick={() => setSelectedBlog(null)}
               >
                 <div
-                  className="bg-slate-900 rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto p-5 md:p-8 relative border border-slate-700"
+                  className="modal-panel bg-slate-900 rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto p-5 md:p-8 relative border border-slate-700"
                   onClick={(e) => e.stopPropagation()}
                 >
                   <button 
@@ -2113,11 +2117,11 @@ export default function Portfolio() {
       {/* Work Modal */}
       {selectedWork && (
         <div
-          className="fixed inset-0 bg-black/65 backdrop-blur-sm z-[9999] flex items-center justify-center p-4"
+          className="modal-scrim fixed inset-0 bg-black/65 backdrop-blur-sm z-[9999] flex items-center justify-center p-4"
           onClick={() => setSelectedWork(null)}
         >
           <div
-            className="bg-slate-900 rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto p-5 md:p-8 relative border border-slate-700"
+            className="modal-panel bg-slate-900 rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto p-5 md:p-8 relative border border-slate-700"
             onClick={(e) => e.stopPropagation()}
           >
             <button 
@@ -2137,37 +2141,29 @@ export default function Portfolio() {
                 <div className="text-sm text-slate-400 mb-6">Jun 2026 - Aug 2026</div>
                 <div className="body-text leading-relaxed space-y-4">
                   
-                  <div className="space-y-3">
-                    <div className="flex items-start gap-2">
-                      <span className="text-orange-400 mt-1">•</span>
+                  <div className="detail-list">
+                    <div className="detail-row detail-orange">
                       <p>Architected Java/TypeScript malware scanner for data center procurement</p>
                     </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-orange-400 mt-1">•</span>
+                    <div className="detail-row detail-orange">
                       <p>Secured supplier document intake across 12 global AWS regions</p>
                     </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-orange-400 mt-1">•</span>
+                    <div className="detail-row detail-orange">
                       <p>Engineered serverless Lambda and Fargate document scanning pipelines</p>
                     </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-orange-400 mt-1">•</span>
+                    <div className="detail-row detail-orange">
                       <p>Automated supplier scanning workflows across enterprise procurement</p>
                     </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-orange-400 mt-1">•</span>
+                    <div className="detail-row detail-orange">
                       <p>Provisioned infrastructure as code with AWS CDK for repeatable deploys</p>
                     </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-orange-400 mt-1">•</span>
+                    <div className="detail-row detail-orange">
                       <p>Optimized JVM artifacts, cutting package size 45% from 287MB to 159MB</p>
                     </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-orange-400 mt-1">•</span>
+                    <div className="detail-row detail-orange">
                       <p>Eliminated 90-minute delays by redesigning asynchronous SQS workflows</p>
                     </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-orange-400 mt-1">•</span>
+                    <div className="detail-row detail-orange">
                       <p>Restored CloudWatch monitoring and alarms across the scanning service</p>
                     </div>
                   </div>
@@ -2182,41 +2178,32 @@ export default function Portfolio() {
                 <div className="text-sm text-slate-400 mb-6">Jun 2025 - Aug 2025</div>
                 <div className="body-text leading-relaxed space-y-4">
                   
-                  <div className="space-y-3">
-                    <div className="flex items-start gap-2">
-                      <span className="text-blue-400 mt-1">•</span>
+                  <div className="detail-list">
+                    <div className="detail-row detail-blue">
                       <p>Built end-to-end AI pipeline processing 10,000+ race data points per second using Python and TensorFlow</p>
                     </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-blue-400 mt-1">•</span>
+                    <div className="detail-row detail-blue">
                       <p>Implemented real-time decision engine reducing strategy calculation time from 45 seconds to 12 seconds</p>
                     </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-blue-400 mt-1">•</span>
+                    <div className="detail-row detail-blue">
                       <p>Developed Flutter mobile app with offline-first architecture, reducing sync latency by 35%</p>
                     </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-blue-400 mt-1">•</span>
+                    <div className="detail-row detail-blue">
                       <p>Created automated testing suite covering 90% of codebase, reducing bug reports by 60%</p>
                     </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-blue-400 mt-1">•</span>
+                    <div className="detail-row detail-blue">
                       <p>Led cross-functional team of 5 developers, managing sprint planning and code reviews</p>
                     </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-blue-400 mt-1">•</span>
+                    <div className="detail-row detail-blue">
                       <p>Integrated with NASCAR API for real-time race data and historical performance analytics</p>
                     </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-blue-400 mt-1">•</span>
+                    <div className="detail-row detail-blue">
                       <p>Built cloud-native backend using AWS Lambda and DynamoDB for scalable data processing</p>
                     </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-blue-400 mt-1">•</span>
+                    <div className="detail-row detail-blue">
                       <p>Automated financial reporting using Python and AWS, saving $100K+ annually</p>
                     </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-blue-400 mt-1">•</span>
+                    <div className="detail-row detail-blue">
                       <p>Acted as technical program manager for cross-functional AI race analytics tool</p>
                     </div>
                   </div>
@@ -2230,33 +2217,26 @@ export default function Portfolio() {
                 <div className="text-sm text-slate-400 mb-6">Nov 2024 - Dec 2024</div>
                 <div className="body-text leading-relaxed space-y-4">
                   
-                  <div className="space-y-3">
-                    <div className="flex items-start gap-2">
-                      <span className="text-purple-400 mt-1">•</span>
+                  <div className="detail-list">
+                    <div className="detail-row detail-purple">
                       <p>Designed and implemented RESTful API architecture handling 50,000+ requests per minute</p>
                     </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-purple-400 mt-1">•</span>
+                    <div className="detail-row detail-purple">
                       <p>Built serverless backend using AWS Lambda and API Gateway, reducing infrastructure costs by 40%</p>
                     </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-purple-400 mt-1">•</span>
+                    <div className="detail-row detail-purple">
                       <p>Developed custom LLM fine-tuned on 100,000+ medical reports achieving 98.4% accuracy</p>
                     </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-purple-400 mt-1">•</span>
+                    <div className="detail-row detail-purple">
                       <p>Implemented real-time data processing pipeline reducing report analysis time from 2 hours to 15 minutes</p>
                     </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-purple-400 mt-1">•</span>
+                    <div className="detail-row detail-purple">
                       <p>Created comprehensive testing framework with 95% code coverage and automated CI/CD pipeline</p>
                     </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-purple-400 mt-1">•</span>
+                    <div className="detail-row detail-purple">
                       <p>Integrated with hospital EMR systems for seamless data flow and patient record access</p>
                     </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-purple-400 mt-1">•</span>
+                    <div className="detail-row detail-purple">
                       <p>Built real-time alerting system for critical medical findings with 99.9% uptime</p>
                     </div>
                   </div>
@@ -2270,29 +2250,23 @@ export default function Portfolio() {
                 <div className="text-sm text-slate-400 mb-6">Jun 2021 - Jul 2024</div>
                 <div className="body-text leading-relaxed space-y-4">
                   
-                  <div className="space-y-3">
-                    <div className="flex items-start gap-2">
-                      <span className="text-pink-400 mt-1">•</span>
+                  <div className="detail-list">
+                    <div className="detail-row detail-pink">
                       <p>Led integration of facial and emotional AI for telemedicine platform</p>
                     </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-pink-400 mt-1">•</span>
+                    <div className="detail-row detail-pink">
                       <p>Improved emotional recognition accuracy by 30% using computer vision</p>
                     </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-pink-400 mt-1">•</span>
+                    <div className="detail-row detail-pink">
                       <p>Enhanced ML pipeline efficiency with PyTorch and TensorFlow</p>
                     </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-pink-400 mt-1">•</span>
+                    <div className="detail-row detail-pink">
                       <p>Reduced model training time by 20% through optimization techniques</p>
                     </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-pink-400 mt-1">•</span>
+                    <div className="detail-row detail-pink">
                       <p>Developed user-centric product features for international healthcare providers</p>
                     </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-pink-400 mt-1">•</span>
+                    <div className="detail-row detail-pink">
                       <p>Increased adoption rates among healthcare professionals globally</p>
                     </div>
                   </div>
@@ -2306,29 +2280,23 @@ export default function Portfolio() {
                 <div className="text-sm text-slate-400 mb-6">Sep 2024 - Dec 2024</div>
                 <div className="body-text leading-relaxed space-y-4">
                   
-                  <div className="space-y-3">
-                    <div className="flex items-start gap-2">
-                      <span className="text-orange-400 mt-1">•</span>
+                  <div className="detail-list">
+                    <div className="detail-row detail-orange">
                       <p>Engineered cloud-based analytics platform with AWS Bedrock and Azure OpenAI</p>
                     </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-orange-400 mt-1">•</span>
+                    <div className="detail-row detail-orange">
                       <p>Improved customer segmentation by 25% and uncovered $5M+ in revenue opportunities</p>
                     </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-orange-400 mt-1">•</span>
+                    <div className="detail-row detail-orange">
                       <p>Expanded IPA solutions across 3 continents, boosting market reach by 40%</p>
                     </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-orange-400 mt-1">•</span>
+                    <div className="detail-row detail-orange">
                       <p>Integrated RPA solutions, boosting client implementation by 30% and retention by 15%</p>
                     </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-orange-400 mt-1">•</span>
+                    <div className="detail-row detail-orange">
                       <p>Evaluated RPA acquisitions projected to generate $20M+ annually</p>
                     </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-orange-400 mt-1">•</span>
+                    <div className="detail-row detail-orange">
                       <p>Scaled Intelligent Process Automation solutions across multiple client portfolios</p>
                     </div>
                   </div>
@@ -2342,29 +2310,23 @@ export default function Portfolio() {
                 <div className="text-sm text-slate-400 mb-6">Jun 2024 - Aug 2024</div>
                 <div className="body-text leading-relaxed space-y-4">
                   
-                  <div className="space-y-3">
-                    <div className="flex items-start gap-2">
-                      <span className="text-blue-400 mt-1">•</span>
+                  <div className="detail-list">
+                    <div className="detail-row detail-blue">
                       <p>Designed algorithmic solutions in game theory and graph theory for quantitative trading</p>
                     </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-blue-400 mt-1">•</span>
+                    <div className="detail-row detail-blue">
                       <p>Achieved top 10 PnL scores in a 6-hour trading challenge, contributing over $9M in profit</p>
                     </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-blue-400 mt-1">•</span>
+                    <div className="detail-row detail-blue">
                       <p>Developed high-frequency algorithms processing 1,000+ data points/sec for market prediction</p>
                     </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-blue-400 mt-1">•</span>
+                    <div className="detail-row detail-blue">
                       <p>Implemented real-time market data analysis and pattern recognition algorithms</p>
                     </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-blue-400 mt-1">•</span>
+                    <div className="detail-row detail-blue">
                       <p>Built backtesting frameworks for trading strategy validation and optimization</p>
                     </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-blue-400 mt-1">•</span>
+                    <div className="detail-row detail-blue">
                       <p>Collaborated with senior traders on risk management and portfolio optimization</p>
                     </div>
                   </div>
@@ -2378,29 +2340,23 @@ export default function Portfolio() {
                 <div className="text-sm text-slate-400 mb-6">Feb 2023 - Jun 2024</div>
                 <div className="body-text leading-relaxed space-y-4">
                   
-                  <div className="space-y-3">
-                    <div className="flex items-start gap-2">
-                      <span className="text-amber-400 mt-1">•</span>
+                  <div className="detail-list">
+                    <div className="detail-row detail-amber">
                       <p>Constructed affordable myoelectric prosthetics using Arduino and Raspberry Pi Pico</p>
                     </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-amber-400 mt-1">•</span>
+                    <div className="detail-row detail-amber">
                       <p>Cut production costs by 50% through innovative design and material selection</p>
                     </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-amber-400 mt-1">•</span>
+                    <div className="detail-row detail-amber">
                       <p>Improved mobility by 20% in clinical simulations and testing</p>
                     </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-amber-400 mt-1">•</span>
+                    <div className="detail-row detail-amber">
                       <p>Spearheaded usability testing and promoted designs to rehabilitation centers</p>
                     </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-amber-400 mt-1">•</span>
+                    <div className="detail-row detail-amber">
                       <p>Resulted in adoption by 3 international rehabilitation centers</p>
                     </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-amber-400 mt-1">•</span>
+                    <div className="detail-row detail-amber">
                       <p>Developed comprehensive testing protocols for clinical validation</p>
                     </div>
                   </div>
@@ -2414,29 +2370,23 @@ export default function Portfolio() {
                 <div className="text-sm text-slate-400 mb-6">Sep 2024 - Dec 2024</div>
                 <div className="body-text leading-relaxed space-y-4">
                   
-                  <div className="space-y-3">
-                    <div className="flex items-start gap-2">
-                      <span className="text-green-400 mt-1">•</span>
+                  <div className="detail-list">
+                    <div className="detail-row detail-green">
                       <p>Sourced and evaluated 50+ startups for a $180M AUM fund</p>
                     </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-green-400 mt-1">•</span>
+                    <div className="detail-row detail-green">
                       <p>Engaged with 300+ CEOs, increasing founder applications by 20%</p>
                     </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-green-400 mt-1">•</span>
+                    <div className="detail-row detail-green">
                       <p>Managed a $175M portfolio and conducted due diligence on 15+ startups</p>
                     </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-green-400 mt-1">•</span>
+                    <div className="detail-row detail-green">
                       <p>Presented analyses to influence funding decisions and investment strategies</p>
                     </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-green-400 mt-1">•</span>
+                    <div className="detail-row detail-green">
                       <p>Leveraged financial modeling and market research to assess growth potential</p>
                     </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-green-400 mt-1">•</span>
+                    <div className="detail-row detail-green">
                       <p>Strengthened deal pipeline by qualifying 10% more leads</p>
                     </div>
                   </div>
@@ -2450,29 +2400,23 @@ export default function Portfolio() {
                 <div className="text-sm text-slate-400 mb-6">Jan 2025 - Present</div>
                 <div className="body-text leading-relaxed space-y-4">
                   
-                  <div className="space-y-3">
-                    <div className="flex items-start gap-2">
-                      <span className="text-teal-400 mt-1">•</span>
+                  <div className="detail-list">
+                    <div className="detail-row detail-teal">
                       <p>Chosen for selective 3-year financial services career development program</p>
                     </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-teal-400 mt-1">•</span>
+                    <div className="detail-row detail-teal">
                       <p>Participate in 9-week immersive program on financial modeling and analysis</p>
                     </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-teal-400 mt-1">•</span>
+                    <div className="detail-row detail-teal">
                       <p>Analyzing DCF, LBO, and merger models through hands-on projects</p>
                     </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-teal-400 mt-1">•</span>
+                    <div className="detail-row detail-teal">
                       <p>Researched top financial companies and functional areas</p>
                     </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-teal-400 mt-1">•</span>
+                    <div className="detail-row detail-teal">
                       <p>Building relationships with executives and older PF Grads</p>
                     </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-teal-400 mt-1">•</span>
+                    <div className="detail-row detail-teal">
                       <p>Developing leadership skills for financial services industry</p>
                     </div>
                   </div>
@@ -2486,11 +2430,11 @@ export default function Portfolio() {
       {/* Project Modal */}
       {selectedProject && (
         <div
-          className="fixed inset-0 bg-black/65 backdrop-blur-sm z-[9999] flex items-center justify-center p-4"
+          className="modal-scrim fixed inset-0 bg-black/65 backdrop-blur-sm z-[9999] flex items-center justify-center p-4"
           onClick={() => setSelectedProject(null)}
         >
           <div
-            className="bg-slate-900 rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto p-5 md:p-8 relative border border-slate-700"
+            className="modal-panel bg-slate-900 rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto p-5 md:p-8 relative border border-slate-700"
             onClick={(e) => e.stopPropagation()}
           >
             <button 
@@ -2661,17 +2605,14 @@ export default function Portfolio() {
                     where a project&apos;s own conventions say the fix belongs, then making the smallest change that closes
                     the gap without disturbing anything around it.
                   </p>
-                  <div className="space-y-3">
-                    <div className="flex items-start gap-2">
-                      <span className="text-blue-400 mt-1">•</span>
+                  <div className="detail-list">
+                    <div className="detail-row detail-blue">
                       <p><strong>Starlette</strong>: TrustedHostMiddleware mis-parsed IPv6 host headers, since splitting on &ldquo;:&rdquo; to strip a port also splits an IPv6 address.</p>
                     </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-blue-400 mt-1">•</span>
+                    <div className="detail-row detail-blue">
                       <p><strong>Supervisor</strong>: a multi-byte character split across a buffer boundary crashed decoding; also added the real-time signals (SIGRTMIN..SIGRTMAX) missing from the signal table.</p>
                     </div>
-                    <div className="flex items-start gap-2">
-                      <span className="text-blue-400 mt-1">•</span>
+                    <div className="detail-row detail-blue">
                       <p><strong>OpenTelemetry Python</strong>: documentation named an environment variable that didn&apos;t match the one the code actually reads.</p>
                     </div>
                   </div>

@@ -127,9 +127,11 @@ a {
   color: var(--navy-dark);
 }
 
-/* Focus states */
-button:focus,
-a:focus {
+/* Focus states. :focus-visible rather than :focus, so the ring is there for
+   keyboard users but a mouse click doesn't box the thing you just clicked —
+   the nav's own underline already marks the active tab. */
+button:focus-visible,
+a:focus-visible {
   outline: 2px solid var(--accent-blue);
   outline-offset: 2px;
 }
@@ -657,6 +659,139 @@ a:focus {
 .interactive-card:hover .card-foot-more {
   opacity: 1;
   transform: translateX(4px);
+}
+
+/* Detail modals (work, projects, blog). These appeared instantly and the body
+   was a run of identical bullet rows, which read as a dump rather than a
+   record. The scrim fades, the panel rises into place, and each line arrives
+   just behind the one above it. */
+.modal-scrim {
+  animation: modal-scrim-in 0.28s ease-out;
+}
+
+@keyframes modal-scrim-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.modal-panel {
+  animation: modal-panel-in 0.42s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes modal-panel-in {
+  from { opacity: 0; transform: translateY(18px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* The list rail. One hairline runs the height of the list and each row hangs a
+   marker on it, so eight lines read as one connected record instead of eight
+   loose bullets. */
+.detail-list {
+  position: relative;
+  padding-left: 26px;
+}
+
+.detail-list::before {
+  content: '';
+  position: absolute;
+  top: 8px;
+  bottom: 8px;
+  left: 5px;
+  width: 1px;
+  /* Fades at both ends so the rail doesn't stop dead against the first and
+     last rows. */
+  background: linear-gradient(
+    180deg,
+    transparent,
+    rgb(148 163 184 / 0.35) 12%,
+    rgb(148 163 184 / 0.35) 88%,
+    transparent
+  );
+}
+
+.detail-row {
+  position: relative;
+  padding: 7px 0;
+  /* Each row starts hidden and is brought in by its own delay below. */
+  opacity: 0;
+  animation: detail-row-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* The marker on the rail. A ring rather than a filled dot, so it reads as a
+   plotted point on a timeline. */
+.detail-row::before {
+  content: '';
+  position: absolute;
+  top: 15px;
+  left: -25px;
+  width: 11px;
+  height: 11px;
+  border: 1.5px solid var(--detail-accent, var(--accent-blue));
+  border-radius: 50%;
+  background: var(--navy-dark);
+  transition: box-shadow 0.3s ease, background 0.3s ease;
+}
+
+/* Hovering a line lights its marker, so a long list stays trackable. */
+.detail-row:hover::before {
+  background: var(--detail-accent, var(--accent-blue));
+  box-shadow: 0 0 10px var(--detail-accent, var(--accent-blue));
+}
+
+.detail-row p {
+  transition: color 0.3s ease;
+}
+
+.detail-row:hover p {
+  color: var(--text-primary);
+}
+
+@keyframes detail-row-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Staggered arrival. Hand-written rather than generated because the delay has
+   to be a literal — the longest list is 9 rows, and anything past that lands
+   on the last delay rather than never animating in. */
+.detail-row:nth-child(1)  { animation-delay: 0.10s; }
+.detail-row:nth-child(2)  { animation-delay: 0.16s; }
+.detail-row:nth-child(3)  { animation-delay: 0.22s; }
+.detail-row:nth-child(4)  { animation-delay: 0.28s; }
+.detail-row:nth-child(5)  { animation-delay: 0.34s; }
+.detail-row:nth-child(6)  { animation-delay: 0.40s; }
+.detail-row:nth-child(7)  { animation-delay: 0.46s; }
+.detail-row:nth-child(8)  { animation-delay: 0.52s; }
+.detail-row:nth-child(n + 9) { animation-delay: 0.58s; }
+
+/* Per-company marker colours, carried over from the bullet glyphs these rows
+   replaced. Tailwind's text-<hue>-400 values, so nothing shifts hue. */
+.detail-orange { --detail-accent: #fb923c; }
+.detail-blue   { --detail-accent: #60a5fa; }
+.detail-purple { --detail-accent: #c084fc; }
+.detail-pink   { --detail-accent: #f472b6; }
+.detail-green  { --detail-accent: #4ade80; }
+.detail-teal   { --detail-accent: #2dd4bf; }
+.detail-amber  { --detail-accent: #fbbf24; }
+
+/* The Awards lists reuse the rail, but they're in the page rather than a modal
+   — nothing triggers their entrance, so a staggered fade-in would leave them
+   invisible until scrolled past. Static, and no hover lighting either: these
+   aren't a list you track your place in. */
+.detail-list-static .detail-row {
+  opacity: 1;
+  animation: none;
+}
+
+/* Motion here is decoration; a reader who asked for less shouldn't have to
+   wait on a staggered list to finish before they can read it. */
+@media (prefers-reduced-motion: reduce) {
+  .modal-scrim,
+  .modal-panel,
+  .detail-row {
+    animation: none;
+    opacity: 1;
+  }
 }
 
 /* Ventures section */
