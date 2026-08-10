@@ -465,23 +465,116 @@ a:focus {
 
 /* Ventures section */
 .venture-card {
-  background: rgb(30 41 59 / 0.3);
-  border: 1px solid rgb(71 85 105);
-  border-radius: 12px;
+  position: relative;
+  background: linear-gradient(160deg, rgb(30 41 59 / 0.55), rgb(15 23 42 / 0.35));
+  border: 1px solid rgb(51 65 85);
+  border-radius: 18px;
+  padding: 40px 40px 0;
+  overflow: hidden;
+}
+
+/* A 3px accent stripe down the left edge, tinted per venture. */
+.venture-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 3px;
+}
+
+.venture-card--pink::before {
+  background: linear-gradient(180deg, var(--accent-pink), var(--accent-purple));
+}
+
+.venture-card--indigo::before {
+  background: linear-gradient(180deg, var(--accent-purple), var(--accent-blue));
+}
+
+.venture-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgb(51 65 85 / 0.7);
+}
+
+.venture-title {
+  font-family: 'Space Grotesk', 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 2.25rem;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple), var(--accent-pink));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.venture-role {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-top: 8px;
+}
+
+.venture-date {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  padding: 6px 14px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.venture-date--pink {
+  background: rgb(157 23 77 / 0.25);
+  border: 1px solid rgb(190 24 93 / 0.4);
+  color: #f9a8d4;
+}
+
+.venture-date--indigo {
+  background: rgb(67 56 202 / 0.25);
+  border: 1px solid rgb(99 102 241 / 0.4);
+  color: #a5b4fc;
+}
+
+/* The one-line summary of what the org actually was. */
+.venture-lede {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  margin: 28px 0;
+}
+
+.venture-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-bottom: 36px;
 }
 
 .venture-stat {
-  background: rgb(15 23 42 / 0.6);
-  border: 1px solid rgb(51 65 85);
-  border-radius: 10px;
-  padding: 14px 12px;
+  background: rgb(15 23 42 / 0.55);
+  border: 1px solid rgb(51 65 85 / 0.8);
+  border-radius: 12px;
+  padding: 18px 12px;
   text-align: center;
+  transition: border-color 0.3s ease, transform 0.3s ease;
+}
+
+.venture-stat:hover {
+  border-color: var(--accent-purple);
+  transform: translateY(-2px);
 }
 
 .venture-stat-num {
   font-family: 'Space Grotesk', 'Inter', sans-serif;
   font-weight: 700;
-  font-size: 1.5rem;
+  font-size: 1.75rem;
   line-height: 1.1;
   background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
   -webkit-background-clip: text;
@@ -491,11 +584,41 @@ a:focus {
 
 .venture-stat-label {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 0.7rem;
-  letter-spacing: 0.05em;
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--text-muted);
-  margin-top: 4px;
+  margin-top: 6px;
+}
+
+.venture-body > p {
+  font-size: 1.0625rem;
+  line-height: 1.75;
+  color: var(--text-secondary);
+  margin-bottom: 20px;
+}
+
+/* Full-bleed closing block, so the takeaway reads as a distinct beat. */
+.venture-lesson {
+  margin: 8px -40px 0;
+  padding: 28px 40px 32px;
+  background: rgb(15 23 42 / 0.5);
+  border-top: 1px solid rgb(51 65 85 / 0.7);
+}
+
+.venture-lesson-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent-purple);
+  margin-bottom: 10px;
+}
+
+.venture-lesson p {
+  font-size: 1.0625rem;
+  line-height: 1.7;
+  color: var(--text-secondary);
 }
 
 /* Boot intro overlay */
@@ -567,6 +690,44 @@ a:focus {
      landed on top of the boot intro. */
   .distance-widget {
     display: none;
+  }
+
+  .venture-card {
+    padding: 24px 22px 0;
+    border-radius: 14px;
+  }
+
+  .venture-title {
+    font-size: 1.75rem;
+  }
+
+  .venture-lede {
+    font-size: 1.05rem;
+    margin: 22px 0;
+  }
+
+  .venture-stats {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-bottom: 28px;
+  }
+
+  .venture-stat {
+    padding: 14px 10px;
+  }
+
+  .venture-stat-num {
+    font-size: 1.4rem;
+  }
+
+  .venture-body > p,
+  .venture-lesson p {
+    font-size: 1rem;
+  }
+
+  .venture-lesson {
+    margin: 4px -22px 0;
+    padding: 22px 22px 26px;
   }
 }
 
