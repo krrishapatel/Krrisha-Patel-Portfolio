@@ -1369,7 +1369,6 @@ export default function Portfolio() {
               <div className="interactive-card p-6" onClick={() => setSelectedProject('pgx-record')}>
                 <div className="flex justify-between items-start mb-3">
                   <h3 className="section-heading text-2xl">Pharmacogenomic Record</h3>
-                  <span className="card-metric">452 tests</span>
                 </div>
                 <p className="body-text mb-3">
                   A drug-gene interaction checker built on CPIC guidelines that refuses to guess. Its core rule: never let
@@ -1388,7 +1387,6 @@ export default function Portfolio() {
               <div className="interactive-card p-6" onClick={() => setSelectedProject('exchange-simulator')}>
                 <div className="flex justify-between items-start mb-3">
                   <h3 className="section-heading text-2xl">Exchange Simulator</h3>
-                  <span className="card-metric">8.5M matches/sec</span>
                 </div>
                 <p className="body-text mb-3">
                   A simulated exchange with a C++ matching engine on a zero-allocation hot path: ~61ns order adds,
@@ -1407,7 +1405,6 @@ export default function Portfolio() {
               <div className="interactive-card p-6" onClick={() => setSelectedProject('excel-diff')}>
                 <div className="flex justify-between items-start mb-3">
                   <h3 className="section-heading text-2xl">Excel Workbook Diff</h3>
-                  <span className="card-metric">client-side</span>
                 </div>
                 <p className="body-text mb-3">
                   Built for tax preparers doing year-over-year workpaper review: diffs two workbooks cell by cell with a
@@ -1425,7 +1422,6 @@ export default function Portfolio() {
               <div className="interactive-card p-6" onClick={() => setSelectedProject('doctoapi')}>
                 <div className="flex justify-between items-start mb-3">
                   <h3 className="section-heading text-2xl">Doc To Api</h3>
-                  <span className="card-metric">schema inferred</span>
                 </div>
                 <p className="body-text mb-3">
                   Upload any document, get a typed REST API. Infers a schema from the PDF itself instead of making you
@@ -1442,7 +1438,6 @@ export default function Portfolio() {
               <div className="interactive-card p-6" onClick={() => setSelectedProject('open-source')}>
                 <div className="flex justify-between items-start mb-3">
                   <h3 className="section-heading text-2xl">Open Source Contributions</h3>
-                  <span className="card-metric">3 PRs open</span>
                 </div>
                 <p className="body-text mb-3">
                   Open pull requests under review on Starlette, OpenTelemetry Python, and Supervisor: an IPv6 host
@@ -1460,7 +1455,6 @@ export default function Portfolio() {
                                                              <div className="interactive-card p-6" onClick={() => setSelectedProject('llm-optimizer')}>
                 <div className="flex justify-between items-start mb-3">
                   <h3 className="section-heading text-2xl">LLM-Aware Runtime Optimizer</h3>
-                  <span className="card-metric">48% less latency</span>
                 </div>
                 <p className="body-text mb-3">
                   an MLIR-based optimizer for quantized transformer LLMs, aimed at edge deployment where you can't just reach
@@ -1478,7 +1472,6 @@ export default function Portfolio() {
                                                              <div className="interactive-card p-6" onClick={() => setSelectedProject('trading-simulator')}>
                 <div className="flex justify-between items-start mb-3">
                   <h3 className="section-heading text-2xl">Real-Time AI Trading Simulator</h3>
-                  <span className="card-metric">1k datapoints/sec</span>
                 </div>
                 <p className="body-text mb-3">
                   a multithreaded engine handling 1,000+ datapoints/sec off live feeds, event-driven so strategy logic reacts
@@ -1496,7 +1489,6 @@ export default function Portfolio() {
                               <div className="interactive-card p-6" onClick={() => setSelectedProject('medical-llm')}>
                 <div className="flex justify-between items-start mb-3">
                   <h3 className="section-heading text-2xl">Distributed Inference Pipeline for Medical LLMs</h3>
-                  <span className="card-metric">98.4% accurate</span>
                 </div>
                 <p className="body-text mb-3">
                   async LLM inference on serverless Lambda, where cold starts are the entire problem. caching plus streaming
@@ -1514,7 +1506,6 @@ export default function Portfolio() {
                               <div className="interactive-card p-6" onClick={() => setSelectedProject('equity-forecaster')}>
                 <div className="flex justify-between items-start mb-3">
                   <h3 className="section-heading text-2xl">Equity Price Forecaster</h3>
-                  <span className="card-metric">~92% accurate</span>
                 </div>
                 <p className="body-text mb-3">
                   forecasts S&P 500 movement over 30-day windows from macro and firm-level data, ~92% accurate. Snowflake and
@@ -1532,7 +1523,6 @@ export default function Portfolio() {
                               <div className="interactive-card p-6" onClick={() => setSelectedProject('trading-bot')}>
                 <div className="flex justify-between items-start mb-3">
                   <h3 className="section-heading text-2xl">Algorithmic Trading Bot</h3>
-                  <span className="card-metric">~$150 PnL/min</span>
                 </div>
                 <p className="body-text mb-3">
                   predictive models running over real-time market data pipelines, projecting ~$150 PnL/min at 95% accuracy.
@@ -1549,7 +1539,6 @@ export default function Portfolio() {
                               <div className="interactive-card p-6" onClick={() => setSelectedProject('healthcare-analytics')}>
                 <div className="flex justify-between items-start mb-3">
                   <h3 className="section-heading text-2xl">Healthcare Analytics Platform</h3>
-                  <span className="card-metric">early detection</span>
                 </div>
                 <p className="body-text mb-3">
                   pulls scattered patient data sources into one place and runs predictive analytics for early disease
@@ -1746,7 +1735,7 @@ export default function Portfolio() {
                 onClick={() => setSelectedBlog(null)}
               >
                 <div
-                  className="modal-panel bg-slate-900 rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto p-5 md:p-8 relative border border-slate-700"
+                  className="modal-panel rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto p-5 md:p-8 relative"
                   onClick={(e) => e.stopPropagation()}
                 >
                   <button 
@@ -1754,7 +1743,7 @@ export default function Portfolio() {
                       e.stopPropagation();
                       setSelectedBlog(null);
                     }}
-                    className="absolute top-4 right-4 text-slate-400 hover:text-white text-2xl font-bold hover:scale-110 transition-transform"
+                    className="modal-close"
                   >
                     ✕
                   </button>
@@ -1871,12 +1860,9 @@ export default function Portfolio() {
               <div className="interactive-card p-6" onClick={() => setSelectedBlog('origami-obsession')}>
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="section-heading text-2xl">the origami obsession that started with a paper tractor</h3>
-                  <div className="flex items-center gap-2 flex-shrink-0 ml-4">
-                    <span className="card-topic">origami</span>
-                    <span className="text-sm text-slate-400 bg-green-900/50 px-3 py-1 rounded-full">July 20, 2025</span>
-                  </div>
+                  <span className="text-sm text-slate-400 bg-green-900/50 px-3 py-1 rounded-full">July 20, 2025</span>
                 </div>
-                <p className="body-text leading-relaxed mb-4 card-excerpt">
+                <p className="body-text leading-relaxed mb-4">
                   second grade, show and tell. my classmate pulls out a piece of paper, folds it maybe fifteen times, and suddenly there&apos;s a tractor sitting on his desk. an actual tractor, with wheels and everything, made from one flat square of paper. i remember staring at it like he&apos;d just performed a magic trick.
                 </p>
                 <div className="card-foot">
@@ -1888,13 +1874,10 @@ export default function Portfolio() {
               <div className="interactive-card p-6" onClick={() => setSelectedBlog('three-businesses')}>
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="section-heading text-2xl">what i learned from building 3 businesses before 18</h3>
-                  <div className="flex items-center gap-2 flex-shrink-0 ml-4">
-                    <span className="card-topic">building</span>
-                    <span className="text-sm text-slate-400 bg-pink-900/50 px-3 py-1 rounded-full">July 8, 2025</span>
-                  </div>
+                  <span className="text-sm text-slate-400 bg-pink-900/50 px-3 py-1 rounded-full">July 8, 2025</span>
                 </div>
-                <p className="body-text leading-relaxed mb-4 card-excerpt">
-                  started my first &quot;business&quot; in elementary school selling mini origami school supplies. tiny paper pencil holders, folded boxes, little origami bookmarks shaped like animals, eventually even small folded organizers with compartments for pens. classmates would request custom designs, a pencil holder shaped like their favorite animal, and i&apos;d spend weekends prototyping folds that could actually hold weight without collapsing.
+                <p className="body-text leading-relaxed mb-4">
+                  started my first &quot;business&quot; in elementary school selling mini origami school supplies. tiny paper pencil holders, folded boxes, little origami bookmarks shaped like animals, eventually even small folded organizers with compartments for pens. classmates would request custom designs, a pencil holder shaped like their favorite animal, and i&apos;d spend weekends prototyping folds that could actually hold weight without...
                 </p>
                 <div className="card-foot">
                   <span>6 min read</span>
@@ -1905,12 +1888,9 @@ export default function Portfolio() {
               <div className="interactive-card p-6" onClick={() => setSelectedBlog('moms-coo')}>
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="section-heading text-2xl">the summer i became my mom&apos;s unofficial coo</h3>
-                  <div className="flex items-center gap-2 flex-shrink-0 ml-4">
-                    <span className="card-topic">family business</span>
-                    <span className="text-sm text-slate-400 bg-blue-900/50 px-3 py-1 rounded-full">June 30, 2025</span>
-                  </div>
+                  <span className="text-sm text-slate-400 bg-blue-900/50 px-3 py-1 rounded-full">June 30, 2025</span>
                 </div>
-                <p className="body-text leading-relaxed mb-4 card-excerpt">
+                <p className="body-text leading-relaxed mb-4">
                   in middle school i noticed my mom&apos;s salon losing regular customers to competitors with slick websites. she kept every appointment in a paper notebook, split between gujarati and english, along with all her inventory counts and expenses scribbled in the margins, because building anything digital had never felt like an option for her.
                 </p>
                 <div className="card-foot">
@@ -1922,12 +1902,9 @@ export default function Portfolio() {
               <div className="interactive-card p-6" onClick={() => setSelectedBlog('figure-drawing')}>
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="section-heading text-2xl">the figure drawing workshop that taught me more than any cs class</h3>
-                  <div className="flex items-center gap-2 flex-shrink-0 ml-4">
-                    <span className="card-topic">art</span>
-                    <span className="text-sm text-slate-400 bg-purple-900/50 px-3 py-1 rounded-full">June 18, 2025</span>
-                  </div>
+                  <span className="text-sm text-slate-400 bg-purple-900/50 px-3 py-1 rounded-full">June 18, 2025</span>
                 </div>
-                <p className="body-text leading-relaxed mb-4 card-excerpt">
+                <p className="body-text leading-relaxed mb-4">
                   went to an art studio i&apos;d been attending for five years, but this particular workshop felt different. my art teacher had picked me to join a session with experienced artists from around the state, most of them way older, way more skilled, easels already covered in intricate sketches before i&apos;d even set up mine.
                 </p>
                 <div className="card-foot">
@@ -1939,12 +1916,9 @@ export default function Portfolio() {
               <div className="interactive-card p-6" onClick={() => setSelectedBlog('head-vs-feet')}>
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="section-heading text-2xl">the four hour debate about whether our head grows faster than our feet</h3>
-                  <div className="flex items-center gap-2 flex-shrink-0 ml-4">
-                    <span className="card-topic">arguments</span>
-                    <span className="text-sm text-slate-400 bg-amber-900/50 px-3 py-1 rounded-full">June 5, 2025</span>
-                  </div>
+                  <span className="text-sm text-slate-400 bg-amber-900/50 px-3 py-1 rounded-full">June 5, 2025</span>
                 </div>
-                <p className="body-text leading-relaxed mb-4 card-excerpt">
+                <p className="body-text leading-relaxed mb-4">
                   my brother and i have this ongoing tradition where we debate completely absurd questions until one of us gives up or my grandmother yells at us to go to sleep. last week&apos;s topic: does your head grow faster than your feet.
                 </p>
                 <div className="card-foot">
@@ -1956,12 +1930,9 @@ export default function Portfolio() {
               <div className="interactive-card p-6" onClick={() => setSelectedBlog('bead-collection')}>
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="section-heading text-2xl">why i collect beads off the floor at every cultural event</h3>
-                  <div className="flex items-center gap-2 flex-shrink-0 ml-4">
-                    <span className="card-topic">collecting</span>
-                    <span className="text-sm text-slate-400 bg-teal-900/50 px-3 py-1 rounded-full">May 22, 2025</span>
-                  </div>
+                  <span className="text-sm text-slate-400 bg-teal-900/50 px-3 py-1 rounded-full">May 22, 2025</span>
                 </div>
-                <p className="body-text leading-relaxed mb-4 card-excerpt">
+                <p className="body-text leading-relaxed mb-4">
                   i have this habit that confuses literally everyone who knows me. at big cultural gatherings, weddings, festivals, dance performances, i&apos;m the person crouched down scanning the floor for loose beads and crystals that fall off people&apos;s outfits while they&apos;re dancing.
                 </p>
                 <div className="card-foot">
@@ -1973,12 +1944,9 @@ export default function Portfolio() {
               <div className="interactive-card p-6" onClick={() => setSelectedBlog('linear-b')}>
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="section-heading text-2xl">the summer i tried to decode a language nobody speaks anymore</h3>
-                  <div className="flex items-center gap-2 flex-shrink-0 ml-4">
-                    <span className="card-topic">languages</span>
-                    <span className="text-sm text-slate-400 bg-indigo-900/50 px-3 py-1 rounded-full">May 9, 2025</span>
-                  </div>
+                  <span className="text-sm text-slate-400 bg-indigo-900/50 px-3 py-1 rounded-full">May 9, 2025</span>
                 </div>
-                <p className="body-text leading-relaxed mb-4 card-excerpt">
+                <p className="body-text leading-relaxed mb-4">
                   got weirdly obsessed with linear b for a few weeks last year, which is this ancient script used in bronze age greece that took decades for actual linguists to decipher. i have no formal training in linguistics whatsoever, i just found it fascinating that people used to communicate in symbols we forgot how to read for thousands of years.
                 </p>
                 <div className="card-foot">
@@ -2153,7 +2121,7 @@ export default function Portfolio() {
           onClick={() => setSelectedWork(null)}
         >
           <div
-            className="modal-panel bg-slate-900 rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto p-5 md:p-8 relative border border-slate-700"
+            className="modal-panel rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto p-5 md:p-8 relative"
             onClick={(e) => e.stopPropagation()}
           >
             <button 
@@ -2161,7 +2129,7 @@ export default function Portfolio() {
                 e.stopPropagation();
                 setSelectedWork(null);
               }}
-              className="absolute top-4 right-4 text-slate-400 hover:text-white text-2xl font-bold hover:scale-110 transition-transform"
+              className="modal-close"
             >
               ✕
             </button>
@@ -2466,7 +2434,7 @@ export default function Portfolio() {
           onClick={() => setSelectedProject(null)}
         >
           <div
-            className="modal-panel bg-slate-900 rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto p-5 md:p-8 relative border border-slate-700"
+            className="modal-panel rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto p-5 md:p-8 relative"
             onClick={(e) => e.stopPropagation()}
           >
             <button 
@@ -2474,7 +2442,7 @@ export default function Portfolio() {
                 e.stopPropagation();
                 setSelectedProject(null);
               }}
-              className="absolute top-4 right-4 text-slate-400 hover:text-white text-2xl font-bold hover:scale-110 transition-transform"
+              className="modal-close"
             >
               ✕
             </button>

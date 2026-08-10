@@ -674,70 +674,6 @@ a:focus-visible {
 .section-scope-blog     { --section-accent: var(--accent-green); }
 .section-scope-faq      { --section-accent: var(--accent-orange); }
 
-/* Highlight pill, top-right of a project card. Work cards carry a date there
-   and read as records because of it; a project card had a title with empty
-   space beside it and nothing to catch the eye scanning down the column. Every
-   value in one is already stated in that card's own copy — this only pulls it
-   forward. Monospace and the section accent rather than the tag palette, so it
-   reads as a measurement, not another technology chip. */
-.card-metric {
-  flex-shrink: 0;
-  margin-left: 16px;
-  padding: 4px 11px;
-  border: 1px solid color-mix(in srgb, var(--section-accent, var(--accent-blue)) 45%, transparent);
-  border-radius: 999px;
-  background: color-mix(in srgb, var(--section-accent, var(--accent-blue)) 10%, transparent);
-  color: var(--section-accent, var(--accent-blue));
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.75rem;
-  letter-spacing: 0.01em;
-  white-space: nowrap;
-  transition: background 0.3s ease, border-color 0.3s ease;
-}
-
-.interactive-card:hover .card-metric {
-  background: color-mix(in srgb, var(--section-accent, var(--accent-blue)) 20%, transparent);
-  border-color: var(--section-accent, var(--accent-blue));
-}
-
-/* Topic label on a blog card. The blog was the one section with nothing to scan
-   — seven cards of title, paragraph, date — so a reader looking for a
-   particular post had to read every excerpt. Lowercase to match the titles. */
-.card-topic {
-  padding: 3px 9px;
-  border-radius: 4px;
-  background: rgb(148 163 184 / 0.12);
-  color: var(--text-secondary);
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.6875rem;
-  letter-spacing: 0.04em;
-  white-space: nowrap;
-  transition: color 0.3s ease, background 0.3s ease;
-}
-
-.interactive-card:hover .card-topic {
-  background: color-mix(in srgb, var(--section-accent, var(--accent-blue)) 18%, transparent);
-  color: var(--section-accent, var(--accent-blue));
-}
-
-/* A phone has no room for a title, a topic and a date on one line — the meta
-   group ran up to 43px past the card edge. The topic is the redundant one there:
-   a reader on a phone is scrolling the whole list anyway, and the title already
-   says what the post is about. Kept for the desktop scan, dropped here. */
-@media (max-width: 640px) {
-  .card-topic { display: none; }
-}
-
-/* Blog excerpts are the post's own opening paragraph, so they run to whatever
-   length that paragraph is — one card had a hand-typed "..." to cut it off.
-   Clamping caps every excerpt at three lines and supplies its own ellipsis. */
-.card-excerpt {
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 3;
-  overflow: hidden;
-}
-
 /* Blog card footer. The read time sat alone with no hint the card was
    clickable; this pairs it with an affordance. */
 .card-foot {
@@ -776,11 +712,100 @@ a:focus-visible {
 
 .modal-panel {
   animation: modal-panel-in 0.42s cubic-bezier(0.16, 1, 0.3, 1);
+  /* Was a flat bg-slate-900 rectangle, which is why the panel read as bland no
+     matter what went inside it. Same treatment as the cards it opens from: a
+     wash out of the top-left corner over a diagonal, so the surface has a
+     direction, plus a real shadow so it sits above the scrim rather than on it.
+     The element's bg-slate-900 came off in the markup: a later background
+     declaration wins, so it would have painted over all of this. */
+  background:
+    /* Accent stripe down the left edge, the same 3px the cards carry, so the
+       detail view is visibly the same object as the card it opened from. A
+       background layer rather than an ::before: this panel is the scroll
+       container, and an absolutely-positioned rail at height 100% would only
+       span the visible height and then scroll away with the content. */
+    linear-gradient(180deg, var(--section-accent, var(--accent-blue)), var(--accent-purple))
+      left / 3px 100% no-repeat,
+    radial-gradient(120% 90% at 0% 0%,
+      color-mix(in srgb, var(--section-accent, var(--accent-blue)) 9%, transparent), transparent 55%),
+    linear-gradient(165deg, rgb(30 41 59 / 0.96), rgb(15 23 42 / 0.99));
+  /* Replaces the border-slate-700 removed from the element, a touch softer so
+     the accent stripe is the edge that reads first. */
+  border: 1px solid rgb(71 85 105 / 0.55);
+  box-shadow: 0 1px 0 rgb(255 255 255 / 0.05) inset,
+              0 30px 80px rgb(2 6 23 / 0.7);
+}
+
+/* The body of a work modal is the rail, which already arrives line by line. The
+   project and blog modals are prose, so they had nothing: the panel rose into
+   place and a wall of text was simply there. These bring the title and each
+   paragraph in just behind the one above it, the same cadence as the rail.
+   Applied to the panel's own children so it needs no per-modal markup. */
+.modal-panel > div > h2,
+.modal-panel > div > .body-text > p,
+.modal-panel > div > .body-text > div {
+  opacity: 0;
+  animation: detail-row-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.modal-panel > div > h2 {
+  animation-delay: 0.06s;
+  /* Keeps the close button's lane clear. On a phone the panel's own padding is
+     only 20px, so a title that wraps to two or three lines ran its first line
+     straight under the button. */
+  padding-right: 2.5rem;
+}
+
+/* Hand-written because a CSS delay can't be computed. The longest prose modal
+   runs 6 blocks; anything past that shares the last delay rather than never
+   appearing at all. */
+.modal-panel > div > .body-text > :nth-child(1) { animation-delay: 0.14s; }
+.modal-panel > div > .body-text > :nth-child(2) { animation-delay: 0.20s; }
+.modal-panel > div > .body-text > :nth-child(3) { animation-delay: 0.26s; }
+.modal-panel > div > .body-text > :nth-child(4) { animation-delay: 0.32s; }
+.modal-panel > div > .body-text > :nth-child(5) { animation-delay: 0.38s; }
+.modal-panel > div > .body-text > :nth-child(n + 6) { animation-delay: 0.44s; }
+
+/* The rail inside a work modal is a .detail-list, whose own rows carry the
+   stagger. Letting the wrapper fade too would double the delay and hold the
+   first line back noticeably. */
+.modal-panel > div > .body-text > .detail-list {
+  opacity: 1;
+  animation: none;
 }
 
 @keyframes modal-panel-in {
   from { opacity: 0; transform: translateY(18px) scale(0.97); }
   to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* The close button sat over the copy as a bare glyph with no target. Given a
+   surface, so it reads as a control and is easier to hit. */
+.modal-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border: 1px solid rgb(148 163 184 / 0.2);
+  border-radius: 8px;
+  background: rgb(15 23 42 / 0.7);
+  color: var(--text-secondary);
+  font-size: 1.05rem;
+  line-height: 1;
+  transition: color 0.25s ease, border-color 0.25s ease,
+              background 0.25s ease, transform 0.25s ease;
+}
+
+.modal-close:hover {
+  color: var(--text-primary);
+  border-color: var(--section-accent, var(--accent-blue));
+  background: color-mix(in srgb, var(--section-accent, var(--accent-blue)) 18%, rgb(15 23 42));
+  transform: rotate(90deg);
 }
 
 /* The list rail. One hairline runs the height of the list and each row hangs a
@@ -888,7 +913,12 @@ a:focus-visible {
 @media (prefers-reduced-motion: reduce) {
   .modal-scrim,
   .modal-panel,
-  .detail-row {
+  .detail-row,
+  /* The prose stagger too, or these start at opacity 0 with nothing to bring
+     them back and the modal body is simply blank. */
+  .modal-panel > div > h2,
+  .modal-panel > div > .body-text > p,
+  .modal-panel > div > .body-text > div {
     animation: none;
     opacity: 1;
   }
