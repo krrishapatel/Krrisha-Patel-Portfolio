@@ -434,7 +434,7 @@ export default function Portfolio() {
                 <div className="body-text text-xl md:text-2xl leading-relaxed max-w-4xl">
                   cs, finance & stats @ upenn m&t, focused on ai, ml, and healthcare tech. building tools 
                   to solve real-world problems. outside of coding, i'm into origami engineering, oil painting, 
-                  tennis, swimming, exploring philly's coffee spots, and always looking for creative side projects.
+                  tennis, swimming, exploring new dessert spots, and always looking for creative side projects.
                 </div>
               </div>
             </div>
@@ -452,7 +452,7 @@ export default function Portfolio() {
               <div className="interactive-card p-6">
                 <h3 className="section-heading text-2xl mb-4">what i'm up to</h3>
                 <p className="body-text">
-                  working on innovative AI solutions at Very Good Ventures, exploring the intersection of 
+                  building at AWS as a software development engineer intern, exploring the intersection of 
                   healthcare and technology, and building products that actually make a difference in people's lives.
                   always learning, always building, always curious.
                 </p>
