@@ -2055,6 +2055,28 @@ export default function Portfolio() {
               </div>
 
               <div className="interactive-card p-6">
+                <h3 className="section-heading text-2xl mb-4">cs, finance and stats — isn't that just indecision with extra steps?</h3>
+                <p className="body-text leading-relaxed">
+                  it looks like i couldn't pick one, and honestly for a while i couldn't. but the three keep answering
+                  each other's questions. stats tells you whether the thing you built actually works or you just got
+                  lucky on one dataset. finance is where i learned latency is a number someone pays for, not a vanity
+                  metric. cs is how any of it gets built. most of the problems i've actually enjoyed needed at least
+                  two of the three, and the people who only had one kept getting surprised.
+                </p>
+              </div>
+
+              <div className="interactive-card p-6">
+                <h3 className="section-heading text-2xl mb-4">what's the hardest part of building for healthcare specifically?</h3>
+                <p className="body-text leading-relaxed">
+                  that you can't move fast and break things when the thing is a person. in most software a bad edge
+                  case is a bug report. here it's someone's drug interaction. so you spend more time on what happens
+                  when the data is missing or wrong than on the happy path, and you have to accept that the right
+                  answer is sometimes "i don't know, ask a human." i find that constraint clarifying rather than
+                  annoying — it's the rare case where being careful is also the fast path.
+                </p>
+              </div>
+
+              <div className="interactive-card p-6">
                 <h3 className="section-heading text-2xl mb-4">what color combinations do you absolutely hate?</h3>
                 <p className="body-text leading-relaxed">
                   mustard yellow and brown together makes me physically uncomfortable. it's like someone tried to create 
