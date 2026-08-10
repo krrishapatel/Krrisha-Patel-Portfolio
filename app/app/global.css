@@ -465,29 +465,28 @@ a:focus {
   }
 }
 
-/* Projects jump-links.
-   Kept outside the centered content column so the Projects cards stay the same
-   width as every other section's. Anchored to that column's left edge rather
-   than the viewport's, and hidden when there isn't room beside it. */
-.project-rail-col {
-  /* `display: contents` rather than `none`: hiding the wrapper would also
-     remove its position: fixed child. This contributes no box of its own, so
-     the cards beside it get the column's full width. */
-  display: contents;
+/* Role subtitle under a company/project name. Dimmer than body copy, which
+   .body-text sets and a Tailwind text-* class cannot override from here. */
+.role-line {
+  color: #94a3b8;
 }
 
-.project-rail {
-  display: none;
+/* Card affordance. A single arrow in the bottom-left corner instead of a
+   "read more" line, so the card's own copy is the last thing read. Dim until
+   the card is hovered. */
+.card-more {
+  margin-top: 16px;
+  color: var(--text-secondary);
+  opacity: 0.45;
+  font-size: 1rem;
+  line-height: 1;
+  transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
-@media (min-width: 1536px) {
-  .project-rail {
-    display: block;
-    position: fixed;
-    top: 20rem;
-    width: 12rem;
-    left: max(1rem, calc(50% - 36rem - 13rem));
-  }
+.interactive-card:hover .card-more {
+  opacity: 1;
+  color: var(--accent-blue);
+  transform: translateX(4px);
 }
 
 /* Ventures section */

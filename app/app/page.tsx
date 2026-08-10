@@ -559,7 +559,7 @@ export default function Portfolio() {
                     <h3 className="section-heading text-2xl">Amazon Web Services</h3>
                     <span className="text-sm text-slate-400 bg-orange-900/50 px-3 py-1 rounded-full">Jun 2026 - Aug 2026</span>
                   </div>
-                  <p className="body-text text-slate-300 mb-2">Software Development Engineer Intern</p>
+                  <p className="role-line body-text text-sm mb-3">Software Development Engineer Intern</p>
                   <p className="body-text mb-3">
                     a malware scanner that sits in the procurement path for data centers across 12 regions, so what gets
                     bought is checked before it ships. the deploy artifact started at 287MB and the Lambda/Fargate split got it to 159MB.
@@ -571,7 +571,7 @@ export default function Portfolio() {
                     <span className="px-2 py-1 bg-green-900/50 text-green-300 text-xs rounded">Lambda</span>
                     <span className="px-2 py-1 bg-pink-900/50 text-pink-300 text-xs rounded">Fargate</span>
                   </div>
-                  <div className="mt-4 text-center text-slate-400 text-sm">what the scanner does →</div>
+                  <div className="card-more" aria-hidden="true">→</div>
                 </div>
 
                 <div className="interactive-card p-6" onClick={() => setSelectedWork('very-good-ventures')}>
@@ -579,7 +579,7 @@ export default function Portfolio() {
                     <h3 className="section-heading text-2xl">Very Good Ventures</h3>
                     <span className="text-sm text-slate-400 bg-blue-900/50 px-3 py-1 rounded-full">Jun 2025 - Aug 2025</span>
                   </div>
-                  <p className="body-text text-slate-300 mb-2">Software Engineering Intern</p>
+                  <p className="role-line body-text text-sm mb-3">Software Engineering Intern</p>
                   <p className="body-text mb-3">
                     a race strategy assistant for NASCAR analysts: an LLM reads live race state and suggests calls, which cut
                     decision time by 30%. also reworked the Flutter sync modules and took 35% off mobile latency.
@@ -590,7 +590,7 @@ export default function Portfolio() {
                     <span className="px-2 py-1 bg-green-900/50 text-green-300 text-xs rounded">Flutter</span>
                     <span className="px-2 py-1 bg-pink-900/50 text-pink-300 text-xs rounded">AWS</span>
                   </div>
-                  <div className="mt-4 text-center text-slate-400 text-sm">how the assistant works →</div>
+                  <div className="card-more" aria-hidden="true">→</div>
                 </div>
 
                 <div className="interactive-card p-6" onClick={() => setSelectedWork('aha')}>
@@ -598,7 +598,7 @@ export default function Portfolio() {
                     <h3 className="section-heading text-2xl">Advanced Health Academy (AHA)</h3>
                     <span className="text-sm text-slate-400 bg-purple-900/50 px-3 py-1 rounded-full">Nov 2024 - Dec 2024</span>
                   </div>
-                  <p className="body-text text-slate-300 mb-2">Software Engineering Intern</p>
+                  <p className="role-line body-text text-sm mb-3">Software Engineering Intern</p>
                   <p className="body-text mb-3">
                     an LLM that reads a blood report and explains what it means, at 98.4% accuracy. the Node.js and Lambda
                     API behind it takes 40% more load than what it replaced.
@@ -608,7 +608,7 @@ export default function Portfolio() {
                     <span className="px-2 py-1 bg-pink-900/50 text-pink-300 text-xs rounded">LLMs</span>
                     <span className="px-2 py-1 bg-blue-900/50 text-blue-300 text-xs rounded">AWS Lambda</span>
                   </div>
-                  <div className="mt-4 text-center text-slate-400 text-sm">the accuracy problem →</div>
+                  <div className="card-more" aria-hidden="true">→</div>
                 </div>
 
                 <div className="interactive-card p-6" onClick={() => setSelectedWork('ipmd')}>
@@ -616,7 +616,7 @@ export default function Portfolio() {
                     <h3 className="section-heading text-2xl">IPMD Inc.</h3>
                     <span className="text-sm text-slate-400 bg-pink-900/50 px-3 py-1 rounded-full">Jun 2021 - Jul 2024</span>
                   </div>
-                  <p className="body-text text-slate-300 mb-2">AI and Machine Learning Developer Intern</p>
+                  <p className="role-line body-text text-sm mb-3">AI and Machine Learning Developer Intern</p>
                   <p className="body-text mb-3">
                     facial and emotion recognition for a telemedicine platform, so a doctor on a video call gets some signal
                     about how the patient is actually doing. recognition improved 30%, and the PyTorch/TensorFlow pipeline trains 20% faster.
@@ -627,7 +627,7 @@ export default function Portfolio() {
                     <span className="px-2 py-1 bg-blue-900/50 text-blue-300 text-xs rounded">PyTorch</span>
                     <span className="px-2 py-1 bg-purple-900/50 text-purple-300 text-xs rounded">Telemedicine</span>
                   </div>
-                  <div className="mt-4 text-center text-slate-400 text-sm">what emotion recognition missed →</div>
+                  <div className="card-more" aria-hidden="true">→</div>
                 </div>
 
                 <div className="interactive-card p-6" onClick={() => setSelectedWork('infosys')}>
@@ -635,7 +635,7 @@ export default function Portfolio() {
                     <h3 className="section-heading text-2xl">Infosys</h3>
                     <span className="text-sm text-slate-400 bg-orange-900/50 px-3 py-1 rounded-full">Sep 2024 - Dec 2024</span>
                   </div>
-                  <p className="body-text text-slate-300 mb-2">Software Engineering Intern</p>
+                  <p className="role-line body-text text-sm mb-3">Software Engineering Intern</p>
                   <p className="body-text mb-3">
                     a customer analytics platform on AWS Bedrock and Azure OpenAI. sharper segmentation, up 25%, surfaced $5M+ in
                     revenue the client wasn't targeting, and the RPA work sped their rollout up by 30%.
@@ -646,7 +646,7 @@ export default function Portfolio() {
                     <span className="px-2 py-1 bg-purple-900/50 text-purple-300 text-xs rounded">RPA</span>
                     <span className="px-2 py-1 bg-green-900/50 text-green-300 text-xs rounded">Analytics</span>
                   </div>
-                  <div className="mt-4 text-center text-slate-400 text-sm">where the $5M was hiding →</div>
+                  <div className="card-more" aria-hidden="true">→</div>
                 </div>
 
                 <div className="interactive-card p-6" onClick={() => setSelectedWork('jane-street')}>
@@ -654,7 +654,7 @@ export default function Portfolio() {
                     <h3 className="section-heading text-2xl">Jane Street Capital</h3>
                     <span className="text-sm text-slate-400 bg-blue-900/50 px-3 py-1 rounded-full">Jun 2024 - Aug 2024</span>
                   </div>
-                  <p className="body-text text-slate-300 mb-2">Academy of Math and Programming Intern</p>
+                  <p className="role-line body-text text-sm mb-3">Academy of Math and Programming Intern</p>
                   <p className="body-text mb-3">
                     game theory and graph problems pointed at trading decisions, then the trading challenges themselves.
                     finished top 10 by PnL, $9M+ in profit.
@@ -665,7 +665,7 @@ export default function Portfolio() {
                     <span className="px-2 py-1 bg-green-900/50 text-green-300 text-xs rounded">Quantitative Trading</span>
                     <span className="px-2 py-1 bg-pink-900/50 text-pink-300 text-xs rounded">High-Frequency Trading</span>
                   </div>
-                  <div className="mt-4 text-center text-slate-400 text-sm">the game theory part →</div>
+                  <div className="card-more" aria-hidden="true">→</div>
                 </div>
 
                 <div className="interactive-card p-6" onClick={() => setSelectedWork('prosthetix')}>
@@ -673,7 +673,7 @@ export default function Portfolio() {
                     <h3 className="section-heading text-2xl">ProsthetiX</h3>
                     <span className="text-sm text-slate-400 bg-amber-900/50 px-3 py-1 rounded-full">Feb 2023 - Jun 2024</span>
                   </div>
-                  <p className="body-text text-slate-300 mb-2">Lead Researcher, Design and Developer</p>
+                  <p className="role-line body-text text-sm mb-3">Lead Researcher, Design and Developer</p>
                   <p className="body-text mb-3">
                     myoelectric prosthetics on Arduino and Raspberry Pi Pico, built around the constraint that they had to be
                     cheap enough to actually reach someone. half the production cost, 20% better mobility in clinical simulations.
@@ -684,7 +684,7 @@ export default function Portfolio() {
                     <span className="px-2 py-1 bg-green-900/50 text-green-300 text-xs rounded">MATLAB</span>
                     <span className="px-2 py-1 bg-pink-900/50 text-pink-300 text-xs rounded">3D Printing</span>
                   </div>
-                  <div className="mt-4 text-center text-slate-400 text-sm">the cost constraint →</div>
+                  <div className="card-more" aria-hidden="true">→</div>
                 </div>
               </div>
             )}
@@ -697,7 +697,7 @@ export default function Portfolio() {
                     <h3 className="section-heading text-2xl">GoAhead Ventures</h3>
                     <span className="text-sm text-slate-400 bg-green-900/50 px-3 py-1 rounded-full">Sep 2024 - Dec 2024</span>
                   </div>
-                  <p className="body-text text-slate-300 mb-2">Venture Capital Analyst</p>
+                  <p className="role-line body-text text-sm mb-3">Venture Capital Analyst</p>
                   <p className="body-text mb-3">
                     sourcing for a $180M fund: 50+ startups evaluated, 300+ founder conversations, and outreach that brought
                     applications up 20%. ran diligence on 15+ companies across a $175M portfolio.
@@ -708,7 +708,7 @@ export default function Portfolio() {
                     <span className="px-2 py-1 bg-purple-900/50 text-purple-300 text-xs rounded">Portfolio Management</span>
                     <span className="px-2 py-1 bg-pink-900/50 text-pink-300 text-xs rounded">Financial Modeling</span>
                   </div>
-                  <div className="mt-4 text-center text-slate-400 text-sm">what 300 founder calls teach you →</div>
+                  <div className="card-more" aria-hidden="true">→</div>
                 </div>
 
                 <div className="interactive-card p-6" onClick={() => setSelectedWork('phelps-forward')}>
@@ -716,7 +716,7 @@ export default function Portfolio() {
                     <h3 className="section-heading text-2xl">Phelps Forward</h3>
                     <span className="text-sm text-slate-400 bg-teal-900/50 px-3 py-1 rounded-full">Jan 2025 - Present</span>
                   </div>
-                  <p className="body-text text-slate-300 mb-2">Program Scholar and Summer Investing Program</p>
+                  <p className="role-line body-text text-sm mb-3">Program Scholar and Summer Investing Program</p>
                   <p className="body-text mb-3">
                     a three-year program for first-generation women heading into financial services. the summer piece is nine
                     weeks on financial modeling and analysis.
@@ -727,7 +727,7 @@ export default function Portfolio() {
                     <span className="px-2 py-1 bg-purple-900/50 text-purple-300 text-xs rounded">LBO Models</span>
                     <span className="px-2 py-1 bg-pink-900/50 text-pink-300 text-xs rounded">Merger Analysis</span>
                   </div>
-                  <div className="mt-4 text-center text-slate-400 text-sm">the nine weeks →</div>
+                  <div className="card-more" aria-hidden="true">→</div>
                 </div>
               </div>
             )}
@@ -740,7 +740,7 @@ export default function Portfolio() {
                     <h3 className="section-heading text-2xl">Girls Into VC Penn Chapter</h3>
                     <span className="text-sm text-slate-400 bg-purple-900/50 px-3 py-1 rounded-full">Sep 2024 - Present</span>
                   </div>
-                  <p className="body-text text-slate-300 mb-2">Co-Founder</p>
+                  <p className="role-line body-text text-sm mb-3">Co-Founder</p>
                   <p className="body-text mb-3">
                     co-founded Penn's first chapter. we run the networking events, the mentorship pairings, and the workshops
                     for women trying to get into venture.
@@ -757,7 +757,7 @@ export default function Portfolio() {
                     <h3 className="section-heading text-2xl">Wharton Undergraduate Healthcare Club</h3>
                     <span className="text-sm text-slate-400 bg-green-900/50 px-3 py-1 rounded-full">Sep 2024 - Present</span>
                   </div>
-                  <p className="body-text text-slate-300 mb-2">Incubator Team</p>
+                  <p className="role-line body-text text-sm mb-3">Incubator Team</p>
                   <p className="body-text mb-3">
                     on the incubator team, which mostly means sitting with students while their healthcare idea is still vague
                     and finding someone in the industry who'll take the call.
@@ -774,7 +774,7 @@ export default function Portfolio() {
                     <h3 className="section-heading text-2xl">Wharton Undergraduate Entrepreneurship Club</h3>
                     <span className="text-sm text-slate-400 bg-yellow-900/50 px-3 py-1 rounded-full">Sep 2024 - Present</span>
                   </div>
-                  <p className="body-text text-slate-300 mb-2">Pitch Team</p>
+                  <p className="role-line body-text text-sm mb-3">Pitch Team</p>
                   <p className="body-text mb-3">
                     on the pitch team: running the competitions, and coaching founders through the gap between having an idea
                     and being able to say it out loud in five minutes.
@@ -791,7 +791,7 @@ export default function Portfolio() {
                     <h3 className="section-heading text-2xl">Product Space @ Penn</h3>
                     <span className="text-sm text-slate-400 bg-orange-900/50 px-3 py-1 rounded-full">Sep 2024 - Present</span>
                   </div>
-                  <p className="body-text text-slate-300 mb-2">Product Team</p>
+                  <p className="role-line body-text text-sm mb-3">Product Team</p>
                   <p className="body-text mb-3">
                     product and UX work in teams mixed from design, engineering, and business, where most of the effort goes
                     into agreeing on what to cut.
@@ -993,53 +993,45 @@ export default function Portfolio() {
             <h2 id="projects-heading" className="section-heading text-5xl mb-12">PROJECTS</h2>
             <p className="body-text text-lg mb-12">technical projects & innovations</p>
             
-            {/* Side Menu */}
-            <div className="flex gap-4">
-              <div className="project-rail-col">
-                <div className="project-rail space-y-3">
-                  <button 
-                    onClick={() => {
-                      const element = document.getElementById('projects-heading');
-                      if (element) {
-                        const offset = 100;
-                        const elementPosition = element.offsetTop - offset;
-                        window.scrollTo({ top: elementPosition, behavior: 'smooth' });
-                      }
-                    }}
-                    className="block w-full text-left text-sm text-slate-400 hover:text-blue-400 transition-colors py-2 px-3 rounded hover:bg-slate-800/30"
-                  >
-                    📁 Projects
-                  </button>
-                  <button 
-                    onClick={() => {
-                      const element = document.getElementById('awards-heading');
-                      if (element) {
-                        const offset = 100;
-                        const elementPosition = element.offsetTop - offset;
-                        window.scrollTo({ top: elementPosition, behavior: 'smooth' });
-                      }
-                    }}
-                    className="block w-full text-left text-sm text-slate-400 hover:text-blue-400 transition-colors py-2 px-3 rounded hover:bg-slate-800/30"
-                  >
-                    🏆 Awards
-                  </button>
-                  <button 
-                    onClick={() => {
-                      const element = document.getElementById('skills-heading');
-                      if (element) {
-                        const offset = 100;
-                        const elementPosition = element.offsetTop - offset;
-                        window.scrollTo({ top: elementPosition, behavior: 'smooth' });
-                      }
-                    }}
-                    className="block w-full text-left text-sm text-slate-400 hover:text-blue-400 transition-colors py-2 px-3 rounded hover:bg-slate-800/30"
-                  >
-                    💻 Skills
-                  </button>
-                </div>
-              </div>
-              
-              <div className="flex-1">
+            {/* Jump links. Inline rather than a fixed side rail: the widened
+                content column leaves no room beside it, and the rail never
+                appeared on mobile at all. */}
+            <div className="flex flex-wrap gap-3 mb-12">
+              <button
+                onClick={() => {
+                  const element = document.getElementById('projects-heading');
+                  if (element) {
+                    window.scrollTo({ top: element.offsetTop - 100, behavior: 'smooth' });
+                  }
+                }}
+                className="work-tab"
+              >
+                📁 Projects
+              </button>
+              <button
+                onClick={() => {
+                  const element = document.getElementById('awards-heading');
+                  if (element) {
+                    window.scrollTo({ top: element.offsetTop - 100, behavior: 'smooth' });
+                  }
+                }}
+                className="work-tab"
+              >
+                🏆 Awards
+              </button>
+              <button
+                onClick={() => {
+                  const element = document.getElementById('skills-heading');
+                  if (element) {
+                    window.scrollTo({ top: element.offsetTop - 100, behavior: 'smooth' });
+                  }
+                }}
+                className="work-tab"
+              >
+                💻 Skills
+              </button>
+            </div>
+
                 <div className="space-y-8">
               <div className="interactive-card p-6" onClick={() => setSelectedProject('pgx-record')}>
                 <div className="flex justify-between items-start mb-3">
@@ -1056,7 +1048,7 @@ export default function Portfolio() {
                   <span className="px-2 py-1 bg-green-900/50 text-green-300 text-xs rounded">PharmCAT</span>
                   <span className="px-2 py-1 bg-pink-900/50 text-pink-300 text-xs rounded">Bioinformatics</span>
                 </div>
-                <div className="mt-4 text-center text-slate-400 text-sm">why it refuses to guess →</div>
+                <div className="card-more" aria-hidden="true">→</div>
               </div>
 
               <div className="interactive-card p-6" onClick={() => setSelectedProject('exchange-simulator')}>
@@ -1074,7 +1066,7 @@ export default function Portfolio() {
                   <span className="px-2 py-1 bg-green-900/50 text-green-300 text-xs rounded">Gymnasium</span>
                   <span className="px-2 py-1 bg-orange-900/50 text-orange-300 text-xs rounded">React</span>
                 </div>
-                <div className="mt-4 text-center text-slate-400 text-sm">the hot path →</div>
+                <div className="card-more" aria-hidden="true">→</div>
               </div>
 
               <div className="interactive-card p-6" onClick={() => setSelectedProject('excel-diff')}>
@@ -1091,7 +1083,7 @@ export default function Portfolio() {
                   <span className="px-2 py-1 bg-purple-900/50 text-purple-300 text-xs rounded">TypeScript</span>
                   <span className="px-2 py-1 bg-green-900/50 text-green-300 text-xs rounded">SpreadJS</span>
                 </div>
-                <div className="mt-4 text-center text-slate-400 text-sm">the sign-flip problem →</div>
+                <div className="card-more" aria-hidden="true">→</div>
               </div>
 
               <div className="interactive-card p-6" onClick={() => setSelectedProject('doctoapi')}>
@@ -1107,7 +1099,7 @@ export default function Portfolio() {
                   <span className="px-2 py-1 bg-purple-900/50 text-purple-300 text-xs rounded">FastAPI</span>
                   <span className="px-2 py-1 bg-green-900/50 text-green-300 text-xs rounded">LLMs</span>
                 </div>
-                <div className="mt-4 text-center text-slate-400 text-sm">how it infers a schema →</div>
+                <div className="card-more" aria-hidden="true">→</div>
               </div>
 
               <div className="interactive-card p-6" onClick={() => setSelectedProject('open-source')}>
@@ -1133,7 +1125,7 @@ export default function Portfolio() {
                   <span className="px-2 py-1 bg-purple-900/50 text-purple-300 text-xs rounded">Starlette</span>
                   <span className="px-2 py-1 bg-green-900/50 text-green-300 text-xs rounded">OpenTelemetry</span>
                 </div>
-                <div className="mt-4 text-center text-slate-400 text-sm">the four bugs →</div>
+                <div className="card-more" aria-hidden="true">→</div>
               </div>
 
                                                              <div className="interactive-card p-6" onClick={() => setSelectedProject('llm-optimizer')}>
@@ -1150,7 +1142,7 @@ export default function Portfolio() {
                   <span className="px-2 py-1 bg-green-900/50 text-green-300 text-xs rounded">MLIR</span>
                   <span className="px-2 py-1 bg-pink-900/50 text-pink-300 text-xs rounded">TensorRT</span>
                 </div>
-                <div className="mt-4 text-center text-slate-400 text-sm">where the 48% came from →</div>
+                <div className="card-more" aria-hidden="true">→</div>
               </div>
 
                                                              <div className="interactive-card p-6" onClick={() => setSelectedProject('trading-simulator')}>
@@ -1167,7 +1159,7 @@ export default function Portfolio() {
                   <span className="px-2 py-1 bg-green-900/50 text-green-300 text-xs rounded">SQL</span>
                   <span className="px-2 py-1 bg-pink-900/50 text-pink-300 text-xs rounded">Multithreading</span>
                 </div>
-                <div className="mt-4 text-center text-slate-400 text-sm">the engine design →</div>
+                <div className="card-more" aria-hidden="true">→</div>
               </div>
 
                               <div className="interactive-card p-6" onClick={() => setSelectedProject('medical-llm')}>
@@ -1184,7 +1176,7 @@ export default function Portfolio() {
                   <span className="px-2 py-1 bg-green-900/50 text-green-300 text-xs rounded">AWS Lambda</span>
                   <span className="px-2 py-1 bg-pink-900/50 text-pink-300 text-xs rounded">MongoDB</span>
                 </div>
-                <div className="mt-4 text-center text-slate-400 text-sm">the cold-start fix →</div>
+                <div className="card-more" aria-hidden="true">→</div>
               </div>
 
                               <div className="interactive-card p-6" onClick={() => setSelectedProject('equity-forecaster')}>
@@ -1201,7 +1193,7 @@ export default function Portfolio() {
                   <span className="px-2 py-1 bg-green-900/50 text-green-300 text-xs rounded">Tableau</span>
                   <span className="px-2 py-1 bg-pink-900/50 text-pink-300 text-xs rounded">Scikit-learn</span>
                 </div>
-                <div className="mt-4 text-center text-slate-400 text-sm">what the model reads →</div>
+                <div className="card-more" aria-hidden="true">→</div>
               </div>
 
                               <div className="interactive-card p-6" onClick={() => setSelectedProject('trading-bot')}>
@@ -1217,7 +1209,7 @@ export default function Portfolio() {
                   <span className="px-2 py-1 bg-green-900/50 text-green-300 text-xs rounded">APIs</span>
                   <span className="px-2 py-1 bg-pink-900/50 text-pink-300 text-xs rounded">Scikit-learn</span>
                 </div>
-                <div className="mt-4 text-center text-slate-400 text-sm">the model details →</div>
+                <div className="card-more" aria-hidden="true">→</div>
               </div>
 
                               <div className="interactive-card p-6" onClick={() => setSelectedProject('healthcare-analytics')}>
@@ -1234,13 +1226,13 @@ export default function Portfolio() {
                   <span className="px-2 py-1 bg-green-900/50 text-green-300 text-xs rounded">PostgreSQL</span>
                   <span className="px-2 py-1 bg-pink-900/50 text-pink-300 text-xs rounded">D3.js</span>
                 </div>
-                <div className="mt-4 text-center text-slate-400 text-sm">the data problem →</div>
+                <div className="card-more" aria-hidden="true">→</div>
               </div>
             </div>
 
             {/* Awards Section */}
             <div className="mt-16">
-              <h3 id="awards-heading" className="section-heading text-2xl mb-6 text-center">awards &amp; recognition</h3>
+              <h3 id="awards-heading" className="section-heading text-2xl mb-6 text-center">Awards &amp; Recognition</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="interactive-card p-6">
                   <h4 className="font-semibold text-lg mb-3 text-slate-200">Academic Excellence</h4>
@@ -1306,7 +1298,7 @@ export default function Portfolio() {
 
             {/* Technical Skills */}
             <div className="mt-16">
-              <h3 id="skills-heading" className="section-heading text-2xl mb-6 text-center">technical skills</h3>
+              <h3 id="skills-heading" className="section-heading text-2xl mb-6 text-center">Technical Skills</h3>
               <div className="interactive-card p-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                   <div>
@@ -1413,8 +1405,6 @@ export default function Portfolio() {
                 </div>
               </div>
                 </div>
-              </div>
-            </div>
           </div>
         )}
 
@@ -1823,7 +1813,8 @@ export default function Portfolio() {
             
             {selectedWork === 'aws' && (
               <div>
-                <h2 className="section-heading text-3xl mb-4">Amazon Web Services - Software Development Engineer Intern</h2>
+                <h2 className="section-heading text-3xl mb-1">Amazon Web Services</h2>
+                <p className="role-line body-text mb-3">Software Development Engineer Intern</p>
                 <div className="text-sm text-slate-400 mb-6">Jun 2026 - Aug 2026</div>
                 <div className="body-text leading-relaxed space-y-4">
                   
@@ -1867,7 +1858,8 @@ export default function Portfolio() {
 
             {selectedWork === 'very-good-ventures' && (
               <div>
-                <h2 className="section-heading text-3xl mb-4">Very Good Ventures - Software Engineering Intern</h2>
+                <h2 className="section-heading text-3xl mb-1">Very Good Ventures</h2>
+                <p className="role-line body-text mb-3">Software Engineering Intern</p>
                 <div className="text-sm text-slate-400 mb-6">Jun 2025 - Aug 2025</div>
                 <div className="body-text leading-relaxed space-y-4">
                   
@@ -1914,7 +1906,8 @@ export default function Portfolio() {
             )}
             {selectedWork === 'aha' && (
               <div>
-                <h2 className="section-heading text-3xl mb-4">Advanced Health Academy (AHA) - Software Engineering Intern</h2>
+                <h2 className="section-heading text-3xl mb-1">Advanced Health Academy (AHA)</h2>
+                <p className="role-line body-text mb-3">Software Engineering Intern</p>
                 <div className="text-sm text-slate-400 mb-6">Nov 2024 - Dec 2024</div>
                 <div className="body-text leading-relaxed space-y-4">
                   
@@ -1953,7 +1946,8 @@ export default function Portfolio() {
             )}
             {selectedWork === 'ipmd' && (
               <div>
-                <h2 className="section-heading text-3xl mb-4">IPMD Inc. - AI and Machine Learning Developer Intern</h2>
+                <h2 className="section-heading text-3xl mb-1">IPMD Inc.</h2>
+                <p className="role-line body-text mb-3">AI and Machine Learning Developer Intern</p>
                 <div className="text-sm text-slate-400 mb-6">Jun 2021 - Jul 2024</div>
                 <div className="body-text leading-relaxed space-y-4">
                   
@@ -1988,7 +1982,8 @@ export default function Portfolio() {
             )}
             {selectedWork === 'infosys' && (
               <div>
-                <h2 className="section-heading text-3xl mb-4">Infosys - Software Engineering Intern</h2>
+                <h2 className="section-heading text-3xl mb-1">Infosys</h2>
+                <p className="role-line body-text mb-3">Software Engineering Intern</p>
                 <div className="text-sm text-slate-400 mb-6">Sep 2024 - Dec 2024</div>
                 <div className="body-text leading-relaxed space-y-4">
                   
@@ -2023,7 +2018,8 @@ export default function Portfolio() {
             )}
             {selectedWork === 'jane-street' && (
               <div>
-                <h2 className="section-heading text-3xl mb-4">Jane Street Capital - Academy of Math and Programming Intern</h2>
+                <h2 className="section-heading text-3xl mb-1">Jane Street Capital</h2>
+                <p className="role-line body-text mb-3">Academy of Math and Programming Intern</p>
                 <div className="text-sm text-slate-400 mb-6">Jun 2024 - Aug 2024</div>
                 <div className="body-text leading-relaxed space-y-4">
                   
@@ -2058,7 +2054,8 @@ export default function Portfolio() {
             )}
             {selectedWork === 'prosthetix' && (
               <div>
-                <h2 className="section-heading text-3xl mb-4">ProsthetiX - Lead Researcher, Design and Developer</h2>
+                <h2 className="section-heading text-3xl mb-1">ProsthetiX</h2>
+                <p className="role-line body-text mb-3">Lead Researcher, Design and Developer</p>
                 <div className="text-sm text-slate-400 mb-6">Feb 2023 - Jun 2024</div>
                 <div className="body-text leading-relaxed space-y-4">
                   
@@ -2093,7 +2090,8 @@ export default function Portfolio() {
             )}
             {selectedWork === 'goahead-ventures' && (
               <div>
-                <h2 className="section-heading text-3xl mb-4">GoAhead Ventures - Venture Capital Analyst</h2>
+                <h2 className="section-heading text-3xl mb-1">GoAhead Ventures</h2>
+                <p className="role-line body-text mb-3">Venture Capital Analyst</p>
                 <div className="text-sm text-slate-400 mb-6">Sep 2024 - Dec 2024</div>
                 <div className="body-text leading-relaxed space-y-4">
                   
@@ -2128,7 +2126,8 @@ export default function Portfolio() {
             )}
             {selectedWork === 'phelps-forward' && (
               <div>
-                <h2 className="section-heading text-3xl mb-4">Phelps Forward - Program Scholar and Summer Investing Program</h2>
+                <h2 className="section-heading text-3xl mb-1">Phelps Forward</h2>
+                <p className="role-line body-text mb-3">Program Scholar and Summer Investing Program</p>
                 <div className="text-sm text-slate-400 mb-6">Jan 2025 - Present</div>
                 <div className="body-text leading-relaxed space-y-4">
                   
