@@ -440,6 +440,39 @@ a:focus-visible {
   border-color: transparent;
 }
 
+/* Press. The card gave no acknowledgement between the click and the modal
+   appearing, so the two didn't read as one gesture. It drops the hover lift and
+   pulls its shadow in tight — pressed down, not scaled: any scale here resamples
+   the card's text for the length of the press. The arrow kicks in the direction
+   the modal is about to come from. */
+.interactive-card:active {
+  transform: translateY(0);
+  transition-duration: 0.1s;
+  box-shadow: 0 1px 0 rgb(255 255 255 / 0.05) inset,
+              0 4px 12px rgb(2 6 23 / 0.55),
+              0 0 0 2px var(--section-accent, var(--accent-blue));
+}
+
+/* :hover:active rather than :active alone. A press only happens while hovering,
+   and .interactive-card:hover .card-more is declared further down the file at
+   equal specificity — it would otherwise win on source order and hold the arrow
+   at its 4px hover offset. */
+.interactive-card:hover:active .card-more,
+.interactive-card:hover:active .card-foot-more {
+  transform: translateX(10px);
+  opacity: 1;
+  transition-duration: 0.1s;
+}
+
+/* The bracket completes on press, so the corner mark reads as closing around
+   the card at the moment it's committed to. */
+.interactive-card:active::after {
+  opacity: 1;
+  width: 30px;
+  height: 30px;
+  transition-duration: 0.1s;
+}
+
 /* Floating animation for elements */
 @keyframes float {
   0%, 100% {
@@ -468,14 +501,17 @@ a:focus-visible {
   animation: gradientShift 5s ease infinite;
 }
 
-/* Skill tag animations */
-.interactive-card span {
-  transition: all 0.3s ease;
+/* Skill tag animations. Scoped to the tag row rather than every span in the
+   card: it used to catch the date pill and the read-time line too, and a
+   1.15 scale on 12px text resamples it into a blur. A small lift reads as the
+   same gesture without touching the glyphs. */
+.interactive-card .flex-wrap span {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.interactive-card:hover span {
-  transform: scale(1.15);
-  box-shadow: 0 6px 12px rgba(96, 165, 250, 0.3);
+.interactive-card:hover .flex-wrap span {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgb(2 6 23 / 0.45);
 }
 
 /* Blog post hover effects */
@@ -637,6 +673,70 @@ a:focus-visible {
 .section-scope-projects { --section-accent: var(--accent-purple); }
 .section-scope-blog     { --section-accent: var(--accent-green); }
 .section-scope-faq      { --section-accent: var(--accent-orange); }
+
+/* Highlight pill, top-right of a project card. Work cards carry a date there
+   and read as records because of it; a project card had a title with empty
+   space beside it and nothing to catch the eye scanning down the column. Every
+   value in one is already stated in that card's own copy — this only pulls it
+   forward. Monospace and the section accent rather than the tag palette, so it
+   reads as a measurement, not another technology chip. */
+.card-metric {
+  flex-shrink: 0;
+  margin-left: 16px;
+  padding: 4px 11px;
+  border: 1px solid color-mix(in srgb, var(--section-accent, var(--accent-blue)) 45%, transparent);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--section-accent, var(--accent-blue)) 10%, transparent);
+  color: var(--section-accent, var(--accent-blue));
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+.interactive-card:hover .card-metric {
+  background: color-mix(in srgb, var(--section-accent, var(--accent-blue)) 20%, transparent);
+  border-color: var(--section-accent, var(--accent-blue));
+}
+
+/* Topic label on a blog card. The blog was the one section with nothing to scan
+   — seven cards of title, paragraph, date — so a reader looking for a
+   particular post had to read every excerpt. Lowercase to match the titles. */
+.card-topic {
+  padding: 3px 9px;
+  border-radius: 4px;
+  background: rgb(148 163 184 / 0.12);
+  color: var(--text-secondary);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6875rem;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  transition: color 0.3s ease, background 0.3s ease;
+}
+
+.interactive-card:hover .card-topic {
+  background: color-mix(in srgb, var(--section-accent, var(--accent-blue)) 18%, transparent);
+  color: var(--section-accent, var(--accent-blue));
+}
+
+/* A phone has no room for a title, a topic and a date on one line — the meta
+   group ran up to 43px past the card edge. The topic is the redundant one there:
+   a reader on a phone is scrolling the whole list anyway, and the title already
+   says what the post is about. Kept for the desktop scan, dropped here. */
+@media (max-width: 640px) {
+  .card-topic { display: none; }
+}
+
+/* Blog excerpts are the post's own opening paragraph, so they run to whatever
+   length that paragraph is — one card had a hand-typed "..." to cut it off.
+   Clamping caps every excerpt at three lines and supplies its own ellipsis. */
+.card-excerpt {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+}
 
 /* Blog card footer. The read time sat alone with no hint the card was
    clickable; this pairs it with an affordance. */
