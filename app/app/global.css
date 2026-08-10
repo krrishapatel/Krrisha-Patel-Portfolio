@@ -465,6 +465,31 @@ a:focus {
   }
 }
 
+/* Projects jump-links.
+   Kept outside the centered content column so the Projects cards stay the same
+   width as every other section's. Anchored to that column's left edge rather
+   than the viewport's, and hidden when there isn't room beside it. */
+.project-rail-col {
+  /* `display: contents` rather than `none`: hiding the wrapper would also
+     remove its position: fixed child. This contributes no box of its own, so
+     the cards beside it get the column's full width. */
+  display: contents;
+}
+
+.project-rail {
+  display: none;
+}
+
+@media (min-width: 1440px) {
+  .project-rail {
+    display: block;
+    position: fixed;
+    top: 20rem;
+    width: 12rem;
+    left: max(1rem, calc(50% - 32rem - 13rem));
+  }
+}
+
 /* Ventures section */
 /* Same chrome as .interactive-card elsewhere on the site, plus a 3px accent
    stripe. The stripe is a background layer rather than a clipped pseudo-element
