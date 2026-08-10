@@ -12,79 +12,170 @@ const KRRISHA_LOCATION = {
 // The boot line typed out before the page renders.
 const INTRO_TEXT = '<hello world... :) />';
 
-// Ornament motifs. Each is a plain line drawing on a 64x64 grid; `currentColor`
-// lets one CSS rule tint them all.
+// Ornament motifs. Line drawings on a 120x120 grid, all stroked in
+// `currentColor` so one CSS rule tints every one. Deliberately more detailed
+// than a plain circle or chevron — at 16% opacity a simple shape reads as a
+// smudge, while a figure with internal structure still reads as a drawing.
 const ORN = {
-  rings: (
-    <svg viewBox="0 0 64 64" fill="none" stroke="currentColor">
-      <circle cx="32" cy="32" r="30" strokeWidth="1" />
-      <circle cx="32" cy="32" r="19" strokeWidth="1" />
-      <circle cx="32" cy="32" r="8" strokeWidth="1" />
+  // Orbits: three ellipses at different tilts around a small core.
+  orbits: (
+    <svg viewBox="0 0 120 120" fill="none" stroke="currentColor">
+      <ellipse cx="60" cy="60" rx="54" ry="20" strokeWidth="1" />
+      <ellipse cx="60" cy="60" rx="54" ry="20" strokeWidth="1" transform="rotate(60 60 60)" />
+      <ellipse cx="60" cy="60" rx="54" ry="20" strokeWidth="1" transform="rotate(120 60 60)" />
+      <circle cx="60" cy="60" r="7" strokeWidth="1" />
+      <circle cx="114" cy="60" r="3" fill="currentColor" stroke="none" />
+      <circle cx="33" cy="14" r="2.5" fill="currentColor" stroke="none" />
     </svg>
   ),
-  lattice: (
-    <svg viewBox="0 0 64 64" fill="currentColor">
-      <circle cx="8" cy="8" r="2" /><circle cx="32" cy="8" r="2" /><circle cx="56" cy="8" r="2" />
-      <circle cx="8" cy="32" r="2" /><circle cx="32" cy="32" r="2" /><circle cx="56" cy="32" r="2" />
-      <circle cx="8" cy="56" r="2" /><circle cx="32" cy="56" r="2" /><circle cx="56" cy="56" r="2" />
+  // Constellation: plotted points joined into a path, with a few strays.
+  constellation: (
+    <svg viewBox="0 0 120 120" fill="none" stroke="currentColor">
+      <path d="M12 92 L34 58 L58 74 L72 34 L104 22" strokeWidth="0.9" />
+      <path d="M34 58 L46 20 M72 34 L94 62 L104 22" strokeWidth="0.6" opacity="0.7" />
+      <g fill="currentColor" stroke="none">
+        <circle cx="12" cy="92" r="2.6" /><circle cx="34" cy="58" r="3.4" />
+        <circle cx="58" cy="74" r="2.2" /><circle cx="72" cy="34" r="3.4" />
+        <circle cx="104" cy="22" r="2.6" /><circle cx="46" cy="20" r="2" />
+        <circle cx="94" cy="62" r="2" /><circle cx="20" cy="34" r="1.6" />
+        <circle cx="86" cy="100" r="1.6" />
+      </g>
     </svg>
   ),
-  folds: (
-    <svg viewBox="0 0 64 64" fill="none" stroke="currentColor">
-      <path d="M32 4 L60 56 L4 56 Z" strokeWidth="1" />
-      <path d="M32 22 L47 52 L17 52 Z" strokeWidth="1" />
+  // Isometric frame: a wireframe cube with its hidden edges drawn lighter.
+  isocube: (
+    <svg viewBox="0 0 120 120" fill="none" stroke="currentColor">
+      <path d="M60 8 L108 34 L108 86 L60 112 L12 86 L12 34 Z" strokeWidth="1" />
+      <path d="M60 8 L60 60 M60 60 L108 34 M60 60 L12 34" strokeWidth="1" />
+      <path d="M60 60 L60 112 M12 86 L60 60 L108 86" strokeWidth="0.5" opacity="0.6" />
     </svg>
   ),
-  arcs: (
-    <svg viewBox="0 0 64 64" fill="none" stroke="currentColor">
-      <path d="M4 60 A56 56 0 0 1 60 4" strokeWidth="1" />
-      <path d="M4 60 A38 38 0 0 1 42 22" strokeWidth="1" />
-      <path d="M4 60 A20 20 0 0 1 24 40" strokeWidth="1" />
+  // Topography: nested contour lines, as on a survey map.
+  contours: (
+    <svg viewBox="0 0 120 120" fill="none" stroke="currentColor" strokeWidth="0.9">
+      <path d="M4 96 C24 74 34 96 54 78 C74 60 88 82 116 58" />
+      <path d="M4 80 C26 58 38 80 58 62 C78 44 92 66 116 42" />
+      <path d="M4 64 C28 42 42 64 62 46 C82 28 96 50 116 26" />
+      <path d="M4 48 C30 26 46 48 66 30 C86 12 100 34 116 10" />
+      <path d="M18 108 C34 92 44 108 62 94" opacity="0.65" />
     </svg>
   ),
-  grid: (
-    <svg viewBox="0 0 64 64" fill="none" stroke="currentColor">
-      <rect x="4" y="4" width="56" height="56" strokeWidth="1" />
-      <path d="M4 23 H60 M4 42 H60 M23 4 V60 M42 4 V60" strokeWidth="0.6" />
+  // Mesh sphere: a globe of latitude and longitude lines.
+  mesh: (
+    <svg viewBox="0 0 120 120" fill="none" stroke="currentColor" strokeWidth="0.85">
+      <circle cx="60" cy="60" r="52" strokeWidth="1" />
+      <ellipse cx="60" cy="60" rx="52" ry="17" />
+      <ellipse cx="60" cy="60" rx="52" ry="36" />
+      <ellipse cx="60" cy="60" rx="17" ry="52" />
+      <ellipse cx="60" cy="60" rx="36" ry="52" />
     </svg>
   ),
-  wave: (
-    <svg viewBox="0 0 64 64" fill="none" stroke="currentColor">
-      <path d="M2 30 Q14 8 26 30 T50 30" strokeWidth="1" />
-      <path d="M2 46 Q14 24 26 46 T50 46" strokeWidth="1" />
+  // Crane: an angular paper-fold study, mountain and valley creases.
+  crane: (
+    <svg viewBox="0 0 120 120" fill="none" stroke="currentColor">
+      <path d="M60 10 L110 60 L60 110 L10 60 Z" strokeWidth="1" />
+      <path d="M60 10 L60 110 M10 60 L110 60" strokeWidth="0.55" opacity="0.6" />
+      <path d="M35 35 L85 85 M85 35 L35 85" strokeWidth="0.55" opacity="0.6" />
+      <path d="M60 10 L85 85 L35 85 Z" strokeWidth="1" />
     </svg>
   ),
-  cross: (
-    <svg viewBox="0 0 64 64" fill="none" stroke="currentColor">
-      <path d="M32 2 V62 M2 32 H62" strokeWidth="0.8" />
-      <circle cx="32" cy="32" r="12" strokeWidth="1" />
+  // Moire: concentric arcs whose spacing tightens toward the centre.
+  moire: (
+    <svg viewBox="0 0 120 120" fill="none" stroke="currentColor" strokeWidth="0.8">
+      <circle cx="60" cy="60" r="56" /><circle cx="60" cy="60" r="47" />
+      <circle cx="60" cy="60" r="39" /><circle cx="60" cy="60" r="32" />
+      <circle cx="60" cy="60" r="26" /><circle cx="60" cy="60" r="21" />
+      <circle cx="60" cy="60" r="17" /><circle cx="60" cy="60" r="14" />
+      <circle cx="60" cy="60" r="11" /><circle cx="60" cy="60" r="9" />
     </svg>
   ),
-  chevrons: (
-    <svg viewBox="0 0 64 64" fill="none" stroke="currentColor">
-      <path d="M10 14 L32 32 L10 50" strokeWidth="1" />
-      <path d="M30 14 L52 32 L30 50" strokeWidth="1" />
+  // Molecule: bonded nodes, for the healthcare and bio work.
+  molecule: (
+    <svg viewBox="0 0 120 120" fill="none" stroke="currentColor">
+      <path d="M60 24 L26 48 M60 24 L94 48 M26 48 L38 90 M94 48 L82 90 M38 90 L82 90 M26 48 L94 48" strokeWidth="0.9" />
+      <circle cx="60" cy="24" r="9" strokeWidth="1" />
+      <circle cx="26" cy="48" r="7" strokeWidth="1" />
+      <circle cx="94" cy="48" r="7" strokeWidth="1" />
+      <circle cx="38" cy="90" r="6" strokeWidth="1" />
+      <circle cx="82" cy="90" r="6" strokeWidth="1" />
     </svg>
   ),
-  hex: (
-    <svg viewBox="0 0 64 64" fill="none" stroke="currentColor">
-      <path d="M32 3 L56 17 V47 L32 61 L8 47 V17 Z" strokeWidth="1" />
-      <path d="M32 19 L44 26 V40 L32 47 L20 40 V26 Z" strokeWidth="1" />
+  // Waveform: a decaying oscillation over a baseline.
+  waveform: (
+    <svg viewBox="0 0 120 120" fill="none" stroke="currentColor">
+      <path d="M4 60 H116" strokeWidth="0.5" opacity="0.5" />
+      <path d="M6 60 Q16 14 26 60 T46 60 Q54 26 62 60 T78 60 Q84 40 90 60 T104 60 Q108 52 112 60"
+        strokeWidth="1" />
     </svg>
   ),
-  spiral: (
-    <svg viewBox="0 0 64 64" fill="none" stroke="currentColor">
-      <path d="M32 32 A6 6 0 1 1 38 26 A14 14 0 1 1 24 12 A26 26 0 1 1 58 46" strokeWidth="1" />
+  // Compass rose: a bearing dial with cardinal ticks.
+  compass: (
+    <svg viewBox="0 0 120 120" fill="none" stroke="currentColor">
+      <circle cx="60" cy="60" r="50" strokeWidth="1" />
+      <circle cx="60" cy="60" r="38" strokeWidth="0.5" opacity="0.6" />
+      <path d="M60 4 L60 22 M60 98 L60 116 M4 60 L22 60 M98 60 L116 60" strokeWidth="0.9" />
+      <path d="M60 18 L78 60 L60 102 L42 60 Z" strokeWidth="1" />
+      <path d="M20 20 L34 34 M100 20 L86 34 M20 100 L34 86 M100 100 L86 86" strokeWidth="0.5" opacity="0.6" />
     </svg>
   ),
-  bars: (
-    <svg viewBox="0 0 64 64" fill="none" stroke="currentColor">
-      <path d="M10 54 V34 M24 54 V18 M38 54 V40 M52 54 V8" strokeWidth="2" />
+  // Spline: a bezier with its control handles left visible.
+  spline: (
+    <svg viewBox="0 0 120 120" fill="none" stroke="currentColor">
+      <path d="M8 100 C8 30 112 90 112 20" strokeWidth="1.1" />
+      <path d="M8 100 L8 30 M112 20 L112 90" strokeWidth="0.5" opacity="0.6" />
+      <g fill="currentColor" stroke="none">
+        <circle cx="8" cy="100" r="3" /><circle cx="112" cy="20" r="3" />
+      </g>
+      <rect x="4" y="26" width="8" height="8" strokeWidth="0.8" />
+      <rect x="108" y="86" width="8" height="8" strokeWidth="0.8" />
     </svg>
   ),
-  ticks: (
-    <svg viewBox="0 0 64 64" fill="none" stroke="currentColor">
-      <path d="M6 10 H58 M6 26 H40 M6 42 H52 M6 58 H30" strokeWidth="1" />
+  // Staircase: stepped risers, drawn as a section.
+  stairs: (
+    <svg viewBox="0 0 120 120" fill="none" stroke="currentColor">
+      <path d="M8 110 V88 H32 V66 H56 V44 H80 V22 H112" strokeWidth="1.1" />
+      <path d="M8 110 H112 M112 22 V110" strokeWidth="0.5" opacity="0.6" />
+      <path d="M32 110 V88 M56 110 V66 M80 110 V44" strokeWidth="0.4" opacity="0.45" />
+    </svg>
+  ),
+  // Burst: radial spokes of alternating length around an open centre.
+  burst: (
+    <svg viewBox="0 0 120 120" fill="none" stroke="currentColor" strokeWidth="0.9">
+      <circle cx="60" cy="60" r="14" />
+      <path d="M60 46 V6 M60 74 V114 M46 60 H6 M74 60 H114" />
+      <path d="M50 50 L26 26 M70 50 L94 26 M50 70 L26 94 M70 70 L94 94" opacity="0.75" />
+      <path d="M55 47 L47 20 M65 47 L73 20 M55 73 L47 100 M65 73 L73 100" strokeWidth="0.5" opacity="0.5" />
+    </svg>
+  ),
+  // Weave: an over-under lattice of bands.
+  weave: (
+    <svg viewBox="0 0 120 120" fill="none" stroke="currentColor" strokeWidth="0.85">
+      <path d="M10 30 H110 M10 58 H110 M10 86 H110" />
+      <path d="M30 10 V110 M58 10 V110 M86 10 V110" />
+      <path d="M30 24 A6 6 0 0 1 30 36 M58 52 A6 6 0 0 1 58 64 M86 80 A6 6 0 0 1 86 92"
+        strokeWidth="1" opacity="0.8" />
+    </svg>
+  ),
+  // Nested arcs fanning from one corner, like a protractor sweep.
+  fan: (
+    <svg viewBox="0 0 120 120" fill="none" stroke="currentColor" strokeWidth="0.9">
+      <path d="M8 112 A104 104 0 0 1 112 8" />
+      <path d="M8 112 A82 82 0 0 1 90 30" />
+      <path d="M8 112 A60 60 0 0 1 68 52" />
+      <path d="M8 112 A38 38 0 0 1 46 74" />
+      <path d="M8 112 L112 8 M8 112 L8 8 M8 112 L112 112" strokeWidth="0.4" opacity="0.45" />
+    </svg>
+  ),
+  // Data bars with a trend line drawn over them.
+  chart: (
+    <svg viewBox="0 0 120 120" fill="none" stroke="currentColor">
+      <path d="M12 108 H112" strokeWidth="0.6" opacity="0.6" />
+      <path d="M12 108 V12" strokeWidth="0.6" opacity="0.6" />
+      <path d="M24 108 V78 M44 108 V54 M64 108 V66 M84 108 V32 M104 108 V44" strokeWidth="2" />
+      <path d="M24 72 L44 48 L64 60 L84 26 L104 38" strokeWidth="0.9" opacity="0.8" />
+      <g fill="currentColor" stroke="none" opacity="0.9">
+        <circle cx="44" cy="48" r="2.4" /><circle cx="84" cy="26" r="2.4" />
+      </g>
     </svg>
   ),
 };
@@ -92,56 +183,82 @@ const ORN = {
 // Which motifs each section gets, and where. `top` is a percentage of the
 // section's full scroll height, so they stay spread out however long the page
 // runs; `side`/`inset` keep every piece in the outer margin, clear of the
-// content column. Deliberately different per section so the six tabs don't
-// share one wallpaper.
+// content column. `size` and `rot` vary piece to piece so a column of
+// ornaments doesn't read as a repeating stamp. Deliberately different per
+// section so the six tabs don't share one wallpaper.
 const ORNAMENTS: Record<
   string,
-  { art: React.ReactNode; top: string; side: 'left' | 'right'; inset: string }[]
+  {
+    art: React.ReactNode;
+    top: string;
+    side: 'left' | 'right';
+    inset: string;
+    size?: number;
+    rot?: number;
+  }[]
 > = {
   about: [
-    { art: ORN.rings, top: '14%', side: 'right', inset: '3%' },
-    { art: ORN.folds, top: '32%', side: 'left', inset: '3%' },
-    { art: ORN.lattice, top: '54%', side: 'left', inset: '2.5%' },
-    { art: ORN.arcs, top: '70%', side: 'right', inset: '4%' },
-    { art: ORN.spiral, top: '88%', side: 'left', inset: '3.5%' },
+    { art: ORN.orbits, top: '9%', side: 'right', inset: '2.5%', size: 108, rot: -12 },
+    { art: ORN.crane, top: '23%', side: 'left', inset: '3%', size: 82 },
+    { art: ORN.constellation, top: '37%', side: 'left', inset: '2%', size: 96, rot: 6 },
+    { art: ORN.moire, top: '49%', side: 'right', inset: '3.5%', size: 74 },
+    { art: ORN.fan, top: '62%', side: 'left', inset: '3.5%', size: 88, rot: -8 },
+    { art: ORN.mesh, top: '74%', side: 'right', inset: '2%', size: 100 },
+    { art: ORN.spline, top: '86%', side: 'left', inset: '2.5%', size: 78, rot: 10 },
+    { art: ORN.compass, top: '95%', side: 'right', inset: '3%', size: 90 },
   ],
   work: [
-    { art: ORN.grid, top: '10%', side: 'right', inset: '3.5%' },
-    { art: ORN.bars, top: '26%', side: 'left', inset: '3%' },
-    { art: ORN.chevrons, top: '44%', side: 'right', inset: '2.5%' },
-    { art: ORN.ticks, top: '62%', side: 'left', inset: '3.5%' },
-    { art: ORN.grid, top: '78%', side: 'right', inset: '3%' },
-    { art: ORN.bars, top: '92%', side: 'left', inset: '2.5%' },
+    { art: ORN.chart, top: '7%', side: 'right', inset: '3%', size: 96 },
+    { art: ORN.isocube, top: '17%', side: 'left', inset: '2.5%', size: 86, rot: 8 },
+    { art: ORN.stairs, top: '28%', side: 'right', inset: '2%', size: 92 },
+    { art: ORN.weave, top: '39%', side: 'left', inset: '3.5%', size: 78 },
+    { art: ORN.waveform, top: '50%', side: 'right', inset: '3.5%', size: 104, rot: -6 },
+    { art: ORN.chart, top: '61%', side: 'left', inset: '2%', size: 82, rot: 4 },
+    { art: ORN.isocube, top: '72%', side: 'right', inset: '2.5%', size: 98, rot: -10 },
+    { art: ORN.burst, top: '83%', side: 'left', inset: '3%', size: 88 },
+    { art: ORN.stairs, top: '93%', side: 'right', inset: '2%', size: 80, rot: 6 },
   ],
   ventures: [
-    { art: ORN.hex, top: '12%', side: 'left', inset: '3%' },
-    { art: ORN.cross, top: '30%', side: 'right', inset: '3.5%' },
-    { art: ORN.hex, top: '52%', side: 'right', inset: '2.5%' },
-    { art: ORN.lattice, top: '72%', side: 'left', inset: '3.5%' },
-    { art: ORN.cross, top: '90%', side: 'right', inset: '3%' },
+    { art: ORN.mesh, top: '8%', side: 'left', inset: '2.5%', size: 100 },
+    { art: ORN.molecule, top: '20%', side: 'right', inset: '3%', size: 88, rot: 10 },
+    { art: ORN.orbits, top: '32%', side: 'right', inset: '2%', size: 94, rot: -14 },
+    { art: ORN.weave, top: '44%', side: 'left', inset: '3.5%', size: 80 },
+    { art: ORN.burst, top: '56%', side: 'right', inset: '2.5%', size: 90 },
+    { art: ORN.constellation, top: '68%', side: 'left', inset: '2%', size: 102, rot: -6 },
+    { art: ORN.molecule, top: '80%', side: 'right', inset: '3.5%', size: 76, rot: -8 },
+    { art: ORN.mesh, top: '91%', side: 'left', inset: '3%', size: 86 },
   ],
   projects: [
-    { art: ORN.chevrons, top: '8%', side: 'left', inset: '3%' },
-    { art: ORN.hex, top: '24%', side: 'right', inset: '3%' },
-    { art: ORN.lattice, top: '40%', side: 'left', inset: '2.5%' },
-    { art: ORN.grid, top: '56%', side: 'right', inset: '3.5%' },
-    { art: ORN.spiral, top: '72%', side: 'left', inset: '3%' },
-    { art: ORN.chevrons, top: '88%', side: 'right', inset: '2.5%' },
+    { art: ORN.isocube, top: '6%', side: 'left', inset: '2.5%', size: 92, rot: -8 },
+    { art: ORN.molecule, top: '15%', side: 'right', inset: '2%', size: 86 },
+    { art: ORN.spline, top: '25%', side: 'left', inset: '3.5%', size: 96, rot: 6 },
+    { art: ORN.chart, top: '35%', side: 'right', inset: '3%', size: 80 },
+    { art: ORN.contours, top: '45%', side: 'left', inset: '2%', size: 104 },
+    { art: ORN.mesh, top: '55%', side: 'right', inset: '2.5%', size: 88, rot: 8 },
+    { art: ORN.burst, top: '65%', side: 'left', inset: '3%', size: 78 },
+    { art: ORN.isocube, top: '75%', side: 'right', inset: '2%', size: 100, rot: 12 },
+    { art: ORN.waveform, top: '85%', side: 'left', inset: '3.5%', size: 92, rot: -5 },
+    { art: ORN.compass, top: '94%', side: 'right', inset: '3%', size: 84 },
   ],
   blog: [
-    { art: ORN.ticks, top: '12%', side: 'right', inset: '3%' },
-    { art: ORN.wave, top: '34%', side: 'left', inset: '3%' },
-    { art: ORN.ticks, top: '56%', side: 'left', inset: '2.5%' },
-    { art: ORN.arcs, top: '76%', side: 'right', inset: '3.5%' },
-    { art: ORN.wave, top: '92%', side: 'right', inset: '3%' },
+    { art: ORN.contours, top: '8%', side: 'right', inset: '2.5%', size: 102 },
+    { art: ORN.crane, top: '20%', side: 'left', inset: '2%', size: 88, rot: -10 },
+    { art: ORN.waveform, top: '32%', side: 'left', inset: '3.5%', size: 96 },
+    { art: ORN.fan, top: '44%', side: 'right', inset: '3%', size: 82, rot: 8 },
+    { art: ORN.constellation, top: '56%', side: 'left', inset: '2.5%', size: 100 },
+    { art: ORN.crane, top: '68%', side: 'right', inset: '2%', size: 76, rot: 14 },
+    { art: ORN.contours, top: '80%', side: 'left', inset: '3%', size: 90, rot: -4 },
+    { art: ORN.spline, top: '92%', side: 'right', inset: '3.5%', size: 86 },
   ],
   faq: [
-    { art: ORN.wave, top: '10%', side: 'left', inset: '3%' },
-    { art: ORN.spiral, top: '28%', side: 'right', inset: '3%' },
-    { art: ORN.rings, top: '46%', side: 'left', inset: '2.5%' },
-    { art: ORN.cross, top: '64%', side: 'right', inset: '3.5%' },
-    { art: ORN.folds, top: '82%', side: 'left', inset: '3%' },
-    { art: ORN.rings, top: '94%', side: 'right', inset: '2.5%' },
+    { art: ORN.moire, top: '7%', side: 'left', inset: '2.5%', size: 94 },
+    { art: ORN.compass, top: '19%', side: 'right', inset: '2%', size: 88, rot: 6 },
+    { art: ORN.spline, top: '31%', side: 'left', inset: '3.5%', size: 80, rot: -12 },
+    { art: ORN.burst, top: '43%', side: 'right', inset: '3%', size: 98 },
+    { art: ORN.crane, top: '55%', side: 'left', inset: '2%', size: 84, rot: 10 },
+    { art: ORN.orbits, top: '67%', side: 'right', inset: '2.5%', size: 104, rot: -8 },
+    { art: ORN.moire, top: '79%', side: 'left', inset: '3%', size: 76 },
+    { art: ORN.fan, top: '90%', side: 'right', inset: '2%', size: 92, rot: -6 },
   ],
 };
 
@@ -434,7 +551,18 @@ export default function Portfolio() {
           <div
             key={n}
             className="sticker"
-            style={{ top: o.top, [o.side]: o.inset, animationDelay: `${n * 0.8}s` }}
+            style={{
+          top: o.top,
+          [o.side]: o.inset,
+          width: o.size ?? 90,
+          height: o.size ?? 90,
+          // Baked into the inline transform rather than a class, so each piece
+          // sits at its own angle. The float keyframes re-apply their own
+          // rotate on top, which is why this is a starting tilt, not a fix.
+          rotate: `${o.rot ?? 0}deg`,
+          animationDelay: `${n * 0.7}s`,
+          animationDuration: `${7 + (n % 4)}s`,
+        }}
           >
             {o.art}
           </div>
@@ -709,10 +837,6 @@ export default function Portfolio() {
         {activeSection === 'work' && (
           <div className="section-scope section-scope-work max-w-6xl mx-auto px-5 md:px-8">
             <header className="section-head">
-              <div className="section-head-eyebrow">
-                <span className="section-head-num">01</span>
-                <span className="section-head-rule" aria-hidden="true" />
-              </div>
               <h2 className="section-heading section-head-title text-5xl">WORK</h2>
               <p className="body-text section-head-sub">professional experience & leadership</p>
             </header>
@@ -999,10 +1123,6 @@ export default function Portfolio() {
         {activeSection === 'ventures' && (
           <div className="section-scope section-scope-ventures max-w-6xl mx-auto px-5 md:px-8">
             <header className="section-head">
-              <div className="section-head-eyebrow">
-                <span className="section-head-num">02</span>
-                <span className="section-head-rule" aria-hidden="true" />
-              </div>
               <h2 className="section-heading section-head-title text-5xl">VENTURES</h2>
               <p className="body-text section-head-sub">orgs i founded &amp; ran</p>
             </header>
@@ -1185,10 +1305,6 @@ export default function Portfolio() {
         {activeSection === 'projects' && (
           <div className="section-scope section-scope-projects max-w-6xl mx-auto px-5 md:px-8">
             <header className="section-head">
-              <div className="section-head-eyebrow">
-                <span className="section-head-num">03</span>
-                <span className="section-head-rule" aria-hidden="true" />
-              </div>
               <h2 id="projects-heading" className="section-heading section-head-title text-5xl">PROJECTS</h2>
               <p className="body-text section-head-sub">technical projects &amp; innovations</p>
             </header>
@@ -1613,10 +1729,6 @@ export default function Portfolio() {
         {activeSection === 'blog' && (
           <div className="section-scope section-scope-blog max-w-6xl mx-auto px-5 md:px-8">
             <header className="section-head">
-              <div className="section-head-eyebrow">
-                <span className="section-head-num">04</span>
-                <span className="section-head-rule" aria-hidden="true" />
-              </div>
               <h2 className="section-heading section-head-title text-5xl">BLOG</h2>
               <p className="body-text section-head-sub">random thoughts &amp; insights</p>
             </header>
@@ -1858,10 +1970,6 @@ export default function Portfolio() {
         {activeSection === 'faq' && (
           <div className="section-scope section-scope-faq max-w-6xl mx-auto px-5 md:px-8">
             <header className="section-head">
-              <div className="section-head-eyebrow">
-                <span className="section-head-num">05</span>
-                <span className="section-head-rule" aria-hidden="true" />
-              </div>
               <h2 className="section-heading section-head-title text-5xl">FAQ</h2>
               <p className="body-text section-head-sub">infrequently asked questions</p>
             </header>
@@ -1873,7 +1981,7 @@ export default function Portfolio() {
               </div>
             </div>
             
-            <div className="faq-list space-y-8">
+            <div className="space-y-8">
               <div className="interactive-card p-6">
                 <h3 className="section-heading text-2xl mb-4">what's something you're passionate about that might surprise people?</h3>
                 <p className="body-text leading-relaxed">

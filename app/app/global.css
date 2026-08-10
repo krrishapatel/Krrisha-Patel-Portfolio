@@ -185,7 +185,13 @@ a:focus {
   transition: width 0.6s ease;
 }
 
-.main-name:hover::after {
+/* The headshot is a preceding sibling of the column holding the name, so this
+   draws the same underline when the photo is hovered — the two read as one
+   unit and the photo looked inert next to a name that responded. Scoped to
+   the sibling combinator rather than the whole hero, so the bio paragraph
+   below doesn't trigger it. */
+.main-name:hover::after,
+.headshot:hover ~ div .main-name::after {
   width: 100%;
 }
 
@@ -384,7 +390,8 @@ a:focus {
 
 /* Hairline corner bracket in the top-right. Reads as a crop mark and gives the
    otherwise-empty corner something to hold. */
-.interactive-card::after {
+.interactive-card::after,
+.venture-card::after {
   content: '';
   position: absolute;
   top: 14px;
@@ -398,13 +405,15 @@ a:focus {
   pointer-events: none;
 }
 
-.interactive-card:hover::after {
+.interactive-card:hover::after,
+.venture-card:hover::after {
   opacity: 0.85;
   width: 24px;
   height: 24px;
 }
 
-.interactive-card::before {
+.interactive-card::before,
+.venture-card::before {
   content: '';
   position: absolute;
   top: 0;
@@ -415,7 +424,8 @@ a:focus {
   transition: left 0.6s ease;
 }
 
-.interactive-card:hover::before {
+.interactive-card:hover::before,
+.venture-card:hover::before {
   left: 100%;
 }
 
@@ -597,40 +607,12 @@ a:focus {
   transform: translateX(4px);
 }
 
-/* Section headers. Each page had a bare gradient word over one line of
-   subtitle, which read flat and identical across all five. This adds a
-   numbered eyebrow, a rule that runs to the edge of the column, and a
-   per-section accent so the tabs are distinguishable at a glance. */
+/* Section headers. Just the title over one line of subtitle. The accent hue
+   and the card chrome carry the per-section character, so there are no rules
+   or numbers here. */
 .section-head {
   position: relative;
   margin-bottom: 48px;
-}
-
-.section-head-eyebrow {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  margin-bottom: 14px;
-}
-
-.section-head-num {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.75rem;
-  letter-spacing: 0.18em;
-  color: var(--section-accent);
-  opacity: 0.9;
-}
-
-/* Fades out rightward so it reads as a hairline, not a border. */
-.section-head-rule {
-  flex: 1;
-  height: 1px;
-  background: linear-gradient(
-    90deg,
-    var(--section-accent),
-    rgb(148 163 184 / 0.25) 45%,
-    transparent
-  );
 }
 
 .section-head-title {
@@ -654,60 +636,14 @@ a:focus {
 .section-scope-blog     { --section-accent: var(--accent-green); }
 .section-scope-faq      { --section-accent: var(--accent-orange); }
 
-/* FAQ list. Eight visually identical Q&A blocks read as a wall of text, so
-   each card carries a counter in its own margin — enough rhythm to track
-   position in the list without adding chrome to the cards themselves. */
-.faq-list {
-  counter-reset: faq;
-}
-
-.faq-list > .interactive-card {
-  counter-increment: faq;
-  /* Room for the number, which sits inside the card's padding box. */
-  padding-left: 64px;
-}
-
-.faq-list > .interactive-card::before {
-  content: counter(faq, decimal-leading-zero);
-  position: absolute;
-  top: 26px;
-  left: 22px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.8125rem;
-  letter-spacing: 0.08em;
-  color: var(--section-accent, var(--accent-blue));
-  opacity: 0.45;
-  transition: opacity 0.4s ease;
-}
-
-.faq-list > .interactive-card:hover::before {
-  opacity: 1;
-}
-
-/* The counter needs the full padding to sit in; on a phone that padding would
-   eat most of the line length, so the number moves above the question. */
-@media (max-width: 640px) {
-  .faq-list > .interactive-card {
-    padding-left: 24px;
-    padding-top: 44px;
-  }
-  .faq-list > .interactive-card::before {
-    top: 18px;
-    left: 24px;
-  }
-}
-
-/* Blog card footer. The read time sat alone on a dim line with no hint the
-   card was clickable; this pairs it with an affordance and rules it off from
-   the excerpt above. */
+/* Blog card footer. The read time sat alone with no hint the card was
+   clickable; this pairs it with an affordance. */
 .card-foot {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
   margin-top: 18px;
-  padding-top: 14px;
-  border-top: 1px solid rgb(71 85 105 / 0.35);
   font-size: 0.875rem;
   color: var(--text-secondary);
 }
@@ -729,6 +665,9 @@ a:focus {
    so the card needs no `overflow: hidden`. */
 .venture-card {
   position: relative;
+  /* Clips the ::before light sweep to the rounded corners. Nothing inside is
+     positioned outside the card, so this costs nothing. */
+  overflow: hidden;
   background:
     linear-gradient(180deg, var(--section-accent, var(--accent-blue)), var(--accent-purple))
       left / 3px 100% no-repeat,
@@ -739,6 +678,22 @@ a:focus {
   box-shadow: 0 1px 0 rgb(255 255 255 / 0.03) inset,
               0 10px 30px rgb(2 6 23 / 0.35);
   padding: 24px 24px 0;
+}
+
+/* The Work/Projects/Blog cards get a light sweep, a corner bracket and an
+   accent ring on hover; ventures had none of it and felt dead by comparison.
+   Shares all three (see the .interactive-card rules above). The one thing it
+   does not share is the lift: a venture card is already fully expanded, so
+   there's nothing to click, and a card that rises on hover promises there is. */
+.venture-card {
+  transition: box-shadow 0.4s ease, border-color 0.4s ease;
+}
+
+.venture-card:hover {
+  box-shadow: 0 1px 0 rgb(255 255 255 / 0.05) inset,
+              0 18px 40px rgb(2 6 23 / 0.5),
+              0 0 0 1px var(--section-accent, var(--accent-blue));
+  border-color: transparent;
 }
 
 .venture-head {
@@ -952,10 +907,6 @@ a:focus {
 .work-tabs {
   display: flex;
   gap: 14px;
-  /* Hairline above the row so the pills read as a control strip rather than
-     three loose buttons floating under the title. */
-  border-top: 1px solid rgb(71 85 105 / 0.35);
-  padding-top: 20px;
   margin-bottom: 28px;
   flex-wrap: wrap;
 }
@@ -1240,12 +1191,13 @@ html {
 
 .sticker {
   position: absolute;
-  /* Line-art SVG rather than a glyph, so this sizes the box, not a font. */
-  width: 72px;
-  height: 72px;
-  color: var(--accent-purple);
-  opacity: 0.16;
-  filter: drop-shadow(0 0 8px rgba(167, 139, 250, 0.3));
+  /* Width, height and tilt come from the ORNAMENTS table as inline styles, so
+     no two pieces are the same size or angle. */
+  color: var(--section-accent, var(--accent-purple));
+  /* Drawings carry more line than the old glyphs did, so they read at a lower
+     opacity — high enough to see, low enough not to compete with the copy. */
+  opacity: 0.2;
+  filter: drop-shadow(0 0 10px currentColor);
   user-select: none;
   pointer-events: none;
   animation: float1 7s ease-in-out infinite;
@@ -1257,9 +1209,19 @@ html {
   display: block;
 }
 
-/* These sit at percentage offsets, so below ~1400px the content column has
-   grown wide enough that they'd land on top of the copy. Hide rather than
-   reposition — they're decoration, and the margins are genuinely gone. */
+/* The margin beside the 1152px content column is (viewport - 1152) / 2, so at
+   1440px there are only 144px to work with and the largest pieces overran it
+   by ~14px. max-* overrides the inline width, so this shrinks every ornament
+   to fit rather than moving any of them. */
+@media (max-width: 1560px) {
+  .sticker {
+    max-width: 72px;
+    max-height: 72px;
+  }
+}
+
+/* Below ~1400px the margins are genuinely gone — even a shrunk ornament lands
+   on the copy. Hide rather than reposition; they're decoration. */
 @media (max-width: 1400px) {
   .ornaments { display: none; }
 }
