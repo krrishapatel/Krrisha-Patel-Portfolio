@@ -809,19 +809,19 @@ export default function Portfolio() {
 
         {/* Ventures Section */}
         {activeSection === 'ventures' && (
-          <div className="max-w-3xl">
+          <div className="max-w-5xl">
             <h2 className="section-heading text-5xl mb-4">VENTURES</h2>
             <p className="body-text text-lg mb-12">orgs i founded &amp; ran</p>
 
             <div className="space-y-12">
               {/* Passion4Med */}
-              <article className="venture-card venture-card--pink">
+              <article className="venture-card">
                 <header className="venture-head">
                   <div className="venture-head-main">
                     <h3 className="venture-title">Passion4Med</h3>
                     <p className="venture-role">Founder &amp; CEO</p>
                   </div>
-                  <span className="venture-date venture-date--pink">Jun 2019 &ndash; Dec 2024</span>
+                  <span className="venture-date">Jun 2019 &ndash; Dec 2024</span>
                 </header>
 
                 <p className="venture-lede">
@@ -829,147 +829,157 @@ export default function Portfolio() {
                   professionals, resources, and mentorship most of them have no way to reach.
                 </p>
 
-                <div className="venture-stats">
-                  <div className="venture-stat">
-                    <div className="venture-stat-num">4,500+</div>
-                    <div className="venture-stat-label">members</div>
+                <div className="venture-grid">
+                  <aside className="venture-rail">
+  <div className="venture-stats">
+                    <div className="venture-stat">
+                      <div className="venture-stat-num">4,500+</div>
+                      <div className="venture-stat-label">members</div>
+                    </div>
+                    <div className="venture-stat">
+                      <div className="venture-stat-num">300+</div>
+                      <div className="venture-stat-label">resources</div>
+                    </div>
+                    <div className="venture-stat">
+                      <div className="venture-stat-num">2,500+</div>
+                      <div className="venture-stat-label">events</div>
+                    </div>
+                    <div className="venture-stat">
+                      <div className="venture-stat-num">50,000+</div>
+                      <div className="venture-stat-label">reached</div>
+                    </div>
                   </div>
-                  <div className="venture-stat">
-                    <div className="venture-stat-num">300+</div>
-                    <div className="venture-stat-label">resources</div>
-                  </div>
-                  <div className="venture-stat">
-                    <div className="venture-stat-num">2,500+</div>
-                    <div className="venture-stat-label">events</div>
-                  </div>
-                  <div className="venture-stat">
-                    <div className="venture-stat-num">50,000+</div>
-                    <div className="venture-stat-label">reached</div>
-                  </div>
-                </div>
+                  </aside>
 
-                <div className="venture-body">
-                  <p>
-                    It started during COVID as a Discord server, because my high school was small and
-                    almost nobody there was interested in medicine. Within weeks hundreds of strangers
-                    across several continents had joined, all asking the same question: how do you
-                    actually get into healthcare? The information exists, but it moves through people.
-                    If you know a doctor, you know what a competitive application looks like and how to
-                    ask for a shadowing placement. If you don&apos;t, you are guessing.
-                  </p>
-                  <p>
-                    So I built what I had needed. I ran the calendar, asked students what they were
-                    stuck on, and turned the answers into workshops on the unglamorous mechanics:
-                    how to email a doctor asking to shadow, how to fit a hospital volunteer CV on one
-                    page, how to read a lab report. One of our first mock interview sessions ran out of
-                    my bedroom at midnight while I was still sending reminders and finishing slides.
-                  </p>
-                  <p>
-                    It grew into eight student-run departments &mdash; Research, Content, Podcast,
-                    Blogging, Project Management, Resource Creation, Engagement, and HR &mdash; and
-                    the students running them decided what Passion4Med became. The Research team
-                    published papers bimonthly. Engagement ran virtual shadowing sessions. We built
-                    300+ resources spanning medical school, nursing, biotech, and biomedical
-                    engineering, partnered with 15+ healthcare organizations, and paired students
-                    one-on-one with professionals by shared interest.
-                  </p>
-                  <p>
-                    Running it turned out to be the actual job. At its peak I was managing 85+ interns
-                    and volunteers across time zones, which meant writing role descriptions, building
-                    onboarding, and learning that a volunteer team falls apart quietly when nobody
-                    feels ownership of anything.
-                  </p>
-                  <p>
-                    A student in rural Montana had nearly given up on healthcare because the only path
-                    she knew about was becoming a doctor; through mentorship she ended up connected to
-                    a biomedical engineer working on prosthetics. A first-generation student learned
-                    her background wasn&apos;t a liability but a perspective the field was short on.
-                    The message I keep coming back to was from a high schooler who said a template we
-                    shared was what finally made her confident enough to email a doctor.
-                  </p>
+                  <div className="venture-col">
+  <div className="venture-body">
+                    <p>
+                      It started during COVID as a Discord server, because my high school was small and
+                      almost nobody there was interested in medicine. Within weeks hundreds of strangers
+                      across several continents had joined, all asking the same question: how do you
+                      actually get into healthcare? The information exists, but it moves through people.
+                      If you know a doctor, you know what a competitive application looks like and how to
+                      ask for a shadowing placement. If you don&apos;t, you are guessing.
+                    </p>
+                    <p>
+                      So I built what I had needed. I ran the calendar, asked students what they were
+                      stuck on, and turned the answers into workshops on the unglamorous mechanics:
+                      how to email a doctor asking to shadow, how to fit a hospital volunteer CV on one
+                      page, how to read a lab report. One of our first mock interview sessions ran out of
+                      my bedroom at midnight while I was still sending reminders and finishing slides.
+                    </p>
+                    <p>
+                      It grew into eight student-run departments: Research, Content, Podcast,
+                      Blogging, Project Management, Resource Creation, Engagement, and HR. The
+                      students running them decided what Passion4Med became. The Research team
+                      published papers bimonthly. Engagement ran virtual shadowing sessions. We built
+                      300+ resources spanning medical school, nursing, biotech, and biomedical
+                      engineering, partnered with 15+ healthcare organizations, and paired students
+                      one-on-one with professionals by shared interest.
+                    </p>
+                    <p>
+                      Running it turned out to be the actual job. At its peak I was managing 85+ interns
+                      and volunteers across time zones, which meant writing role descriptions, building
+                      onboarding, and learning that a volunteer team falls apart quietly when nobody
+                      feels ownership of anything.
+                    </p>
+                    <p>
+                      A student in rural Montana had nearly given up on healthcare because the only path
+                      she knew about was becoming a doctor. Through mentorship she ended up connected
+                      to a biomedical engineer working on prosthetics. A first-generation student learned
+                      her background wasn&apos;t a liability but a perspective the field was short on.
+                      The message I keep coming back to was from a high schooler who said a template we
+                      shared was what finally made her confident enough to email a doctor.
+                    </p>
+                  </div>
+                  </div>
                 </div>
 
                 <footer className="venture-lesson">
                   <div className="venture-lesson-label">what I took from it</div>
                   <p>
-                    Reach is the easiest thing to count and the easiest thing to overvalue. Every
-                    initiative that worked existed because a student asked for it first &mdash; and
-                    the fifty students in one-on-one mentorship got more out of it than the other
-                    4,450 combined.
+                    Reach is the easiest metric to grow and the easiest one to overvalue. Nothing
+                    we shipped worked unless a student asked for it first, and the fifty in
+                    one-on-one mentorship got more out of it than the other 4,450 combined.
                   </p>
                 </footer>
               </article>
 
               {/* MetaHealth */}
-              <article className="venture-card venture-card--indigo">
+              <article className="venture-card">
                 <header className="venture-head">
                   <div className="venture-head-main">
                     <h3 className="venture-title">MetaHealth</h3>
                     <p className="venture-role">Founder &amp; CEO</p>
                   </div>
-                  <span className="venture-date venture-date--indigo">Jun 2022 &ndash; Aug 2024</span>
+                  <span className="venture-date">Jun 2022 &ndash; Aug 2024</span>
                 </header>
 
                 <p className="venture-lede">
                   Cooking and nutrition workshops built to rebuild people&apos;s relationship with
-                  food &mdash; no restriction, no calorie counting.
+                  food, without restriction or calorie counting.
                 </p>
 
-                <div className="venture-stats">
-                  <div className="venture-stat">
-                    <div className="venture-stat-num">60+</div>
-                    <div className="venture-stat-label">participants</div>
+                <div className="venture-grid">
+                  <aside className="venture-rail">
+  <div className="venture-stats">
+                    <div className="venture-stat">
+                      <div className="venture-stat-num">60+</div>
+                      <div className="venture-stat-label">participants</div>
+                    </div>
+                    <div className="venture-stat">
+                      <div className="venture-stat-num">20+</div>
+                      <div className="venture-stat-label">workshops</div>
+                    </div>
+                    <div className="venture-stat">
+                      <div className="venture-stat-num">5,000+</div>
+                      <div className="venture-stat-label">followers</div>
+                    </div>
+                    <div className="venture-stat">
+                      <div className="venture-stat-num">25%</div>
+                      <div className="venture-stat-label">engagement lift</div>
+                    </div>
                   </div>
-                  <div className="venture-stat">
-                    <div className="venture-stat-num">20+</div>
-                    <div className="venture-stat-label">workshops</div>
-                  </div>
-                  <div className="venture-stat">
-                    <div className="venture-stat-num">5,000+</div>
-                    <div className="venture-stat-label">followers</div>
-                  </div>
-                  <div className="venture-stat">
-                    <div className="venture-stat-num">25%</div>
-                    <div className="venture-stat-label">engagement lift</div>
-                  </div>
-                </div>
+                  </aside>
 
-                <div className="venture-body">
-                  <p>
-                    &ldquo;Did you see how lean her muscles are?&rdquo; a teammate whispered once,
-                    watching another girl on our tennis team stretch before a match. Underneath the
-                    trophies, I had been noticing for a while how constant self-comparison was wearing
-                    down people I cared about. One of my closest teammates was dealing with anorexia
-                    and I didn&apos;t know how to help beyond being there.
-                  </p>
-                  <p>
-                    Around the same time I joined Harvard&apos;s STRIPED Initiative, working with
-                    researchers, lawyers, and activists studying how diet pills and supplements get
-                    marketed to teenagers. Seeing how directly that marketing connects to eating
-                    disorders and body image &mdash; while watching my teammate live it &mdash; is
-                    what pushed me to start MetaHealth.
-                  </p>
-                  <p>
-                    I built it around workshops that had nothing to do with restriction: balanced
-                    eating, cooking, and the psychology behind body image. 60+ people came through the
-                    program across 20+ sessions, and the group was more varied than I expected &mdash;
-                    aspiring chefs, psychology students, and people who mostly wanted somewhere to
-                    talk. A debate about how much seasoning is too much turned into an hour on culture
-                    and family food traditions, and that kept happening. Food was the entry point; the
-                    conversation underneath it was the real work.
-                  </p>
-                  <p>
-                    I wound MetaHealth down in 2024.
-                  </p>
+                  <div className="venture-col">
+  <div className="venture-body">
+                    <p>
+                      &ldquo;Did you see how lean her muscles are?&rdquo; a teammate whispered once,
+                      watching another girl on our tennis team stretch before a match. Underneath the
+                      trophies, I had been noticing for a while how constant self-comparison was wearing
+                      down people I cared about. One of my closest teammates was dealing with anorexia
+                      and I didn&apos;t know how to help beyond being there.
+                    </p>
+                    <p>
+                      Around the same time I joined Harvard&apos;s STRIPED Initiative, working with
+                      researchers, lawyers, and activists studying how diet pills and supplements get
+                      marketed to teenagers. Seeing how directly that marketing connects to eating
+                      disorders and body image, while watching my teammate live it, is what pushed me
+                      to start MetaHealth.
+                    </p>
+                    <p>
+                      I built it around workshops that had nothing to do with restriction: balanced
+                      eating, cooking, and the psychology behind body image. 60+ people came through the
+                      program across 20+ sessions, and the group was more varied than I expected:
+                      aspiring chefs, psychology students, and people who mostly wanted somewhere to
+                      talk. A debate about how much seasoning is too much turned into an hour on culture
+                      and family food traditions, and that kept happening. Food was the entry point.
+                      The conversation underneath it was the real work.
+                    </p>
+                    <p>
+                      I wound MetaHealth down in 2024.
+                    </p>
+                  </div>
+                  </div>
                 </div>
 
                 <footer className="venture-lesson">
                   <div className="venture-lesson-label">what I took from it</div>
                   <p>
-                    What I learned wasn&apos;t really about nutrition. Shame about your body
-                    doesn&apos;t go away because someone hands you better information &mdash; it goes
-                    away when you find out you aren&apos;t the only one. It&apos;s why I still think
-                    of health technology as a trust problem before it is ever a data problem.
+                    Information alone changes nothing. People came back because the room felt safe,
+                    not because the content was good. Health tech is a trust problem before it is
+                    ever a data problem.
                   </p>
                 </footer>
               </article>
@@ -2667,11 +2677,7 @@ export default function Portfolio() {
 
       {/* Footer */}
                   <footer className="fixed bottom-0 left-0 w-full bg-slate-900/80 backdrop-blur-md border-t border-slate-700 px-8 py-2">
-        <div className="flex justify-between items-center">
-          <div className="fancy-k text-xl">
-            K
-          </div>
-          
+        <div className="flex justify-end items-center">
           <div className="text-sm text-slate-400">
             <div className="flex space-x-6 md:space-x-8 mb-2">
               <a href="mailto:krrishapatel26@gmail.com" className="nav-link hover:text-blue-400 transition-colors inline-block py-2 md:py-0">email</a>
