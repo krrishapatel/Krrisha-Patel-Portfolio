@@ -714,7 +714,7 @@ a:focus {
 /* Work tabs styling */
 .work-tabs {
   display: flex;
-  gap: 8px;
+  gap: 14px;
   margin-bottom: 24px;
   flex-wrap: wrap;
 }

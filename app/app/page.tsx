@@ -420,14 +420,14 @@ export default function Portfolio() {
         {/* About Section */}
         {activeSection === 'about' && (
           <div className="max-w-6xl mx-auto px-5 md:px-8">
-            <div className="flex flex-col md:flex-row items-start gap-6 md:gap-8 mb-12">
+            <div className="flex flex-col md:flex-row items-start gap-6 md:gap-8 mb-12 md:mb-16">
               <div className="headshot shrink-0">
                 <img src="/headshot.jpeg" alt="Krrisha Patel" className="w-full h-full rounded-full object-cover" />
               </div>
               <div className="flex-1">
-                <div className="main-name text-4xl sm:text-5xl md:text-6xl lg:text-7xl tracking-tighter leading-none mb-8 md:mb-12 flex flex-col md:flex-row md:items-center gap-0 md:gap-10">
+                <div className="main-name text-5xl sm:text-6xl lg:text-[5rem] tracking-tighter leading-none mb-8 md:mb-12 flex flex-col md:flex-row md:items-center gap-0 md:gap-10">
                   Krrisha Patel
-                  <span className="text-2xl md:text-3xl font-medium">
+                  <span className="text-2xl lg:text-4xl font-medium">
                     <span className="rotating-word" data-words="dreamer,doer,innovator"></span>
                   </span>
                 </div>
@@ -462,7 +462,7 @@ export default function Portfolio() {
 
 
                 {/* Your Latest Works */}
-                <div className="mt-16">
+                <div className="mt-32">
                   <h3 className="section-heading text-2xl mb-8 text-center">some of my latest artworks</h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                     <div 
