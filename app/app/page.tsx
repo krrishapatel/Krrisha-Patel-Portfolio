@@ -1978,6 +1978,16 @@ export default function Portfolio() {
             
             <div className="space-y-8">
               <div className="interactive-card p-6">
+                <h3 className="section-heading text-2xl mb-4">how do you stay creative in such a technical field?</h3>
+                <p className="body-text leading-relaxed">
+                  i think the best engineers are secretly artists. every algorithm is a composition, every system architecture 
+                  is a sculpture. i stay creative by constantly asking "what if?" and "why not?" sometimes the most innovative 
+                  solutions come from combining completely unrelated ideas. like using game theory for trading algorithms or 
+                  applying medical AI concepts to financial modeling.
+                </p>
+              </div>
+
+              <div className="interactive-card p-6">
                 <h3 className="section-heading text-2xl mb-4">what's something you're passionate about that might surprise people?</h3>
                 <p className="body-text leading-relaxed">
                   i'm absolutely obsessed with escape room design. there's something fascinating about creating puzzles that 
@@ -1997,32 +2007,12 @@ export default function Portfolio() {
               </div>
 
               <div className="interactive-card p-6">
-                <h3 className="section-heading text-2xl mb-4">what color combinations do you absolutely hate?</h3>
-                <p className="body-text leading-relaxed">
-                  mustard yellow and brown together makes me physically uncomfortable. it's like someone tried to create 
-                  the most depressing color palette possible. also, bright orange with hot pink feels like my eyes are being 
-                  assaulted by a neon sign. but weirdly, i love both colors separately. it's just something about them together 
-                  that triggers my fight or flight response.
-                </p>
-              </div>
-
-              <div className="interactive-card p-6">
                 <h3 className="section-heading text-2xl mb-4">what's something you think is weird but actually makes perfect sense?</h3>
                 <p className="body-text leading-relaxed">
                   the fact that we spend 8 hours a day staring at screens, then come home and immediately grab our phones 
                   to scroll through more screens. it's like we're training ourselves to be digital creatures. but then i realize 
                   that's exactly what's happening - we're evolving to process information differently. our brains are literally 
                   rewiring to handle the digital world. so maybe it's not weird at all, just evolution in real-time.
-                </p>
-              </div>
-
-              <div className="interactive-card p-6">
-                <h3 className="section-heading text-2xl mb-4">how do you stay creative in such a technical field?</h3>
-                <p className="body-text leading-relaxed mb-6">
-                  i think the best engineers are secretly artists. every algorithm is a composition, every system architecture 
-                  is a sculpture. i stay creative by constantly asking "what if?" and "why not?" sometimes the most innovative 
-                  solutions come from combining completely unrelated ideas. like using game theory for trading algorithms or 
-                  applying medical AI concepts to financial modeling.
                 </p>
               </div>
 
@@ -2042,7 +2032,7 @@ export default function Portfolio() {
                   i'm a voracious reader who believes in the power of diverse perspectives. some recent favorites that have 
                   completely changed how i think about the world:
                 </p>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <h4 className="font-semibold text-slate-200 mb-2">Academic & Professional</h4>
                     <ul className="text-sm text-slate-400 space-y-1">
@@ -2065,11 +2055,12 @@ export default function Portfolio() {
               </div>
 
               <div className="interactive-card p-6">
-                <h3 className="section-heading text-2xl mb-4">what's the most challenging project you've ever built?</h3>
+                <h3 className="section-heading text-2xl mb-4">what color combinations do you absolutely hate?</h3>
                 <p className="body-text leading-relaxed">
-                  definitely the LLM-aware runtime optimizer. trying to squeeze every last millisecond out of transformer models 
-                  while maintaining accuracy was like solving a 1000-piece puzzle blindfolded. but when we finally got that 48% 
-                  latency reduction, it felt like discovering fire all over again.
+                  mustard yellow and brown together makes me physically uncomfortable. it's like someone tried to create 
+                  the most depressing color palette possible. also, bright orange with hot pink feels like my eyes are being 
+                  assaulted by a neon sign. but weirdly, i love both colors separately. it's just something about them together 
+                  that triggers my fight or flight response.
                 </p>
               </div>
             </div>
