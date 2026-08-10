@@ -480,13 +480,13 @@ a:focus {
   display: none;
 }
 
-@media (min-width: 1440px) {
+@media (min-width: 1536px) {
   .project-rail {
     display: block;
     position: fixed;
     top: 20rem;
     width: 12rem;
-    left: max(1rem, calc(50% - 32rem - 13rem));
+    left: max(1rem, calc(50% - 36rem - 13rem));
   }
 }
 
@@ -524,7 +524,7 @@ a:focus {
 /* Two columns: a sticky stat rail on the left, the story on the right. */
 .venture-grid {
   display: grid;
-  grid-template-columns: 180px 1fr;
+  grid-template-columns: 190px 1fr;
   gap: 32px;
   align-items: start;
 }

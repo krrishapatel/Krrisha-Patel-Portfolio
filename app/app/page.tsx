@@ -298,7 +298,7 @@ export default function Portfolio() {
 
       {/* Navigation */}
       <nav className="fixed top-0 left-0 w-full bg-slate-900/80 backdrop-blur-md z-50 border-b border-slate-700">
-        <div className="max-w-5xl mx-auto flex justify-between items-center px-5 md:px-8 py-2">
+        <div className="max-w-6xl mx-auto flex justify-between items-center px-5 md:px-8 py-2">
           <div className="fancy-k">
             K
           </div>
@@ -419,7 +419,7 @@ export default function Portfolio() {
               <main className="pt-28 md:pt-40 pb-32 md:pb-24">
         {/* About Section */}
         {activeSection === 'about' && (
-          <div className="max-w-5xl mx-auto px-5 md:px-8">
+          <div className="max-w-6xl mx-auto px-5 md:px-8">
             <div className="flex flex-col md:flex-row items-start gap-6 md:gap-8 mb-12">
               <div className="headshot shrink-0">
                 <img src="/headshot.jpeg" alt="Krrisha Patel" className="w-full h-full rounded-full object-cover" />
@@ -525,7 +525,7 @@ export default function Portfolio() {
 
         {/* Work Section */}
         {activeSection === 'work' && (
-          <div className="max-w-5xl mx-auto px-5 md:px-8">
+          <div className="max-w-6xl mx-auto px-5 md:px-8">
             <h2 className="section-heading text-5xl mb-12">WORK</h2>
             <p className="body-text text-lg mb-12">professional experience & leadership</p>
             
@@ -809,7 +809,7 @@ export default function Portfolio() {
 
         {/* Ventures Section */}
         {activeSection === 'ventures' && (
-          <div className="max-w-5xl mx-auto px-5 md:px-8">
+          <div className="max-w-6xl mx-auto px-5 md:px-8">
             <h2 className="section-heading text-5xl mb-12">VENTURES</h2>
             <p className="body-text text-lg mb-12">orgs i founded &amp; ran</p>
 
@@ -989,7 +989,7 @@ export default function Portfolio() {
 
         {/* Projects Section */}
         {activeSection === 'projects' && (
-          <div className="max-w-5xl mx-auto px-5 md:px-8">
+          <div className="max-w-6xl mx-auto px-5 md:px-8">
             <h2 id="projects-heading" className="section-heading text-5xl mb-12">PROJECTS</h2>
             <p className="body-text text-lg mb-12">technical projects & innovations</p>
             
@@ -1421,7 +1421,7 @@ export default function Portfolio() {
 
         {/* Blog Section */}
         {activeSection === 'blog' && (
-          <div className="max-w-5xl mx-auto px-5 md:px-8">
+          <div className="max-w-6xl mx-auto px-5 md:px-8">
             <h2 className="section-heading text-5xl mb-12">BLOG</h2>
             <p className="body-text text-lg mb-12">random thoughts & insights</p>
             
@@ -1653,7 +1653,7 @@ export default function Portfolio() {
 
         {/* FAQ Section */}
         {activeSection === 'faq' && (
-          <div className="max-w-5xl mx-auto px-5 md:px-8">
+          <div className="max-w-6xl mx-auto px-5 md:px-8">
             <h2 className="section-heading text-5xl mb-12">FAQ</h2>
             <p className="body-text text-lg mb-12">infrequently asked questions</p>
             
@@ -2587,7 +2587,7 @@ export default function Portfolio() {
 
       {/* Footer */}
                   <footer className="fixed bottom-0 left-0 w-full bg-slate-900/80 backdrop-blur-md border-t border-slate-700 py-2">
-        <div className="max-w-5xl mx-auto flex justify-end items-center px-5 md:px-8">
+        <div className="max-w-6xl mx-auto flex justify-end items-center px-5 md:px-8">
           <div className="text-sm text-slate-400">
             <div className="flex space-x-6 md:space-x-8 mb-2">
               <a href="mailto:krrishapatel26@gmail.com" className="nav-link hover:text-blue-400 transition-colors inline-block py-2 md:py-0">email</a>
