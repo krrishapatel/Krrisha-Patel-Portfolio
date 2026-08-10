@@ -425,7 +425,7 @@ export default function Portfolio() {
                 <img src="/headshot.jpeg" alt="Krrisha Patel" className="w-full h-full rounded-full object-cover" />
               </div>
               <div className="flex-1">
-                <div className="main-name text-5xl sm:text-6xl md:text-7xl lg:text-8xl tracking-tighter leading-none mb-8 md:mb-12 flex flex-col md:flex-row md:items-center gap-0 md:gap-10">
+                <div className="main-name text-4xl sm:text-5xl md:text-6xl lg:text-7xl tracking-tighter leading-none mb-8 md:mb-12 flex flex-col md:flex-row md:items-center gap-0 md:gap-10">
                   Krrisha Patel
                   <span className="text-2xl md:text-3xl font-medium">
                     <span className="rotating-word" data-words="dreamer,doer,innovator"></span>
@@ -444,7 +444,7 @@ export default function Portfolio() {
               <div className="interactive-card p-6">
                 <h3 className="section-heading text-2xl mb-4">currently obsessed with</h3>
                 <p className="body-text">
-                  building AI that can actually understand context and create meaningful conversations. 
+                  building AI that understands context well enough to hold a real conversation. 
                   exploring edge computing and low-latency optimization for transformer models.
                   obsessed with making technology feel more human and intuitive.
                 </p>
@@ -453,7 +453,7 @@ export default function Portfolio() {
                 <h3 className="section-heading text-2xl mb-4">what i'm up to</h3>
                 <p className="body-text">
                   building tooling for AWS data center procurement, exploring the intersection of 
-                  healthcare and technology, and building products that actually make a difference in people's lives.
+                  healthcare and technology, and building things people keep using after the novelty wears off.
                   always learning, always building, always curious.
                 </p>
               </div>
@@ -561,8 +561,8 @@ export default function Portfolio() {
                   </div>
                   <p className="body-text text-slate-300 mb-2">Software Development Engineer Intern</p>
                   <p className="body-text mb-3">
-                    Architected Java/TypeScript malware scanner securing data center procurement across 12 global regions.
-                    Cut deployment artifact size 45% (287MB → 159MB) with serverless Lambda/Fargate pipelines.
+                    a malware scanner that sits in the procurement path for data centers across 12 regions, so what gets
+                    bought is checked before it ships. the deploy artifact started at 287MB and the Lambda/Fargate split got it to 159MB.
                   </p>
                   <div className="flex flex-wrap gap-2">
                     <span className="px-2 py-1 bg-orange-900/50 text-orange-300 text-xs rounded">Java</span>
@@ -571,7 +571,7 @@ export default function Portfolio() {
                     <span className="px-2 py-1 bg-green-900/50 text-green-300 text-xs rounded">Lambda</span>
                     <span className="px-2 py-1 bg-pink-900/50 text-pink-300 text-xs rounded">Fargate</span>
                   </div>
-                  <div className="mt-4 text-center text-slate-400 text-sm">Click for more details →</div>
+                  <div className="mt-4 text-center text-slate-400 text-sm">what the scanner does →</div>
                 </div>
 
                 <div className="interactive-card p-6" onClick={() => setSelectedWork('very-good-ventures')}>
@@ -581,8 +581,8 @@ export default function Portfolio() {
                   </div>
                   <p className="body-text text-slate-300 mb-2">Software Engineering Intern</p>
                   <p className="body-text mb-3">
-                    Spearheaded AI-powered race strategy assistant using LLMs, improving decision-making speed by 30% for NASCAR analysis. 
-                    Reduced mobile sync latency by 35% with Flutter modules.
+                    a race strategy assistant for NASCAR analysts: an LLM reads live race state and suggests calls, which cut
+                    decision time by 30%. also reworked the Flutter sync modules and took 35% off mobile latency.
                   </p>
                   <div className="flex flex-wrap gap-2">
                     <span className="px-2 py-1 bg-blue-900/50 text-blue-300 text-xs rounded">Python</span>
@@ -590,7 +590,7 @@ export default function Portfolio() {
                     <span className="px-2 py-1 bg-green-900/50 text-green-300 text-xs rounded">Flutter</span>
                     <span className="px-2 py-1 bg-pink-900/50 text-pink-300 text-xs rounded">AWS</span>
                   </div>
-                  <div className="mt-4 text-center text-slate-400 text-sm">Click for more details →</div>
+                  <div className="mt-4 text-center text-slate-400 text-sm">how the assistant works →</div>
                 </div>
 
                 <div className="interactive-card p-6" onClick={() => setSelectedWork('aha')}>
@@ -600,15 +600,15 @@ export default function Portfolio() {
                   </div>
                   <p className="body-text text-slate-300 mb-2">Software Engineering Intern</p>
                   <p className="body-text mb-3">
-                    Increased system scalability by 40% by deploying REST API with Node.js, AWS Lambdas. 
-                    Developed blood report interpretation LLM with 98.4% accuracy.
+                    an LLM that reads a blood report and explains what it means, at 98.4% accuracy. the Node.js and Lambda
+                    API behind it takes 40% more load than what it replaced.
                   </p>
                   <div className="flex flex-wrap gap-2">
                     <span className="px-2 py-1 bg-purple-900/50 text-purple-300 text-xs rounded">Node.js</span>
                     <span className="px-2 py-1 bg-pink-900/50 text-pink-300 text-xs rounded">LLMs</span>
                     <span className="px-2 py-1 bg-blue-900/50 text-blue-300 text-xs rounded">AWS Lambda</span>
                   </div>
-                  <div className="mt-4 text-center text-slate-400 text-sm">Click for more details →</div>
+                  <div className="mt-4 text-center text-slate-400 text-sm">the accuracy problem →</div>
                 </div>
 
                 <div className="interactive-card p-6" onClick={() => setSelectedWork('ipmd')}>
@@ -618,8 +618,8 @@ export default function Portfolio() {
                   </div>
                   <p className="body-text text-slate-300 mb-2">AI and Machine Learning Developer Intern</p>
                   <p className="body-text mb-3">
-                    Led integration of facial and emotional AI for telemedicine platform, improving emotional recognition by 30%. 
-                    Enhanced ML pipeline efficiency with PyTorch and TensorFlow, reducing model training time by 20%.
+                    facial and emotion recognition for a telemedicine platform, so a doctor on a video call gets some signal
+                    about how the patient is actually doing. recognition improved 30%, and the PyTorch/TensorFlow pipeline trains 20% faster.
                   </p>
                   <div className="flex flex-wrap gap-2">
                     <span className="px-2 py-1 bg-pink-900/50 text-pink-300 text-xs rounded">AI/ML</span>
@@ -627,7 +627,7 @@ export default function Portfolio() {
                     <span className="px-2 py-1 bg-blue-900/50 text-blue-300 text-xs rounded">PyTorch</span>
                     <span className="px-2 py-1 bg-purple-900/50 text-purple-300 text-xs rounded">Telemedicine</span>
                   </div>
-                  <div className="mt-4 text-center text-slate-400 text-sm">Click for more details →</div>
+                  <div className="mt-4 text-center text-slate-400 text-sm">what emotion recognition missed →</div>
                 </div>
 
                 <div className="interactive-card p-6" onClick={() => setSelectedWork('infosys')}>
@@ -637,8 +637,8 @@ export default function Portfolio() {
                   </div>
                   <p className="body-text text-slate-300 mb-2">Software Engineering Intern</p>
                   <p className="body-text mb-3">
-                    Engineered cloud-based analytics platform with AWS Bedrock, Azure OpenAI, improving segmentation by 25% and 
-                    uncovering $5M+ in revenue opportunities. Integrated RPA solutions, boosting client implementation by 30%.
+                    a customer analytics platform on AWS Bedrock and Azure OpenAI. sharper segmentation, up 25%, surfaced $5M+ in
+                    revenue the client wasn't targeting, and the RPA work sped their rollout up by 30%.
                   </p>
                   <div className="flex flex-wrap gap-2">
                     <span className="px-2 py-1 bg-orange-900/50 text-orange-300 text-xs rounded">Cloud Computing</span>
@@ -646,7 +646,7 @@ export default function Portfolio() {
                     <span className="px-2 py-1 bg-purple-900/50 text-purple-300 text-xs rounded">RPA</span>
                     <span className="px-2 py-1 bg-green-900/50 text-green-300 text-xs rounded">Analytics</span>
                   </div>
-                  <div className="mt-4 text-center text-slate-400 text-sm">Click for more details →</div>
+                  <div className="mt-4 text-center text-slate-400 text-sm">where the $5M was hiding →</div>
                 </div>
 
                 <div className="interactive-card p-6" onClick={() => setSelectedWork('jane-street')}>
@@ -656,8 +656,8 @@ export default function Portfolio() {
                   </div>
                   <p className="body-text text-slate-300 mb-2">Academy of Math and Programming Intern</p>
                   <p className="body-text mb-3">
-                    Designed algorithmic solutions in game theory and graph theory, enhancing decision-making for quantitative trading. 
-                    Achieved top 10 PnL scores in trading challenges, contributing over $9M in profit.
+                    game theory and graph problems pointed at trading decisions, then the trading challenges themselves.
+                    finished top 10 by PnL, $9M+ in profit.
                   </p>
                   <div className="flex flex-wrap gap-2">
                     <span className="px-2 py-1 bg-blue-900/50 text-blue-300 text-xs rounded">Algorithm Design</span>
@@ -665,7 +665,7 @@ export default function Portfolio() {
                     <span className="px-2 py-1 bg-green-900/50 text-green-300 text-xs rounded">Quantitative Trading</span>
                     <span className="px-2 py-1 bg-pink-900/50 text-pink-300 text-xs rounded">High-Frequency Trading</span>
                   </div>
-                  <div className="mt-4 text-center text-slate-400 text-sm">Click for more details →</div>
+                  <div className="mt-4 text-center text-slate-400 text-sm">the game theory part →</div>
                 </div>
 
                 <div className="interactive-card p-6" onClick={() => setSelectedWork('prosthetix')}>
@@ -675,8 +675,8 @@ export default function Portfolio() {
                   </div>
                   <p className="body-text text-slate-300 mb-2">Lead Researcher, Design and Developer</p>
                   <p className="body-text mb-3">
-                    Constructed affordable myoelectric prosthetics using Arduino, Raspberry Pi Pico, and MATLAB. 
-                    Cut production costs by 50% and improved mobility by 20% in clinical simulations.
+                    myoelectric prosthetics on Arduino and Raspberry Pi Pico, built around the constraint that they had to be
+                    cheap enough to actually reach someone. half the production cost, 20% better mobility in clinical simulations.
                   </p>
                   <div className="flex flex-wrap gap-2">
                     <span className="px-2 py-1 bg-amber-900/50 text-amber-300 text-xs rounded">Arduino</span>
@@ -684,7 +684,7 @@ export default function Portfolio() {
                     <span className="px-2 py-1 bg-green-900/50 text-green-300 text-xs rounded">MATLAB</span>
                     <span className="px-2 py-1 bg-pink-900/50 text-pink-300 text-xs rounded">3D Printing</span>
                   </div>
-                  <div className="mt-4 text-center text-slate-400 text-sm">Click for more details →</div>
+                  <div className="mt-4 text-center text-slate-400 text-sm">the cost constraint →</div>
                 </div>
               </div>
             )}
@@ -699,8 +699,8 @@ export default function Portfolio() {
                   </div>
                   <p className="body-text text-slate-300 mb-2">Venture Capital Analyst</p>
                   <p className="body-text mb-3">
-                    Sourced and evaluated 50+ startups for a $180M AUM fund; engaged with 300+ CEOs, increasing founder applications by 20%. 
-                    Managed a $175M portfolio and conducted due diligence on 15+ startups.
+                    sourcing for a $180M fund: 50+ startups evaluated, 300+ founder conversations, and outreach that brought
+                    applications up 20%. ran diligence on 15+ companies across a $175M portfolio.
                   </p>
                   <div className="flex flex-wrap gap-2">
                     <span className="px-2 py-1 bg-green-900/50 text-green-300 text-xs rounded">Due Diligence</span>
@@ -708,7 +708,7 @@ export default function Portfolio() {
                     <span className="px-2 py-1 bg-purple-900/50 text-purple-300 text-xs rounded">Portfolio Management</span>
                     <span className="px-2 py-1 bg-pink-900/50 text-pink-300 text-xs rounded">Financial Modeling</span>
                   </div>
-                  <div className="mt-4 text-center text-slate-400 text-sm">Click for more details →</div>
+                  <div className="mt-4 text-center text-slate-400 text-sm">what 300 founder calls teach you →</div>
                 </div>
 
                 <div className="interactive-card p-6" onClick={() => setSelectedWork('phelps-forward')}>
@@ -718,8 +718,8 @@ export default function Portfolio() {
                   </div>
                   <p className="body-text text-slate-300 mb-2">Program Scholar and Summer Investing Program</p>
                   <p className="body-text mb-3">
-                    Chosen for selective 3-year financial services career development program for first-gen women with leadership potential. 
-                    Participate in 9-week immersive program on financial modeling and analysis.
+                    a three-year program for first-generation women heading into financial services. the summer piece is nine
+                    weeks on financial modeling and analysis.
                   </p>
                   <div className="flex flex-wrap gap-2">
                     <span className="px-2 py-1 bg-teal-900/50 text-teal-300 text-xs rounded">Financial Modeling</span>
@@ -727,7 +727,7 @@ export default function Portfolio() {
                     <span className="px-2 py-1 bg-purple-900/50 text-purple-300 text-xs rounded">LBO Models</span>
                     <span className="px-2 py-1 bg-pink-900/50 text-pink-300 text-xs rounded">Merger Analysis</span>
                   </div>
-                  <div className="mt-4 text-center text-slate-400 text-sm">Click for more details →</div>
+                  <div className="mt-4 text-center text-slate-400 text-sm">the nine weeks →</div>
                 </div>
               </div>
             )}
@@ -742,8 +742,8 @@ export default function Portfolio() {
                   </div>
                   <p className="body-text text-slate-300 mb-2">Co-Founder</p>
                   <p className="body-text mb-3">
-                    Co-founded Penn's first chapter dedicated to empowering women in venture capital. 
-                    Organizing networking events, mentorship programs, and educational workshops.
+                    co-founded Penn's first chapter. we run the networking events, the mentorship pairings, and the workshops
+                    for women trying to get into venture.
                   </p>
                   <div className="flex flex-wrap gap-2">
                     <span className="px-2 py-1 bg-purple-900/50 text-purple-300 text-xs rounded">Venture Capital</span>
@@ -759,8 +759,8 @@ export default function Portfolio() {
                   </div>
                   <p className="body-text text-slate-300 mb-2">Incubator Team</p>
                   <p className="body-text mb-3">
-                    Part of the incubator team helping students develop healthcare startups. 
-                    Mentoring early-stage ideas and connecting founders with industry experts.
+                    on the incubator team, which mostly means sitting with students while their healthcare idea is still vague
+                    and finding someone in the industry who'll take the call.
                   </p>
                   <div className="flex flex-wrap gap-2">
                     <span className="px-2 py-1 bg-green-900/50 text-green-300 text-xs rounded">Healthcare</span>
@@ -776,8 +776,8 @@ export default function Portfolio() {
                   </div>
                   <p className="body-text text-slate-300 mb-2">Pitch Team</p>
                   <p className="body-text mb-3">
-                    Part of the pitch team helping students develop and present startup ideas. 
-                    Mentoring early-stage entrepreneurs and organizing pitch competitions.
+                    on the pitch team: running the competitions, and coaching founders through the gap between having an idea
+                    and being able to say it out loud in five minutes.
                   </p>
                   <div className="flex flex-wrap gap-2">
                     <span className="px-2 py-1 bg-yellow-900/50 text-yellow-300 text-xs rounded">Entrepreneurship</span>
@@ -793,8 +793,8 @@ export default function Portfolio() {
                   </div>
                   <p className="body-text text-slate-300 mb-2">Product Team</p>
                   <p className="body-text mb-3">
-                    Working on product development and user experience design. 
-                    Collaborating with cross-functional teams to build innovative solutions.
+                    product and UX work in teams mixed from design, engineering, and business, where most of the effort goes
+                    into agreeing on what to cut.
                   </p>
                   <div className="flex flex-wrap gap-2">
                     <span className="px-2 py-1 bg-orange-900/50 text-orange-300 text-xs rounded">Product Design</span>
@@ -1056,7 +1056,7 @@ export default function Portfolio() {
                   <span className="px-2 py-1 bg-green-900/50 text-green-300 text-xs rounded">PharmCAT</span>
                   <span className="px-2 py-1 bg-pink-900/50 text-pink-300 text-xs rounded">Bioinformatics</span>
                 </div>
-                <div className="mt-4 text-center text-slate-400 text-sm">Click for more details →</div>
+                <div className="mt-4 text-center text-slate-400 text-sm">why it refuses to guess →</div>
               </div>
 
               <div className="interactive-card p-6" onClick={() => setSelectedProject('exchange-simulator')}>
@@ -1074,7 +1074,7 @@ export default function Portfolio() {
                   <span className="px-2 py-1 bg-green-900/50 text-green-300 text-xs rounded">Gymnasium</span>
                   <span className="px-2 py-1 bg-orange-900/50 text-orange-300 text-xs rounded">React</span>
                 </div>
-                <div className="mt-4 text-center text-slate-400 text-sm">Click for more details →</div>
+                <div className="mt-4 text-center text-slate-400 text-sm">the hot path →</div>
               </div>
 
               <div className="interactive-card p-6" onClick={() => setSelectedProject('excel-diff')}>
@@ -1091,7 +1091,7 @@ export default function Portfolio() {
                   <span className="px-2 py-1 bg-purple-900/50 text-purple-300 text-xs rounded">TypeScript</span>
                   <span className="px-2 py-1 bg-green-900/50 text-green-300 text-xs rounded">SpreadJS</span>
                 </div>
-                <div className="mt-4 text-center text-slate-400 text-sm">Click for more details →</div>
+                <div className="mt-4 text-center text-slate-400 text-sm">the sign-flip problem →</div>
               </div>
 
               <div className="interactive-card p-6" onClick={() => setSelectedProject('doctoapi')}>
@@ -1107,7 +1107,7 @@ export default function Portfolio() {
                   <span className="px-2 py-1 bg-purple-900/50 text-purple-300 text-xs rounded">FastAPI</span>
                   <span className="px-2 py-1 bg-green-900/50 text-green-300 text-xs rounded">LLMs</span>
                 </div>
-                <div className="mt-4 text-center text-slate-400 text-sm">Click for more details →</div>
+                <div className="mt-4 text-center text-slate-400 text-sm">how it infers a schema →</div>
               </div>
 
               <div className="interactive-card p-6" onClick={() => setSelectedProject('open-source')}>
@@ -1133,7 +1133,7 @@ export default function Portfolio() {
                   <span className="px-2 py-1 bg-purple-900/50 text-purple-300 text-xs rounded">Starlette</span>
                   <span className="px-2 py-1 bg-green-900/50 text-green-300 text-xs rounded">OpenTelemetry</span>
                 </div>
-                <div className="mt-4 text-center text-slate-400 text-sm">Click for more details →</div>
+                <div className="mt-4 text-center text-slate-400 text-sm">the four bugs →</div>
               </div>
 
                                                              <div className="interactive-card p-6" onClick={() => setSelectedProject('llm-optimizer')}>
@@ -1141,8 +1141,8 @@ export default function Portfolio() {
                   <h3 className="section-heading text-2xl">LLM-Aware Runtime Optimizer</h3>
                 </div>
                 <p className="body-text mb-3">
-                  Built MLIR-based runtime optimizer for quantized transformer LLMs, targeting low-latency edge deployment. 
-                  Reduced latency by 48% on NVIDIA GPUs using TensorRT + ONNX rewriting.
+                  an MLIR-based optimizer for quantized transformer LLMs, aimed at edge deployment where you can't just reach
+                  for a bigger GPU. TensorRT and ONNX rewriting took 48% off latency on NVIDIA hardware.
                 </p>
                 <div className="flex flex-wrap gap-2">
                   <span className="px-2 py-1 bg-blue-900/50 text-blue-300 text-xs rounded">Python</span>
@@ -1150,7 +1150,7 @@ export default function Portfolio() {
                   <span className="px-2 py-1 bg-green-900/50 text-green-300 text-xs rounded">MLIR</span>
                   <span className="px-2 py-1 bg-pink-900/50 text-pink-300 text-xs rounded">TensorRT</span>
                 </div>
-                <div className="mt-4 text-center text-slate-400 text-sm">Click for more details →</div>
+                <div className="mt-4 text-center text-slate-400 text-sm">where the 48% came from →</div>
               </div>
 
                                                              <div className="interactive-card p-6" onClick={() => setSelectedProject('trading-simulator')}>
@@ -1158,8 +1158,8 @@ export default function Portfolio() {
                   <h3 className="section-heading text-2xl">Real-Time AI Trading Simulator</h3>
                 </div>
                 <p className="body-text mb-3">
-                  Created multithreaded trading engine processing 1,000+ datapoints/sec using real-time APIs and event loops. 
-                  Implemented VWAP logic and limit orders; benchmarked PnL performance against S&P and sector indices.
+                  a multithreaded engine handling 1,000+ datapoints/sec off live feeds, event-driven so strategy logic reacts
+                  to the market instead of polling a timer. VWAP execution and limit orders, benchmarked against the S&P and sector indices.
                 </p>
                 <div className="flex flex-wrap gap-2">
                   <span className="px-2 py-1 bg-blue-900/50 text-blue-300 text-xs rounded">Python</span>
@@ -1167,7 +1167,7 @@ export default function Portfolio() {
                   <span className="px-2 py-1 bg-green-900/50 text-green-300 text-xs rounded">SQL</span>
                   <span className="px-2 py-1 bg-pink-900/50 text-pink-300 text-xs rounded">Multithreading</span>
                 </div>
-                <div className="mt-4 text-center text-slate-400 text-sm">Click for more details →</div>
+                <div className="mt-4 text-center text-slate-400 text-sm">the engine design →</div>
               </div>
 
                               <div className="interactive-card p-6" onClick={() => setSelectedProject('medical-llm')}>
@@ -1175,8 +1175,8 @@ export default function Portfolio() {
                   <h3 className="section-heading text-2xl">Distributed Inference Pipeline for Medical LLMs</h3>
                 </div>
                 <p className="body-text mb-3">
-                  Built async LLM inference system with caching + cold-start mitigation; deployed using serverless AWS Lambda. 
-                  Reached 98.4% interpretation accuracy; reduced response time by 30% with streaming and rate-limiting layers.
+                  async LLM inference on serverless Lambda, where cold starts are the entire problem. caching plus streaming
+                  and rate-limiting layers cut response time 30%, at 98.4% interpretation accuracy.
                 </p>
                 <div className="flex flex-wrap gap-2">
                   <span className="px-2 py-1 bg-blue-900/50 text-blue-300 text-xs rounded">Python</span>
@@ -1184,7 +1184,7 @@ export default function Portfolio() {
                   <span className="px-2 py-1 bg-green-900/50 text-green-300 text-xs rounded">AWS Lambda</span>
                   <span className="px-2 py-1 bg-pink-900/50 text-pink-300 text-xs rounded">MongoDB</span>
                 </div>
-                <div className="mt-4 text-center text-slate-400 text-sm">Click for more details →</div>
+                <div className="mt-4 text-center text-slate-400 text-sm">the cold-start fix →</div>
               </div>
 
                               <div className="interactive-card p-6" onClick={() => setSelectedProject('equity-forecaster')}>
@@ -1192,8 +1192,8 @@ export default function Portfolio() {
                   <h3 className="section-heading text-2xl">Equity Price Forecaster</h3>
                 </div>
                 <p className="body-text mb-3">
-                  Built predictive model using macro, firm-level data to forecast S&P 500 movements with ~92% accuracy over 30-day windows. 
-                  Deployed pipeline with Snowflake, Airflow for daily ETL; visualized forecasts in Tableau for decision-ready insights.
+                  forecasts S&P 500 movement over 30-day windows from macro and firm-level data, ~92% accurate. Snowflake and
+                  Airflow run the daily ETL, Tableau renders the output.
                 </p>
                 <div className="flex flex-wrap gap-2">
                   <span className="px-2 py-1 bg-blue-900/50 text-blue-300 text-xs rounded">Python</span>
@@ -1201,7 +1201,7 @@ export default function Portfolio() {
                   <span className="px-2 py-1 bg-green-900/50 text-green-300 text-xs rounded">Tableau</span>
                   <span className="px-2 py-1 bg-pink-900/50 text-pink-300 text-xs rounded">Scikit-learn</span>
                 </div>
-                <div className="mt-4 text-center text-slate-400 text-sm">Click for more details →</div>
+                <div className="mt-4 text-center text-slate-400 text-sm">what the model reads →</div>
               </div>
 
                               <div className="interactive-card p-6" onClick={() => setSelectedProject('trading-bot')}>
@@ -1209,8 +1209,7 @@ export default function Portfolio() {
                   <h3 className="section-heading text-2xl">Algorithmic Trading Bot</h3>
                 </div>
                 <p className="body-text mb-3">
-                  Developed predictive models for market forecasting, projected ~$150 PnL/min, with 95% accuracy. 
-                  Implemented real-time data pipelines and APIs for market data analysis and forecasting.
+                  predictive models running over real-time market data pipelines, projecting ~$150 PnL/min at 95% accuracy.
                 </p>
                 <div className="flex flex-wrap gap-2">
                   <span className="px-2 py-1 bg-blue-900/50 text-blue-300 text-xs rounded">Python</span>
@@ -1218,7 +1217,7 @@ export default function Portfolio() {
                   <span className="px-2 py-1 bg-green-900/50 text-green-300 text-xs rounded">APIs</span>
                   <span className="px-2 py-1 bg-pink-900/50 text-pink-300 text-xs rounded">Scikit-learn</span>
                 </div>
-                <div className="mt-4 text-center text-slate-400 text-sm">Click for more details →</div>
+                <div className="mt-4 text-center text-slate-400 text-sm">the model details →</div>
               </div>
 
                               <div className="interactive-card p-6" onClick={() => setSelectedProject('healthcare-analytics')}>
@@ -1226,8 +1225,8 @@ export default function Portfolio() {
                   <h3 className="section-heading text-2xl">Healthcare Analytics Platform</h3>
                 </div>
                 <p className="body-text mb-3">
-                  Built comprehensive healthcare analytics platform integrating multiple data sources for patient insights. 
-                  Implemented real-time dashboards and predictive analytics for early disease detection.
+                  pulls scattered patient data sources into one place and runs predictive analytics for early disease
+                  detection, with real-time dashboards on top.
                 </p>
                 <div className="flex flex-wrap gap-2">
                   <span className="px-2 py-1 bg-blue-900/50 text-blue-300 text-xs rounded">Python</span>
@@ -1235,13 +1234,13 @@ export default function Portfolio() {
                   <span className="px-2 py-1 bg-green-900/50 text-green-300 text-xs rounded">PostgreSQL</span>
                   <span className="px-2 py-1 bg-pink-900/50 text-pink-300 text-xs rounded">D3.js</span>
                 </div>
-                <div className="mt-4 text-center text-slate-400 text-sm">Click for more details →</div>
+                <div className="mt-4 text-center text-slate-400 text-sm">the data problem →</div>
               </div>
             </div>
 
             {/* Awards Section */}
             <div className="mt-16">
-              <h3 id="awards-heading" className="section-heading text-2xl mb-6 text-center">Awards & Recognition</h3>
+              <h3 id="awards-heading" className="section-heading text-2xl mb-6 text-center">awards &amp; recognition</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="interactive-card p-6">
                   <h4 className="font-semibold text-lg mb-3 text-slate-200">Academic Excellence</h4>
@@ -1307,7 +1306,7 @@ export default function Portfolio() {
 
             {/* Technical Skills */}
             <div className="mt-16">
-              <h3 id="skills-heading" className="section-heading text-2xl mb-6 text-center">Technical Skills</h3>
+              <h3 id="skills-heading" className="section-heading text-2xl mb-6 text-center">technical skills</h3>
               <div className="interactive-card p-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                   <div>
@@ -1672,11 +1671,6 @@ export default function Portfolio() {
                   while maintaining accuracy was like solving a 1000-piece puzzle blindfolded. but when we finally got that 48% 
                   latency reduction, it felt like discovering fire all over again.
                 </p>
-                <div className="mt-4 p-4 bg-blue-900/20 rounded-lg border border-blue-700">
-                  <p className="body-text text-sm italic">
-                    "the best code is the kind that makes you question why you ever wrote it any other way"
-                  </p>
-                </div>
               </div>
 
               <div className="interactive-card p-6">
@@ -1687,11 +1681,6 @@ export default function Portfolio() {
                   solutions come from combining completely unrelated ideas. like using game theory for trading algorithms or 
                   applying medical AI concepts to financial modeling.
                 </p>
-                <div className="mt-4 p-4 bg-purple-900/20 rounded-lg border border-purple-700">
-                  <p className="body-text text-sm italic">
-                    "creativity is just connecting dots that no one else thought to connect"
-                  </p>
-                </div>
               </div>
 
               <div className="interactive-card p-6">
@@ -1702,11 +1691,6 @@ export default function Portfolio() {
                   making mistakes than from reading perfect examples. plus, there's nothing like the satisfaction of 
                   getting something working, even if it's held together with duct tape and prayers.
                 </p>
-                <div className="mt-4 p-4 bg-green-900/20 rounded-lg border border-green-700">
-                  <p className="body-text text-sm italic">
-                    "the best teacher is experience, and the best experience is failure"
-                  </p>
-                </div>
               </div>
 
               <div className="interactive-card p-6">
@@ -1717,11 +1701,6 @@ export default function Portfolio() {
                   watching people's faces when they finally solve a particularly tricky puzzle. it's like watching someone 
                   discover a new superpower.
                 </p>
-                <div className="mt-4 p-4 bg-orange-900/20 rounded-lg border border-orange-700">
-                  <p className="body-text text-sm italic">
-                    "puzzles are just problems waiting to be solved with the right perspective"
-                  </p>
-                </div>
               </div>
 
               <div className="interactive-card p-6">
@@ -1750,11 +1729,6 @@ export default function Portfolio() {
                     </ul>
                   </div>
                 </div>
-                <div className="mt-4 p-4 bg-indigo-900/20 rounded-lg border border-indigo-700">
-                  <p className="body-text text-sm italic">
-                    "books are the quietest and most constant of friends"
-                  </p>
-                </div>
               </div>
 
               <div className="interactive-card p-6">
@@ -1765,11 +1739,6 @@ export default function Portfolio() {
                   assaulted by a neon sign. but weirdly, i love both colors separately. it's just something about them together 
                   that triggers my fight or flight response.
                 </p>
-                <div className="mt-4 p-4 bg-yellow-900/20 rounded-lg border border-yellow-700">
-                  <p className="body-text text-sm italic">
-                    "color theory is just psychology disguised as art"
-                  </p>
-                </div>
               </div>
 
               <div className="interactive-card p-6">
@@ -1780,11 +1749,6 @@ export default function Portfolio() {
                   that's exactly what's happening - we're evolving to process information differently. our brains are literally 
                   rewiring to handle the digital world. so maybe it's not weird at all, just evolution in real-time.
                 </p>
-                <div className="mt-4 p-4 bg-green-900/20 rounded-lg border border-green-700">
-                  <p className="body-text text-sm italic">
-                    "weird is just normal that hasn't caught up yet"
-                  </p>
-                </div>
               </div>
 
               <div className="interactive-card p-6">
@@ -1794,11 +1758,6 @@ export default function Portfolio() {
                   a separate hard drive just for music. also, i can spot typos from a mile away and predict what song 
                   will play next on shuffle with scary accuracy. my brain is just weird about patterns and letters.
                 </p>
-                <div className="mt-4 p-4 bg-pink-900/20 rounded-lg border border-pink-700">
-                  <p className="body-text text-sm italic">
-                    "useless skills are the best conversation starters"
-                  </p>
-                </div>
               </div>
             </div>
 
@@ -1867,7 +1826,7 @@ export default function Portfolio() {
                 <h2 className="section-heading text-3xl mb-4">Amazon Web Services - Software Development Engineer Intern</h2>
                 <div className="text-sm text-slate-400 mb-6">Jun 2026 - Aug 2026</div>
                 <div className="body-text leading-relaxed space-y-4">
-                  <h3 className="section-heading text-xl mb-4">Full Project Details</h3>
+                  
                   <div className="space-y-3">
                     <div className="flex items-start gap-2">
                       <span className="text-orange-400 mt-1">•</span>
@@ -1911,7 +1870,7 @@ export default function Portfolio() {
                 <h2 className="section-heading text-3xl mb-4">Very Good Ventures - Software Engineering Intern</h2>
                 <div className="text-sm text-slate-400 mb-6">Jun 2025 - Aug 2025</div>
                 <div className="body-text leading-relaxed space-y-4">
-                  <h3 className="section-heading text-xl mb-4">Full Project Details</h3>
+                  
                   <div className="space-y-3">
                     <div className="flex items-start gap-2">
                       <span className="text-blue-400 mt-1">•</span>
@@ -1958,7 +1917,7 @@ export default function Portfolio() {
                 <h2 className="section-heading text-3xl mb-4">Advanced Health Academy (AHA) - Software Engineering Intern</h2>
                 <div className="text-sm text-slate-400 mb-6">Nov 2024 - Dec 2024</div>
                 <div className="body-text leading-relaxed space-y-4">
-                  <h3 className="section-heading text-xl mb-4">Full Project Details</h3>
+                  
                   <div className="space-y-3">
                     <div className="flex items-start gap-2">
                       <span className="text-purple-400 mt-1">•</span>
@@ -1997,7 +1956,7 @@ export default function Portfolio() {
                 <h2 className="section-heading text-3xl mb-4">IPMD Inc. - AI and Machine Learning Developer Intern</h2>
                 <div className="text-sm text-slate-400 mb-6">Jun 2021 - Jul 2024</div>
                 <div className="body-text leading-relaxed space-y-4">
-                  <h3 className="section-heading text-xl mb-4">Full Project Details</h3>
+                  
                   <div className="space-y-3">
                     <div className="flex items-start gap-2">
                       <span className="text-pink-400 mt-1">•</span>
@@ -2032,7 +1991,7 @@ export default function Portfolio() {
                 <h2 className="section-heading text-3xl mb-4">Infosys - Software Engineering Intern</h2>
                 <div className="text-sm text-slate-400 mb-6">Sep 2024 - Dec 2024</div>
                 <div className="body-text leading-relaxed space-y-4">
-                  <h3 className="section-heading text-xl mb-4">Full Project Details</h3>
+                  
                   <div className="space-y-3">
                     <div className="flex items-start gap-2">
                       <span className="text-orange-400 mt-1">•</span>
@@ -2067,7 +2026,7 @@ export default function Portfolio() {
                 <h2 className="section-heading text-3xl mb-4">Jane Street Capital - Academy of Math and Programming Intern</h2>
                 <div className="text-sm text-slate-400 mb-6">Jun 2024 - Aug 2024</div>
                 <div className="body-text leading-relaxed space-y-4">
-                  <h3 className="section-heading text-xl mb-4">Full Project Details</h3>
+                  
                   <div className="space-y-3">
                     <div className="flex items-start gap-2">
                       <span className="text-blue-400 mt-1">•</span>
@@ -2102,7 +2061,7 @@ export default function Portfolio() {
                 <h2 className="section-heading text-3xl mb-4">ProsthetiX - Lead Researcher, Design and Developer</h2>
                 <div className="text-sm text-slate-400 mb-6">Feb 2023 - Jun 2024</div>
                 <div className="body-text leading-relaxed space-y-4">
-                  <h3 className="section-heading text-xl mb-4">Full Project Details</h3>
+                  
                   <div className="space-y-3">
                     <div className="flex items-start gap-2">
                       <span className="text-amber-400 mt-1">•</span>
@@ -2137,7 +2096,7 @@ export default function Portfolio() {
                 <h2 className="section-heading text-3xl mb-4">GoAhead Ventures - Venture Capital Analyst</h2>
                 <div className="text-sm text-slate-400 mb-6">Sep 2024 - Dec 2024</div>
                 <div className="body-text leading-relaxed space-y-4">
-                  <h3 className="section-heading text-xl mb-4">Full Project Details</h3>
+                  
                   <div className="space-y-3">
                     <div className="flex items-start gap-2">
                       <span className="text-green-400 mt-1">•</span>
@@ -2172,7 +2131,7 @@ export default function Portfolio() {
                 <h2 className="section-heading text-3xl mb-4">Phelps Forward - Program Scholar and Summer Investing Program</h2>
                 <div className="text-sm text-slate-400 mb-6">Jan 2025 - Present</div>
                 <div className="body-text leading-relaxed space-y-4">
-                  <h3 className="section-heading text-xl mb-4">Full Project Details</h3>
+                  
                   <div className="space-y-3">
                     <div className="flex items-start gap-2">
                       <span className="text-teal-400 mt-1">•</span>
