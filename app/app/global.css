@@ -563,12 +563,10 @@ a:focus {
     height: 96px;
   }
 
+  /* Hidden on phones: it crowded the screen and its permission prompt
+     landed on top of the boot intro. */
   .distance-widget {
-    top: auto;
-    bottom: 96px;
-    right: 12px;
-    max-width: 170px;
-    padding: 12px;
+    display: none;
   }
 }
 

@@ -136,9 +136,12 @@ export default function Portfolio() {
 
 
 
-  // Calculate distance from the visitor to KRRISHA_LOCATION (defined at the top of this file)
+  // Calculate distance from the visitor to KRRISHA_LOCATION (defined at the top of this file).
+  // Skipped on phones: the browser's location permission prompt covers the boot intro,
+  // and the widget itself is hidden below 768px anyway.
   useEffect(() => {
-    if (navigator.geolocation) {
+    const isPhone = window.matchMedia('(max-width: 767px)').matches;
+    if (!isPhone && navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
         const userLat = position.coords.latitude;
         const userLng = position.coords.longitude;
