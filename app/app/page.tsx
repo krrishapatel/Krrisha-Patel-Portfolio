@@ -2116,10 +2116,13 @@ export default function Portfolio() {
                     <div className="facet facet-wing-l"></div>
                     <div className="facet facet-body-l"></div>
                   </div>
-                  {/* Neck and beak ride the fold itself, so they get no dihedral. */}
-                  <div className="crane-half half-spine">
-                    <div className="facet facet-neck"></div>
-                    <div className="facet facet-beak"></div>
+                  {/* The head. Neck and beak are ridges, not flat shapes: two
+                      panels each, meeting along the crease up the middle. */}
+                  <div className="crane-half half-head">
+                    <div className="facet facet-neck-far"></div>
+                    <div className="facet facet-neck-near"></div>
+                    <div className="facet facet-beak-far"></div>
+                    <div className="facet facet-beak-near"></div>
                   </div>
                 </div>
                 <p className="text-center text-slate-400 mt-4 text-sm">drag to rotate • click to spin</p>

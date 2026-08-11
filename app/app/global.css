@@ -1386,12 +1386,6 @@ html {
   transform: rotateY(-48deg);
 }
 
-/* Neck and tail ride the fold, so they get no dihedral of their own — they're
-   the crease, not a face of it. A hair forward of the halves so the seam where
-   all three meet stays closed. */
-.half-spine {
-  transform: translateZ(1px);
-}
 
 /* Full-width boxes let a wing reach the far edge without the half's own box
    clipping it off at the crease. */
@@ -1432,15 +1426,48 @@ html {
   background: color-mix(in srgb, var(--accent-purple) 52%, var(--navy-light));
 }
 
-/* Neck and beak leave the shoulder at the fold. */
-.facet-neck {
-  clip-path: polygon(50% 62%, 50% 44%, 24% 4%, 18% 9%);
-  background: color-mix(in srgb, var(--accent-purple) 90%, transparent);
+/* The head. Every other part of the bird is a fold, so a flat neck and a flat
+   beak were the one thing giving away that this is drawn rather than folded.
+   Both are ridges now: two panels meeting along the crease that runs up the
+   middle, each catching a different amount of light. That brightness break
+   across the crease is what reads as a fold — parallax barely registers on a
+   strip this narrow, but the tone step is unmistakable.
+
+   The panels live inside a flat half rather than hinging out of plane as
+   siblings of the wings. Folding them for real crossed the wing planes, and
+   crossing planes sort as whole units, so the neck's lower half dropped behind a
+   wing and the beak vanished outright. The head gets its 3D from the angle of
+   the half instead, which is the same way the wings get theirs. */
+.half-head {
+  /* Leaning off the shoulder, where the neck actually joins the body, so the
+     head carries its own orientation and foreshortens on its own schedule as
+     the bird turns — not locked flat to the screen like the old single
+     triangle. */
+  transform-origin: 50% 53%;
+  transform: translateZ(3px) rotateX(-12deg) rotateY(14deg);
 }
 
-.facet-beak {
-  clip-path: polygon(18% 9%, 4% 12%, 21% 17%);
-  background: color-mix(in srgb, var(--accent-pink) 66%, transparent);
+.facet-neck-far {
+  clip-path: polygon(50% 44%, 24% 4%, 21% 7%, 50% 53%);
+  background: color-mix(in srgb, var(--accent-purple) 96%, transparent);
+}
+
+.facet-neck-near {
+  clip-path: polygon(50% 53%, 21% 7%, 18% 9%, 50% 62%);
+  background: color-mix(in srgb, var(--accent-purple) 54%, var(--navy-light));
+}
+
+/* The beak is where paper is most obvious — it was one flat triangle. Two
+   panels off a shared crease give it a ridge and a tip that comes to a point in
+   depth rather than in outline only. */
+.facet-beak-far {
+  clip-path: polygon(18% 9%, 4% 12%, 19% 13%);
+  background: color-mix(in srgb, var(--accent-pink) 82%, transparent);
+}
+
+.facet-beak-near {
+  clip-path: polygon(19% 13%, 4% 12%, 21% 17%);
+  background: color-mix(in srgb, var(--accent-pink) 44%, var(--navy-medium));
 }
 
 .facet-tail {
