@@ -1341,12 +1341,9 @@ html {
 
 /* Interactive origami crane. Replaced a cube whose six faces were emoji in a
    pink gradient — the only emoji left on the site, and a palette used nowhere
-   else. Each facet is a clip-path div, not an SVG polygon: an <svg> box is an
-   opaque plane in the 3D sort, so one half's rect covered the other whatever
-   the shapes inside it were doing. A clip-path div paints only its polygon and
-   leaves the rest transparent, so the halves compose. */
+   else. */
 .crane-container {
-  perspective: 1000px;
+  perspective: 1100px;
   cursor: pointer;
   display: flex;
   flex-direction: column;
@@ -1365,20 +1362,39 @@ html {
   transform-style: preserve-3d;
 }
 
-/* The dihedral. Every facet below has a vertex at x = 50%, and rotating a half
-   about its own centre leaves that column fixed — so the two halves stay joined
-   along the fold while everything either side of it swings back in depth. That
-   depth is what foreshortens as the crane turns; a flat drawing has none. */
+/* Each half is a full-width box hinged on the fold column, so the two open away
+   from each other like a book. flat rather than preserve-3d, and that one word
+   is what makes the bird solid: CSS depth-sorts whole planes, not pixels, so
+   seven facets that all cross the fold fight over who draws on top and a whole
+   half vanishes. Flattening collapses each half to a single texture, leaving
+   three planes to sort instead of seven. The obvious alternative — pushing the
+   halves apart along Z so they stop crossing — is what made the crane look cut
+   in half, because at a quarter turn you saw two detached sheets with a gap. */
 .crane-half {
   position: absolute;
   inset: 0;
-  transform-style: preserve-3d;
+  transform-style: flat;
 }
 
-.half-left  { transform: rotateY(34deg) translateZ(30px); }
-.half-right { transform: rotateY(-34deg) translateZ(-30px); }
-.half-spine { transform: translateZ(34px); }
+.half-left {
+  transform-origin: 50% center;
+  transform: rotateY(48deg);
+}
 
+.half-right {
+  transform-origin: 50% center;
+  transform: rotateY(-48deg);
+}
+
+/* Neck and tail ride the fold, so they get no dihedral of their own — they're
+   the crease, not a face of it. A hair forward of the halves so the seam where
+   all three meet stays closed. */
+.half-spine {
+  transform: translateZ(1px);
+}
+
+/* Full-width boxes let a wing reach the far edge without the half's own box
+   clipping it off at the crease. */
 .facet {
   position: absolute;
   inset: 0;
@@ -1401,14 +1417,14 @@ html {
   background: color-mix(in srgb, var(--accent-blue) 82%, transparent);
 }
 
-.facet-wing-r {
-  clip-path: polygon(50% 49%, 97% 44%, 86% 73%, 50% 61%);
-  background: color-mix(in srgb, var(--accent-purple) 80%, transparent);
-}
-
 .facet-body-l {
   clip-path: polygon(50% 45%, 39% 64%, 50% 88%);
   background: color-mix(in srgb, var(--accent-blue) 62%, var(--navy-light));
+}
+
+.facet-wing-r {
+  clip-path: polygon(50% 49%, 97% 44%, 86% 73%, 50% 61%);
+  background: color-mix(in srgb, var(--accent-purple) 80%, transparent);
 }
 
 .facet-body-r {
@@ -1416,6 +1432,7 @@ html {
   background: color-mix(in srgb, var(--accent-purple) 52%, var(--navy-light));
 }
 
+/* Neck and beak leave the shoulder at the fold. */
 .facet-neck {
   clip-path: polygon(50% 62%, 50% 44%, 24% 4%, 18% 9%);
   background: color-mix(in srgb, var(--accent-purple) 90%, transparent);

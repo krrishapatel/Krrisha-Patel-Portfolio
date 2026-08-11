@@ -2078,7 +2078,7 @@ export default function Portfolio() {
             </div>
 
             {/* Contact Statement */}
-            <div className="text-center mt-16 p-8">
+            <div className="text-center mt-12 px-8 pt-8 pb-4">
               <p className="body-text text-lg text-slate-300">
                 have unanswered questions? feel free to reach out at{' '}
                 <a href="mailto:krrishapatel26@gmail.com" className="text-blue-400 hover:text-blue-300 transition-colors">
@@ -2091,7 +2091,7 @@ export default function Portfolio() {
                 gradient — the only emoji left on the site and a palette that
                 appears nowhere else. Same drag and spin handlers, folded into
                 something that belongs to the person whose blog opens on origami. */}
-            <div className="mt-10 flex justify-center">
+            <div className="mt-4 flex justify-center">
               <div className="crane-container">
                 <div
                   className="rotating-crane"
