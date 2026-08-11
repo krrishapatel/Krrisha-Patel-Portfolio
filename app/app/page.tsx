@@ -2075,16 +2075,6 @@ export default function Portfolio() {
                   annoying — it's the rare case where being careful is also the fast path.
                 </p>
               </div>
-
-              <div className="interactive-card p-6">
-                <h3 className="section-heading text-2xl mb-4">what color combinations do you absolutely hate?</h3>
-                <p className="body-text leading-relaxed">
-                  mustard yellow and brown together makes me physically uncomfortable. it's like someone tried to create 
-                  the most depressing color palette possible. also, bright orange with hot pink feels like my eyes are being 
-                  assaulted by a neon sign. but weirdly, i love both colors separately. it's just something about them together 
-                  that triggers my fight or flight response.
-                </p>
-              </div>
             </div>
 
             {/* Contact Statement */}
@@ -2097,11 +2087,14 @@ export default function Portfolio() {
               </p>
             </div>
 
-            {/* Interactive 3D Cube */}
+            {/* Interactive origami crane. Was a cube with emoji faces in a pink
+                gradient — the only emoji left on the site and a palette that
+                appears nowhere else. Same drag and spin handlers, folded into
+                something that belongs to the person whose blog opens on origami. */}
             <div className="mt-20 flex justify-center">
-              <div className="cube-container">
+              <div className="crane-container">
                 <div
-                  className="rotating-cube"
+                  className="rotating-crane"
                   onMouseDown={handleMouseDown}
                   onMouseMove={handleMouseMove}
                   onMouseUp={handleMouseUp}
@@ -2112,14 +2105,19 @@ export default function Portfolio() {
                     cursor: isDragging ? 'grabbing' : 'grab'
                   }}
                 >
-                  <div className="cube-face front"></div>
-                  <div className="cube-face back"></div>
-                  <div className="cube-face right"></div>
-                  <div className="cube-face left"></div>
-                  <div className="cube-face top"></div>
-                  <div className="cube-face bottom"></div>
+                  <svg className="crane-art" viewBox="0 0 200 200" aria-hidden="true">
+                    {/* Order matters: the tail is drawn first so the right wing
+                        overlaps it, which is what puts it behind the bird rather
+                        than across it. */}
+                    <polygon className="facet-tail" points="104,104 112,94 166,32 178,78" />
+                    <polygon className="facet-wing-l" points="97,99 14,90 36,144 95,118" />
+                    <polygon className="facet-wing-r" points="103,99 186,90 164,144 105,118" />
+                    <polygon className="facet-neck" points="95,101 108,94 56,16 44,24" />
+                    <polygon className="facet-beak" points="44,24 18,30 48,37" />
+                    <polygon className="facet-body" points="100,92 118,124 100,170 82,124" />
+                  </svg>
                 </div>
-                <p className="text-center text-slate-400 mt-4 text-sm">drag to rotate • click to spin • hover to glow</p>
+                <p className="text-center text-slate-400 mt-4 text-sm">drag to rotate • click to spin</p>
               </div>
             </div>
           </div>
