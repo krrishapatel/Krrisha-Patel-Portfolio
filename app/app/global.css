@@ -141,17 +141,18 @@ a:focus-visible {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Fancy K Logo */
+/* Fancy K logo */
 .fancy-k {
-  font-family: 'JetBrains Mono', 'Inter', monospace;
+  font-family: 'JetBrains Mono', monospace;
   font-weight: 900;
   font-size: 2.5rem;
-  background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple), var(--accent-pink));
+  background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple) 55%, var(--accent-pink));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   animation: logoGlow 4s ease-in-out infinite alternate;
   text-shadow: 0 0 30px rgba(96, 165, 250, 0.5);
+  cursor: pointer;
 }
 
 @keyframes logoGlow {
@@ -534,6 +535,37 @@ a:focus-visible {
   backdrop-filter: blur(10px);
   animation: slideInRight 0.6s ease-out;
   z-index: 40;
+}
+
+/* Same control as the detail panels' close button — surface, hairline border and
+   the quarter-turn glow on hover — so dismissing anything on the site feels like
+   the same gesture. Smaller than that one because this widget is a 200px card and
+   a 34px button inside it crowds the pin and the copy. */
+.distance-close {
+  position: absolute;
+  top: 7px;
+  right: 7px;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border: 1px solid rgb(148 163 184 / 0.2);
+  border-radius: 7px;
+  background: rgb(15 23 42 / 0.7);
+  color: var(--text-secondary);
+  font-size: 0.72rem;
+  line-height: 1;
+  transition: color 0.25s ease, border-color 0.25s ease,
+              background 0.25s ease, transform 0.25s ease;
+}
+
+.distance-close:hover {
+  color: var(--text-primary);
+  border-color: var(--section-accent, var(--accent-blue));
+  background: color-mix(in srgb, var(--section-accent, var(--accent-blue)) 18%, rgb(15 23 42));
+  transform: rotate(90deg);
 }
 
 @keyframes slideInRight {
@@ -1339,11 +1371,10 @@ html {
   50% { transform: translateY(-10px) rotate(1deg); }
 }
 
-/* The crane. Geometry, projection, shading and the wingbeat all live in
-   Crane.tsx — this only sizes the box it draws into and carries the hover
-   treatment. Sized to hold the room the emoji cube did: that cube's box was
-   150px, but its faces sat at +/-75px of translateZ, so it swept a much larger
-   volume than its nominal width suggests. */
+/* The three origami figures — lotus, crane, dragon. Geometry, projection, shading
+   and each figure's trick live in origami.ts / OrigamiFigure.tsx; this only
+   sizes the boxes they draw into, lays them out in a row and carries the hover
+   treatment. */
 .crane-container {
   cursor: pointer;
   display: flex;
@@ -1351,11 +1382,35 @@ html {
   width: 100%;
 }
 
-.crane-svg {
+/* The row. Three 260px boxes plus gaps need ~820px, which the 6xl container has
+   on desktop and nothing has on a phone — so it wraps, and the flanking figures
+   drop under the crane rather than being squeezed to nothing. `center` on the
+   wrapped line keeps the leftover pair centred instead of hanging left. */
+.origami-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 4px 12px;
+  width: 100%;
+}
+
+/* The crane is the one that was here first, so it stays in the middle. */
+.origami-row .crane-svg {
+  order: 2;
+}
+.origami-row .lotus-svg {
+  order: 1;
+}
+.origami-row .dragon-svg {
+  order: 3;
+}
+
+.origami-svg {
   width: 260px;
   height: 151px;
-  /* The bird is drawn with pointer events on the svg itself, so the drag keeps
-     working in the gaps between its triangles. */
+  /* Each figure is drawn with pointer events on the svg itself, so the drag
+     keeps working in the gaps between its triangles. */
   touch-action: none;
   cursor: grab;
   overflow: visible;
@@ -1363,25 +1418,43 @@ html {
 }
 
 /* The global `* { transition: all }` above animates fill and points on every
-   triangle, which lags the mesh's colour ~300ms behind its geometry and shows
-   as a black flash mid-flight when a face's fill jumps. The mesh repaints
-   itself completely each frame, so nothing inside it should ease. */
-.crane-svg polygon {
+   triangle, which lags a mesh's colour ~300ms behind its geometry and shows as
+   a black flash mid-animation when a face's fill jumps. These meshes repaint
+   themselves completely each frame, so nothing inside them should ease. */
+.origami-svg polygon {
   transition: none;
 }
 
-.crane-svg:active {
+.origami-svg:active {
   cursor: grabbing;
 }
 
+/* Each figure glows in its own dominant colour, which is also how you can tell
+   at a glance that the three are separate toys rather than one picture. */
 .crane-svg:hover {
   filter: drop-shadow(0 0 18px color-mix(in srgb, var(--accent-purple) 45%, transparent));
 }
 
+.lotus-svg:hover {
+  filter: drop-shadow(0 0 18px color-mix(in srgb, var(--accent-pink) 45%, transparent));
+}
+
+.dragon-svg:hover {
+  filter: drop-shadow(0 0 18px color-mix(in srgb, var(--accent-blue) 45%, transparent));
+}
+
+/* Below the width for three, the row wraps to 2 + 1 and each box shrinks. */
+@media (max-width: 900px) {
+  .origami-svg {
+    width: 210px;
+    height: 122px;
+  }
+}
+
 @media (max-width: 640px) {
-  .crane-svg {
-    width: 200px;
-    height: 116px;
+  .origami-svg {
+    width: 168px;
+    height: 97px;
   }
 }
 

@@ -2,6 +2,8 @@
 
 import { useState, useEffect, useRef } from 'react';
 import Crane from './Crane';
+import Lotus from './Lotus';
+import Dragon from './Dragon';
 
 // Update these coordinates when you move. The distance widget reads from here,
 // so this is the only place that needs to change.
@@ -652,9 +654,10 @@ export default function Portfolio() {
       {/* Distance Widget - Only on FAQ page */}
       {distance && activeSection === 'faq' && (
         <div className="distance-widget" style={{ background: 'rgb(30 41 59 / 0.3)', border: '1px solid rgb(71 85 105)', borderRadius: '12px' }}>
-          <button 
+          <button
             onClick={() => setDistance(null)}
-            className="absolute top-2 right-2 text-slate-400 hover:text-white transition-colors text-lg font-bold"
+            className="distance-close"
+            aria-label="dismiss distance"
           >
             ✕
           </button>
@@ -1989,7 +1992,7 @@ export default function Portfolio() {
               </div>
 
               <div className="interactive-card p-6">
-                <h3 className="section-heading text-2xl mb-4">cs, finance and stats — isn't that just indecision with extra steps?</h3>
+                <h3 className="section-heading text-2xl mb-4">cs, finance &amp; stats: isn&apos;t that just indecision with extra steps?</h3>
                 <p className="body-text leading-relaxed">
                   it looks like i couldn't pick one, and honestly for a while i couldn't. but the three keep answering
                   each other's questions. stats tells you whether the thing you built actually works or you just got
@@ -2021,17 +2024,21 @@ export default function Portfolio() {
               </p>
             </div>
 
-            {/* The crane. A real 3D mesh rather than folded CSS planes: the
-                browser depth-sorts whole planes, not pixels, so CSS caps out at
-                flat panels arranged never to intersect — no closed forms, no
-                self-occlusion, nothing that shades itself. Crane.tsx projects
-                actual geometry, which is also what lets the wings beat. */}
+            {/* Three origami figures: a lotus that blooms, the crane that
+                flies, a dragon that lunges. Real 3D meshes rather than folded CSS
+                planes — the browser depth-sorts whole planes, not pixels, so
+                CSS caps out at flat panels arranged never to intersect: no
+                closed forms, no self-occlusion, nothing that shades itself.
+                They project actual geometry, which is also what lets the wings
+                beat, the petals fold and the dragon uncoil. */}
             <div className="mt-4 flex justify-center">
-              <div className="crane-container">
+              <div className="crane-container origami-row">
+                <Lotus />
                 <Crane />
+                <Dragon />
               </div>
             </div>
-            <p className="text-center text-slate-400 mt-4 text-sm">drag to rotate • click to fly</p>
+            <p className="text-center text-slate-400 mt-4 text-sm">drag to rotate • click to spin</p>
           </div>
         )}
       </main>
