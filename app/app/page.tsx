@@ -2012,7 +2012,7 @@ export default function Portfolio() {
             </div>
 
             {/* Contact Statement */}
-            <div className="text-center mt-12 px-8 pt-8 pb-4">
+            <div className="text-center mt-12 px-8 pt-8">
               <p className="body-text text-lg text-slate-300">
                 have unanswered questions? feel free to reach out at{' '}
                 <a href="mailto:krrishapatel26@gmail.com" className="text-blue-400 hover:text-blue-300 transition-colors">

@@ -233,7 +233,14 @@ function buildMesh(flap: number): Face[] {
   }));
 }
 
+// The bird is wider than it is tall, so a square viewBox left a third of its
+// height empty above and below — which is what read as a gap around the crane.
+// VIEW_H is the drawn band, cropped to just hold the flight; CENTRE_Y is where
+// the projection puts y=0, chosen so the leftover space splits evenly rather
+// than piling up above the wings.
 const VIEW = 200;
+const VIEW_H = 116;
+const CENTRE_Y = 62;
 const SCALE = 58;
 // Long lens. A short one (3.4) magnified whichever wing swung toward the
 // viewer until it covered the body; at 6.2 the near and far tips differ by
@@ -292,7 +299,7 @@ export default function Crane() {
         // Perspective divide. Nearer vertices spread wider, which is the whole
         // reason a wing sweeping toward the viewer reads as coming forward.
         const k = FOCAL / (FOCAL - p[2]);
-        return [VIEW / 2 + p[0] * SCALE * k + dx, VIEW / 2 - p[1] * SCALE * k + dy];
+        return [VIEW / 2 + p[0] * SCALE * k + dx, CENTRE_Y - p[1] * SCALE * k + dy];
       };
 
       const drawable: { depth: number; pts: string; fill: string }[] = [];
@@ -364,8 +371,8 @@ export default function Crane() {
         pose.yaw = startYaw + 360 * ease;
         pose.pitch = startPitch - 7 * beat;
         pose.roll = 15 * Math.sin(t * Math.PI * 2);
-        pose.dy = -34 * Math.sin(t * Math.PI) - 5 * beat;
-        pose.dx = 26 * Math.sin(t * Math.PI * 2);
+        pose.dy = -14 * Math.sin(t * Math.PI) - 4 * beat;
+        pose.dx = 18 * Math.sin(t * Math.PI * 2);
         draw();
         if (t < 1) {
           rafRef.current = requestAnimationFrame(step);
@@ -448,7 +455,7 @@ export default function Crane() {
     <svg
       ref={svgRef}
       className="crane-svg"
-      viewBox={`0 0 ${VIEW} ${VIEW}`}
+      viewBox={`0 0 ${VIEW} ${VIEW_H}`}
       role="img"
       aria-label="origami crane, drag to rotate or click to make it fly"
     >

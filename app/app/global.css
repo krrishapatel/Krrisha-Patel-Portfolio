@@ -1353,13 +1353,21 @@ html {
 
 .crane-svg {
   width: 260px;
-  height: 260px;
+  height: 151px;
   /* The bird is drawn with pointer events on the svg itself, so the drag keeps
      working in the gaps between its triangles. */
   touch-action: none;
   cursor: grab;
   overflow: visible;
   transition: filter 0.35s ease;
+}
+
+/* The global `* { transition: all }` above animates fill and points on every
+   triangle, which lags the mesh's colour ~300ms behind its geometry and shows
+   as a black flash mid-flight when a face's fill jumps. The mesh repaints
+   itself completely each frame, so nothing inside it should ease. */
+.crane-svg polygon {
+  transition: none;
 }
 
 .crane-svg:active {
@@ -1373,7 +1381,7 @@ html {
 @media (max-width: 640px) {
   .crane-svg {
     width: 200px;
-    height: 200px;
+    height: 116px;
   }
 }
 
