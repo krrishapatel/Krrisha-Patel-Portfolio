@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import Crane from './Crane';
 
 // Update these coordinates when you move. The distance widget reads from here,
 // so this is the only place that needs to change.
@@ -275,15 +276,8 @@ export default function Portfolio() {
   // The cursor ring is moved by writing to the DOM node directly. Holding its
   // position in state re-rendered this whole component on every mousemove.
   const cursorRef = useRef<HTMLDivElement>(null);
-  const [geometricRotationX, setGeometricRotationX] = useState(-8);
-  const [geometricRotationY, setGeometricRotationY] = useState(0);
-  const [geometricRotationZ, setGeometricRotationZ] = useState(0);
-  const [isGeometricSpinning, setIsGeometricSpinning] = useState(false);
-  const [isDragging, setIsDragging] = useState(false);
   // Drag origin is only ever read inside event handlers, never rendered, so it
   // lives in refs. As state it forced a re-render per mousemove.
-  const dragStartRef = useRef({ x: 0, y: 0 });
-  const lastDragRef = useRef({ x: 0, y: 0 });
   const [selectedArtwork, setSelectedArtwork] = useState<string | null>(null);
   // Intro overlay: starts hidden so a returning visitor never sees a flash of
   // it before sessionStorage is read. The effect below decides whether to play.
@@ -396,29 +390,6 @@ export default function Portfolio() {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  const handleGeometricInteraction = () => {
-    setIsGeometricSpinning(true);
-    setGeometricRotationX(prev => prev + 360);
-    setGeometricRotationY(prev => prev + 360);
-    setGeometricRotationZ(prev => prev + 360);
-    setTimeout(() => setIsGeometricSpinning(false), 3000);
-  };
-
-  const handleMouseDown = (e: React.MouseEvent) => {
-    setIsDragging(true);
-    dragStartRef.current = { x: e.clientX, y: e.clientY };
-    lastDragRef.current = { x: e.clientX, y: e.clientY };
-  };
-
-  // Dragging is driven by the document-level listener below, which is active
-  // for the whole drag even when the pointer leaves the cube. This element-level
-  // handler would double-apply every delta, so it deliberately does nothing.
-  const handleMouseMove = (_e: React.MouseEvent) => {};
-
-  const handleMouseUp = () => {
-    setIsDragging(false);
-  };
-
   const closeMenu = () => {
     setIsMenuOpen(false);
   };
@@ -518,36 +489,6 @@ export default function Portfolio() {
     };
   }, []);
 
-  // Global mouse event listeners for cube dragging.
-  //
-  // `lastDrag` is read from a ref rather than state, so this effect subscribes
-  // once per drag instead of tearing down and re-adding both listeners on every
-  // single mousemove -- which is what `[isDragging, lastDrag]` used to do.
-  useEffect(() => {
-    if (!isDragging) return;
-
-    const handleGlobalMouseMove = (e: MouseEvent) => {
-      const deltaX = e.clientX - lastDragRef.current.x;
-      const deltaY = e.clientY - lastDragRef.current.y;
-
-      setGeometricRotationY(prev => prev + deltaX * 0.5);
-      setGeometricRotationX(prev => prev + deltaY * 0.5);
-
-      lastDragRef.current = { x: e.clientX, y: e.clientY };
-    };
-
-    const handleGlobalMouseUp = () => {
-      setIsDragging(false);
-    };
-
-    document.addEventListener('mousemove', handleGlobalMouseMove, { passive: true });
-    document.addEventListener('mouseup', handleGlobalMouseUp);
-
-    return () => {
-      document.removeEventListener('mousemove', handleGlobalMouseMove);
-      document.removeEventListener('mouseup', handleGlobalMouseUp);
-    };
-  }, [isDragging]);
 
   return (
     <div className="min-h-screen bg-slate-900 text-white relative">
@@ -1964,17 +1905,10 @@ export default function Portfolio() {
         {/* FAQ Section */}
         {activeSection === 'faq' && (
           <div className="section-scope section-scope-faq max-w-6xl mx-auto px-5 md:px-8">
-            <header className="section-head">
+            <header className="section-head mb-4">
               <h2 className="section-heading section-head-title text-5xl">FAQ</h2>
               <p className="body-text section-head-sub">infrequently asked questions</p>
             </header>
-            
-            {/* Subtle Interactive Element */}
-            <div className="relative mb-16">
-              <div className="subtle-interaction">
-                <div className="interaction-dot"></div>
-              </div>
-            </div>
             
             <div className="space-y-8">
               <div className="interactive-card p-6">
@@ -2087,47 +2021,17 @@ export default function Portfolio() {
               </p>
             </div>
 
-            {/* Interactive origami crane. Was a cube with emoji faces in a pink
-                gradient — the only emoji left on the site and a palette that
-                appears nowhere else. Same drag and spin handlers, folded into
-                something that belongs to the person whose blog opens on origami. */}
+            {/* The crane. A real 3D mesh rather than folded CSS planes: the
+                browser depth-sorts whole planes, not pixels, so CSS caps out at
+                flat panels arranged never to intersect — no closed forms, no
+                self-occlusion, nothing that shades itself. Crane.tsx projects
+                actual geometry, which is also what lets the wings beat. */}
             <div className="mt-4 flex justify-center">
               <div className="crane-container">
-                <div
-                  className="rotating-crane"
-                  onMouseDown={handleMouseDown}
-                  onMouseMove={handleMouseMove}
-                  onMouseUp={handleMouseUp}
-                  onClick={handleGeometricInteraction}
-                  style={{
-                    transform: `rotateX(${geometricRotationX}deg) rotateY(${geometricRotationY}deg) rotateZ(${geometricRotationZ}deg)`,
-                    transition: isGeometricSpinning ? 'transform 3s ease-in-out' : 'transform 0.1s ease-out',
-                    cursor: isDragging ? 'grabbing' : 'grab'
-                  }}
-                >
-                  {/* Right half. Tail first so the wing overlaps it — that's
-                      what puts it behind the bird rather than across it. */}
-                  <div className="crane-half half-right">
-                    <div className="facet facet-tail"></div>
-                    <div className="facet facet-wing-r"></div>
-                    <div className="facet facet-body-r"></div>
-                  </div>
-                  <div className="crane-half half-left">
-                    <div className="facet facet-wing-l"></div>
-                    <div className="facet facet-body-l"></div>
-                  </div>
-                  {/* The head. Neck and beak are ridges, not flat shapes: two
-                      panels each, meeting along the crease up the middle. */}
-                  <div className="crane-half half-head">
-                    <div className="facet facet-neck-far"></div>
-                    <div className="facet facet-neck-near"></div>
-                    <div className="facet facet-beak-far"></div>
-                    <div className="facet facet-beak-near"></div>
-                  </div>
-                </div>
-                <p className="text-center text-slate-400 mt-4 text-sm">drag to rotate • click to spin</p>
+                <Crane />
               </div>
             </div>
+            <p className="text-center text-slate-400 mt-4 text-sm">drag to rotate • click to fly</p>
           </div>
         )}
       </main>
