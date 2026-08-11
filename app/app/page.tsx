@@ -275,8 +275,8 @@ export default function Portfolio() {
   // The cursor ring is moved by writing to the DOM node directly. Holding its
   // position in state re-rendered this whole component on every mousemove.
   const cursorRef = useRef<HTMLDivElement>(null);
-  const [geometricRotationX, setGeometricRotationX] = useState(15);
-  const [geometricRotationY, setGeometricRotationY] = useState(15);
+  const [geometricRotationX, setGeometricRotationX] = useState(-8);
+  const [geometricRotationY, setGeometricRotationY] = useState(0);
   const [geometricRotationZ, setGeometricRotationZ] = useState(0);
   const [isGeometricSpinning, setIsGeometricSpinning] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
@@ -2091,7 +2091,7 @@ export default function Portfolio() {
                 gradient — the only emoji left on the site and a palette that
                 appears nowhere else. Same drag and spin handlers, folded into
                 something that belongs to the person whose blog opens on origami. */}
-            <div className="mt-20 flex justify-center">
+            <div className="mt-10 flex justify-center">
               <div className="crane-container">
                 <div
                   className="rotating-crane"
@@ -2105,17 +2105,22 @@ export default function Portfolio() {
                     cursor: isDragging ? 'grabbing' : 'grab'
                   }}
                 >
-                  <svg className="crane-art" viewBox="0 0 200 200" aria-hidden="true">
-                    {/* Order matters: the tail is drawn first so the right wing
-                        overlaps it, which is what puts it behind the bird rather
-                        than across it. */}
-                    <polygon className="facet-tail" points="104,104 112,94 166,32 178,78" />
-                    <polygon className="facet-wing-l" points="97,99 14,90 36,144 95,118" />
-                    <polygon className="facet-wing-r" points="103,99 186,90 164,144 105,118" />
-                    <polygon className="facet-neck" points="95,101 108,94 56,16 44,24" />
-                    <polygon className="facet-beak" points="44,24 18,30 48,37" />
-                    <polygon className="facet-body" points="100,92 118,124 100,170 82,124" />
-                  </svg>
+                  {/* Right half. Tail first so the wing overlaps it — that's
+                      what puts it behind the bird rather than across it. */}
+                  <div className="crane-half half-right">
+                    <div className="facet facet-tail"></div>
+                    <div className="facet facet-wing-r"></div>
+                    <div className="facet facet-body-r"></div>
+                  </div>
+                  <div className="crane-half half-left">
+                    <div className="facet facet-wing-l"></div>
+                    <div className="facet facet-body-l"></div>
+                  </div>
+                  {/* Neck and beak ride the fold itself, so they get no dihedral. */}
+                  <div className="crane-half half-spine">
+                    <div className="facet facet-neck"></div>
+                    <div className="facet facet-beak"></div>
+                  </div>
                 </div>
                 <p className="text-center text-slate-400 mt-4 text-sm">drag to rotate • click to spin</p>
               </div>

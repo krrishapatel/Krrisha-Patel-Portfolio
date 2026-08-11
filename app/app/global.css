@@ -1341,9 +1341,10 @@ html {
 
 /* Interactive origami crane. Replaced a cube whose six faces were emoji in a
    pink gradient — the only emoji left on the site, and a palette used nowhere
-   else. Drawn as one SVG rather than folded CSS panels: panels hinged around a
-   shared crease turn edge-on and vanish through most of a rotation, so the
-   shape was only legible from one angle. */
+   else. Each facet is a clip-path div, not an SVG polygon: an <svg> box is an
+   opaque plane in the 3D sort, so one half's rect covered the other whatever
+   the shapes inside it were doing. A clip-path div paints only its polygon and
+   leaves the rest transparent, so the halves compose. */
 .crane-container {
   perspective: 1000px;
   cursor: pointer;
@@ -1355,49 +1356,85 @@ html {
 }
 
 .rotating-crane {
-  width: 190px;
-  height: 190px;
+  position: relative;
+  /* Sized to hold the room the cube did. The cube's box was only 150px, but its
+     faces sat at +/-75px of translateZ, so it swept a much bigger volume than a
+     drawing of the same nominal width. */
+  width: 260px;
+  height: 260px;
   transform-style: preserve-3d;
 }
 
-.crane-art {
-  width: 100%;
-  height: 100%;
-  display: block;
-  overflow: visible;
-  /* The paper is one sheet, so every facet shares an edge stroke and the
-     creases between them read as folds rather than as separate shapes. */
-  stroke: color-mix(in srgb, var(--accent-blue) 55%, transparent);
-  stroke-width: 0.8;
-  stroke-linejoin: round;
-  filter: drop-shadow(0 10px 26px rgb(2 6 23 / 0.55));
+/* The dihedral. Every facet below has a vertex at x = 50%, and rotating a half
+   about its own centre leaves that column fixed — so the two halves stay joined
+   along the fold while everything either side of it swings back in depth. That
+   depth is what foreshortens as the crane turns; a flat drawing has none. */
+.crane-half {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+}
+
+.half-left  { transform: rotateY(34deg) translateZ(30px); }
+.half-right { transform: rotateY(-34deg) translateZ(-30px); }
+.half-spine { transform: translateZ(34px); }
+
+.facet {
+  position: absolute;
+  inset: 0;
   transition: filter 0.35s ease;
+  /* Paper has no back face of its own — keep both sides drawn so the crane
+     doesn't blink out through half of a spin. */
+  backface-visibility: visible;
 }
 
-.rotating-crane:hover .crane-art {
-  filter: drop-shadow(0 10px 26px rgb(2 6 23 / 0.55))
-          drop-shadow(0 0 22px color-mix(in srgb, var(--accent-purple) 70%, transparent));
+.rotating-crane:hover .facet {
+  filter: brightness(1.22)
+          drop-shadow(0 0 16px color-mix(in srgb, var(--accent-purple) 55%, transparent));
 }
 
-/* Facet tones. Each panel of a folded sheet catches a different amount of
-   light, and that difference is the only thing that tells one fold from the
-   next — flat colour across all six collapses the bird into a blob. */
-.facet-wing-l { fill: color-mix(in srgb, var(--accent-blue) 74%, transparent); }
-.facet-wing-r { fill: color-mix(in srgb, var(--accent-purple) 76%, transparent); }
-.facet-body   { fill: color-mix(in srgb, var(--accent-blue) 58%, var(--navy-light)); }
-.facet-neck   { fill: color-mix(in srgb, var(--accent-purple) 88%, transparent); }
-.facet-beak   { fill: color-mix(in srgb, var(--accent-pink) 62%, transparent); }
-.facet-tail   { fill: color-mix(in srgb, var(--accent-purple) 62%, var(--navy-medium)); }
+/* Facet tones. A folded sheet catches a different amount of light on each
+   panel, and that difference is the only thing distinguishing one fold from
+   the next — flat colour across all of them collapses the bird into a blob. */
+.facet-wing-l {
+  clip-path: polygon(50% 49%, 3% 44%, 14% 73%, 50% 61%);
+  background: color-mix(in srgb, var(--accent-blue) 82%, transparent);
+}
 
-/* A flat sheet turned on its edge is invisible, which is the point — paper has
-   no thickness. Kept visible through the back half of a spin so the crane
-   doesn't blink out entirely. */
-.crane-art { backface-visibility: visible; }
+.facet-wing-r {
+  clip-path: polygon(50% 49%, 97% 44%, 86% 73%, 50% 61%);
+  background: color-mix(in srgb, var(--accent-purple) 80%, transparent);
+}
+
+.facet-body-l {
+  clip-path: polygon(50% 45%, 39% 64%, 50% 88%);
+  background: color-mix(in srgb, var(--accent-blue) 62%, var(--navy-light));
+}
+
+.facet-body-r {
+  clip-path: polygon(50% 45%, 61% 64%, 50% 88%);
+  background: color-mix(in srgb, var(--accent-purple) 52%, var(--navy-light));
+}
+
+.facet-neck {
+  clip-path: polygon(50% 62%, 50% 44%, 24% 4%, 18% 9%);
+  background: color-mix(in srgb, var(--accent-purple) 90%, transparent);
+}
+
+.facet-beak {
+  clip-path: polygon(18% 9%, 4% 12%, 21% 17%);
+  background: color-mix(in srgb, var(--accent-pink) 66%, transparent);
+}
+
+.facet-tail {
+  clip-path: polygon(50% 58%, 50% 47%, 88% 22%, 94% 44%);
+  background: color-mix(in srgb, var(--accent-purple) 66%, var(--navy-medium));
+}
 
 @media (max-width: 640px) {
   .rotating-crane {
-    width: 172px;
-    height: 172px;
+    width: 200px;
+    height: 200px;
   }
 }
 
@@ -1471,9 +1508,9 @@ html {
   color: var(--section-accent, var(--accent-purple));
   /* Drawings carry more line than the old glyphs did, so they read at a lower
      opacity — high enough to see, low enough not to compete with the copy.
-     Pulled down from 0.2: they were reading as part of the page rather than as
-     something in the margin behind it. */
-  opacity: 0.14;
+     Pushed up from 0.2: at that value the line work was thin enough to lose
+     against the navy, especially the finer drawings. */
+  opacity: 0.28;
   /* Left as-is: opacity composites the element after its filter, so the glow
      dims by the same factor rather than needing its own adjustment. */
   filter: drop-shadow(0 0 10px currentColor);
