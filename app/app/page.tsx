@@ -265,8 +265,22 @@ const ORNAMENTS: Record<
   ],
 };
 
+// The tab lives in the URL hash so a reload lands where you were rather than
+// back on About. Only these names are honoured — anything else in the hash is
+// someone else's anchor and is ignored.
+const SECTIONS = ['about', 'work', 'ventures', 'projects', 'blog', 'faq'] as const;
+
+const sectionFromHash = (): string => {
+  if (typeof window === 'undefined') return 'about';
+  const name = window.location.hash.replace(/^#/, '');
+  return (SECTIONS as readonly string[]).includes(name) ? name : 'about';
+};
+
 export default function Portfolio() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  // Always 'about' on the first render: the server has no hash to read, so
+  // seeding this from the URL would mismatch the markup React hydrates into.
+  // The effect below adopts the real section immediately after mount.
   const [activeSection, setActiveSection] = useState('about');
   const [userLocation, setUserLocation] = useState<{lat: number, lng: number} | null>(null);
   const [distance, setDistance] = useState<number | null>(null);
@@ -310,13 +324,38 @@ export default function Portfolio() {
     return () => observer.disconnect();
   }, [activeSection]);
 
+  // Adopt the section named in the URL, then keep following it. Two things had
+  // to be taken over from the browser for a reload to land somewhere sensible:
+  //
+  // The tab, which used to be state alone — nothing in the URL meant every
+  // refresh re-ran useState('about') and dropped you on About whatever you
+  // were reading.
+  //
+  // And the scroll offset. scrollRestoration defaults to 'auto', so the browser
+  // put back the offset from before the reload while the tab reset to About —
+  // the FAQ's scroll position applied to a shorter page, which is what landed
+  // you near the bottom of About. 'manual' hands that decision to us, and the
+  // effect below starts every load at the top of its own section.
+  useEffect(() => {
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
+    }
+    setActiveSection(sectionFromHash());
+    window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
+    // Back and forward move between sections rather than leaving the page.
+    const onHashChange = () => setActiveSection(sectionFromHash());
+    window.addEventListener('hashchange', onHashChange);
+    return () => window.removeEventListener('hashchange', onHashChange);
+  }, []);
+
   // Switching tabs starts you at the top, the way following a link on a
   // multi-page site would. Without this, coming back to a section drops you at
   // whatever offset you left it — and worse, jumping from deep in Projects to
   // a short section leaves you scrolled past the end of the new one. Instant
   // rather than smooth: this is a page change, not a jump within a page, so
-  // watching it glide up reads as lag. Skips the first render so it can't
-  // fight the browser's own restoration on reload.
+  // watching it glide up reads as lag. The first render is still skipped: the
+  // mount effect above already scrolled to the top, and the section it adopts
+  // would otherwise fire this a second time.
   const isFirstRender = useRef(true);
   useEffect(() => {
     if (isFirstRender.current) {
@@ -394,6 +433,14 @@ export default function Portfolio() {
 
   const closeMenu = () => {
     setIsMenuOpen(false);
+  };
+
+  // Every nav button goes through here so the URL and the tab can't disagree.
+  // pushState rather than assigning location.hash: it records one history entry
+  // without firing hashchange, so the state update below stays the only one.
+  const goToSection = (name: string) => {
+    window.history.pushState(null, '', `#${name}`);
+    setActiveSection(name);
   };
 
 
@@ -560,37 +607,37 @@ export default function Portfolio() {
           {/* Desktop Menu */}
           <div className="hidden md:flex space-x-5 lg:space-x-8">
             <button 
-              onClick={() => setActiveSection('about')}
+              onClick={() => goToSection('about')}
               className={`nav-link ${activeSection === 'about' ? 'active' : ''}`}
             >
               ABOUT
             </button>
             <button 
-              onClick={() => setActiveSection('work')}
+              onClick={() => goToSection('work')}
               className={`nav-link ${activeSection === 'work' ? 'active' : ''}`}
             >
               WORK
             </button>
             <button 
-              onClick={() => setActiveSection('ventures')}
+              onClick={() => goToSection('ventures')}
               className={`nav-link ${activeSection === 'ventures' ? 'active' : ''}`}
             >
               VENTURES
             </button>
             <button 
-              onClick={() => setActiveSection('projects')}
+              onClick={() => goToSection('projects')}
               className={`nav-link ${activeSection === 'projects' ? 'active' : ''}`}
             >
               PROJECTS
             </button>
             <button 
-              onClick={() => setActiveSection('blog')}
+              onClick={() => goToSection('blog')}
               className={`nav-link ${activeSection === 'blog' ? 'active' : ''}`}
             >
               BLOG
             </button>
             <button 
-              onClick={() => setActiveSection('faq')}
+              onClick={() => goToSection('faq')}
               className={`nav-link ${activeSection === 'faq' ? 'active' : ''}`}
             >
               FAQ
@@ -611,37 +658,37 @@ export default function Portfolio() {
           <div className="md:hidden absolute top-full left-0 w-full bg-slate-900/95 backdrop-blur-md border-t border-slate-700">
             <div className="px-8 py-6 space-y-4">
               <button 
-                onClick={() => { setActiveSection('about'); closeMenu(); }}
+                onClick={() => { goToSection('about'); closeMenu(); }}
                 className="block w-full text-left text-lg hover:text-blue-400 nav-link"
               >
                 ABOUT
               </button>
               <button 
-                onClick={() => { setActiveSection('work'); closeMenu(); }}
+                onClick={() => { goToSection('work'); closeMenu(); }}
                 className="block w-full text-left text-lg hover:text-blue-400 nav-link"
               >
                 WORK
               </button>
               <button 
-                onClick={() => { setActiveSection('ventures'); closeMenu(); }}
+                onClick={() => { goToSection('ventures'); closeMenu(); }}
                 className="block w-full text-left text-lg hover:text-blue-400 nav-link"
               >
                 VENTURES
               </button>
               <button 
-                onClick={() => { setActiveSection('projects'); closeMenu(); }}
+                onClick={() => { goToSection('projects'); closeMenu(); }}
                 className="block w-full text-left text-lg hover:text-blue-400 nav-link"
               >
                 PROJECTS
               </button>
               <button 
-                onClick={() => { setActiveSection('blog'); closeMenu(); }}
+                onClick={() => { goToSection('blog'); closeMenu(); }}
                 className="block w-full text-left text-lg hover:text-blue-400 nav-link"
               >
                 BLOG
               </button>
               <button 
-                onClick={() => { setActiveSection('faq'); closeMenu(); }}
+                onClick={() => { goToSection('faq'); closeMenu(); }}
                 className="block w-full text-left text-lg hover:text-blue-400 nav-link"
               >
                 FAQ
