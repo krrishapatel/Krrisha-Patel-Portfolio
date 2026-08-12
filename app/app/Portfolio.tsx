@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import Crane from './Crane';
 import Lotus from './Lotus';
 import Dragon from './Dragon';
-import { SECTIONS } from './sections';
+import { META, SECTIONS } from './sections';
 
 // Update these coordinates when you move. The distance widget reads from here,
 // so this is the only place that needs to change.
@@ -354,12 +354,19 @@ export default function Portfolio({ section = 'about' }: { section?: string }) {
   // watching it glide up reads as lag. The first render is still skipped: the
   // mount effect above already scrolled to the top, and the section it adopts
   // would otherwise fire this a second time.
+  //
+  // The title is set here too. Next renders the right one per route on load, but
+  // the nav moves between sections with pushState, which changes the URL without
+  // touching document.title — so browsing from About to Ventures left the tab and
+  // the bookmark still reading "Krrisha Patel". Same trigger, same reason: this
+  // is the point where one section becomes another.
   const isFirstRender = useRef(true);
   useEffect(() => {
     if (isFirstRender.current) {
       isFirstRender.current = false;
       return;
     }
+    document.title = META[activeSection as keyof typeof META]?.title ?? META.about.title;
     window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
   }, [activeSection]);
 
