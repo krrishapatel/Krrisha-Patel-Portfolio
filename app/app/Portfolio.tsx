@@ -278,6 +278,17 @@ const sectionFromPath = (path: string): string => {
   return (SECTIONS as readonly string[]).includes(name) ? name : 'about';
 };
 
+// The four tiles in the art grid, which were four copies of the same twenty
+// lines differing only in a filename. The border on painting2 really is a
+// lighter shade than the other three, so it's carried as data rather than
+// quietly normalised away.
+const ARTWORKS = [
+  { id: 'drawing1', file: 'drawing1', border: 'border-slate-700 hover:border-slate-500' },
+  { id: 'drawing2', file: 'drawing2', border: 'border-slate-700 hover:border-slate-500' },
+  { id: 'painting1', file: 'painting1', border: 'border-slate-700 hover:border-slate-500' },
+  { id: 'painting2', file: 'painting2', border: 'border-slate-500 hover:border-slate-400' },
+] as const;
+
 export default function Portfolio({ section = 'about' }: { section?: string }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   // Seeded from the route, which the server knows too, so the markup React
@@ -440,16 +451,43 @@ export default function Portfolio({ section = 'about' }: { section?: string }) {
     setIsMenuOpen(false);
   };
 
-  // Every nav button goes through here so the URL and the tab can't disagree.
+  // About lives at / rather than /about, so the site has one home rather than
+  // two URLs showing the same thing.
+  const pathFor = (name: string) => (name === 'about' ? '/' : `/${name}`);
+
+  // Every nav item goes through here so the URL and the tab can't disagree.
   // The path is pushed by hand rather than through the router: all six routes
   // render this same component, so a router navigation would tear it down and
   // rebuild it — losing the origami meshes and replaying the intro — to show
-  // markup it already has. About lives at / rather than /about, so the site has
-  // one home rather than two URLs showing the same thing.
+  // markup it already has.
   const goToSection = (name: string) => {
-    window.history.pushState(null, '', name === 'about' ? '/' : `/${name}`);
+    window.history.pushState(null, '', pathFor(name));
     setActiveSection(name);
   };
+
+  // The nav items are real anchors with a real href, and this intercepts the
+  // click to keep the no-reload behaviour.
+  //
+  // They were <button onClick> before, which meant the served HTML contained no
+  // link to any of the five section pages — a crawler reading the homepage found
+  // nothing to follow, so the routes were indexable in principle and undiscover-
+  // able in practice. An href fixes that, and incidentally makes cmd-click,
+  // middle-click and "open in new tab" work, none of which a button supports.
+  //
+  // The modifier keys are left alone deliberately: if the visitor is asking for a
+  // new tab or window, preventDefault would swallow it, so those clicks fall
+  // through to the browser.
+  const navLink = (name: string) => ({
+    href: pathFor(name),
+    onClick: (e: React.MouseEvent<HTMLAnchorElement>) => {
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+      e.preventDefault();
+      goToSection(name);
+    },
+    // Screen readers announce which of the six is current; the active class alone
+    // is only visible styling.
+    'aria-current': (activeSection === name ? 'page' : undefined) as 'page' | undefined,
+  });
 
 
 
@@ -612,50 +650,26 @@ export default function Portfolio({ section = 'about' }: { section?: string }) {
             K
           </div>
           
-          {/* Desktop Menu */}
+          {/* Desktop Menu — mapped over SECTIONS rather than six near-identical
+              blocks, so a section can't end up in one menu and not the other. */}
           <div className="hidden md:flex space-x-5 lg:space-x-8">
-            <button 
-              onClick={() => goToSection('about')}
-              className={`nav-link ${activeSection === 'about' ? 'active' : ''}`}
-            >
-              ABOUT
-            </button>
-            <button 
-              onClick={() => goToSection('work')}
-              className={`nav-link ${activeSection === 'work' ? 'active' : ''}`}
-            >
-              WORK
-            </button>
-            <button 
-              onClick={() => goToSection('ventures')}
-              className={`nav-link ${activeSection === 'ventures' ? 'active' : ''}`}
-            >
-              VENTURES
-            </button>
-            <button 
-              onClick={() => goToSection('projects')}
-              className={`nav-link ${activeSection === 'projects' ? 'active' : ''}`}
-            >
-              PROJECTS
-            </button>
-            <button 
-              onClick={() => goToSection('blog')}
-              className={`nav-link ${activeSection === 'blog' ? 'active' : ''}`}
-            >
-              BLOG
-            </button>
-            <button 
-              onClick={() => goToSection('faq')}
-              className={`nav-link ${activeSection === 'faq' ? 'active' : ''}`}
-            >
-              FAQ
-            </button>
+            {SECTIONS.map((name) => (
+              <a
+                key={name}
+                {...navLink(name)}
+                className={`nav-link ${activeSection === name ? 'active' : ''}`}
+              >
+                {name.toUpperCase()}
+              </a>
+            ))}
           </div>
 
           {/* Mobile Menu Button */}
-          <button 
+          <button
             onClick={toggleMenu}
             className="md:hidden nav-link text-xl px-3 py-2 -mr-3"
+            aria-expanded={isMenuOpen}
+            aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
           >
             MENU
           </button>
@@ -665,42 +679,26 @@ export default function Portfolio({ section = 'about' }: { section?: string }) {
         {isMenuOpen && (
           <div className="md:hidden absolute top-full left-0 w-full bg-slate-900/95 backdrop-blur-md border-t border-slate-700">
             <div className="px-8 py-6 space-y-4">
-              <button 
-                onClick={() => { goToSection('about'); closeMenu(); }}
-                className="block w-full text-left text-lg hover:text-blue-400 nav-link"
-              >
-                ABOUT
-              </button>
-              <button 
-                onClick={() => { goToSection('work'); closeMenu(); }}
-                className="block w-full text-left text-lg hover:text-blue-400 nav-link"
-              >
-                WORK
-              </button>
-              <button 
-                onClick={() => { goToSection('ventures'); closeMenu(); }}
-                className="block w-full text-left text-lg hover:text-blue-400 nav-link"
-              >
-                VENTURES
-              </button>
-              <button 
-                onClick={() => { goToSection('projects'); closeMenu(); }}
-                className="block w-full text-left text-lg hover:text-blue-400 nav-link"
-              >
-                PROJECTS
-              </button>
-              <button 
-                onClick={() => { goToSection('blog'); closeMenu(); }}
-                className="block w-full text-left text-lg hover:text-blue-400 nav-link"
-              >
-                BLOG
-              </button>
-              <button 
-                onClick={() => { goToSection('faq'); closeMenu(); }}
-                className="block w-full text-left text-lg hover:text-blue-400 nav-link"
-              >
-                FAQ
-              </button>
+              {SECTIONS.map((name) => {
+                const link = navLink(name);
+                return (
+                  <a
+                    key={name}
+                    {...link}
+                    // Same handler as the desktop nav, plus closing the menu. A
+                    // modifier-click opens a new tab and leaves this one alone,
+                    // so the menu is only dismissed when the click was handled
+                    // here.
+                    onClick={(e) => {
+                      link.onClick(e);
+                      if (e.defaultPrevented) closeMenu();
+                    }}
+                    className="block w-full text-left text-lg hover:text-blue-400 nav-link"
+                  >
+                    {name.toUpperCase()}
+                  </a>
+                );
+              })}
             </div>
           </div>
         )}
@@ -732,7 +730,20 @@ export default function Portfolio({ section = 'about' }: { section?: string }) {
           <div className="max-w-6xl mx-auto px-5 md:px-8">
             <div className="flex flex-col md:flex-row items-start gap-6 md:gap-8 mb-10 md:mb-12">
               <div className="headshot shrink-0">
-                <img src="/headshot.jpeg" alt="Krrisha Patel" className="w-full h-full rounded-full object-cover" />
+                {/* No lazy here: this one is the first thing on the page, so
+                    deferring it would only delay what the visitor came to see.
+                    The 1226x1469 original was being downloaded to fill a 90px
+                    circle — a megabyte for nine thousand pixels. */}
+                <picture className="contents">
+                  <source srcSet="/headshot.webp" type="image/webp" />
+                  <img
+                    src="/headshot.jpeg"
+                    alt="Krrisha Patel"
+                    width={90}
+                    height={90}
+                    className="w-full h-full rounded-full object-cover"
+                  />
+                </picture>
               </div>
               <div className="flex-1">
                 <div className="main-name text-5xl sm:text-6xl lg:text-[5rem] tracking-tighter leading-none mb-6 md:mb-8 flex flex-col md:flex-row md:items-center gap-0 md:gap-10">
@@ -790,57 +801,43 @@ export default function Portfolio({ section = 'about' }: { section?: string }) {
                 <div className="mt-24">
                   <h3 id="artworks-heading" className="section-heading text-2xl mb-8 text-center">some of my latest artworks</h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <div 
-                      className={`group cursor-pointer overflow-hidden rounded-lg border border-slate-700 hover:border-slate-500 hover:shadow-lg hover:shadow-blue-500/20 transition-all duration-300 h-48 ${
-                        selectedArtwork === 'drawing1' ? 'col-span-2 row-span-2 artwork-expanded' : ''
-                      }`}
-                      onClick={() => setSelectedArtwork(selectedArtwork === 'drawing1' ? null : 'drawing1')}
-                    >
-                      <img 
-                        src="/drawing1.jpg" 
-                        alt="Latest work" 
-                        className="w-full h-full object-cover transition-all duration-300"
-                      />
-                    </div>
-                    
-                    <div 
-                      className={`group cursor-pointer overflow-hidden rounded-lg border border-slate-700 hover:border-slate-500 hover:shadow-lg hover:shadow-blue-500/20 transition-all duration-300 h-48 ${
-                        selectedArtwork === 'drawing2' ? 'col-span-2 row-span-2 artwork-expanded' : ''
-                      }`}
-                      onClick={() => setSelectedArtwork(selectedArtwork === 'drawing2' ? null : 'drawing2')}
-                    >
-                      <img 
-                        src="/drawing2.jpg" 
-                        alt="Latest work" 
-                        className="w-full h-full object-cover transition-all duration-300"
-                      />
-                    </div>
-                    
-                    <div 
-                      className={`group cursor-pointer overflow-hidden rounded-lg border border-slate-700 hover:border-slate-500 hover:shadow-lg hover:shadow-blue-500/20 transition-all duration-300 h-48 ${
-                        selectedArtwork === 'painting1' ? 'col-span-2 row-span-2 artwork-expanded' : ''
-                      }`}
-                      onClick={() => setSelectedArtwork(selectedArtwork === 'painting1' ? null : 'painting1')}
-                    >
-                      <img 
-                        src="/painting1.jpg" 
-                        alt="Latest work" 
-                        className="w-full h-full object-cover transition-all duration-300"
-                      />
-                    </div>
-                    
-                    <div 
-                      className={`group cursor-pointer overflow-hidden rounded-lg border border-slate-500 hover:border-slate-400 hover:shadow-lg hover:shadow-blue-500/20 transition-all duration-300 h-48 ${
-                        selectedArtwork === 'painting2' ? 'col-span-2 row-span-2 artwork-expanded' : ''
-                      }`}
-                      onClick={() => setSelectedArtwork(selectedArtwork === 'painting2' ? null : 'painting2')}
-                    >
-                      <img 
-                        src="/painting2.jpg" 
-                        alt="Latest work" 
-                        className="w-full h-full object-cover transition-all duration-300"
-                      />
-                    </div>
+                    {ARTWORKS.map(({ id, file, border }) => (
+                      <div
+                        key={id}
+                        className={`group cursor-pointer overflow-hidden rounded-lg border ${border} hover:shadow-lg hover:shadow-blue-500/20 transition-all duration-300 h-48 ${
+                          selectedArtwork === id ? 'col-span-2 row-span-2 artwork-expanded' : ''
+                        }`}
+                        onClick={() => setSelectedArtwork(selectedArtwork === id ? null : id)}
+                      >
+                        {/* WebP with the JPEG as fallback: the source is preferred
+                            by every current browser, and anything that doesn't
+                            understand it ignores the <source> and loads the img.
+                            The originals were camera resolution — a 1917x1536
+                            scan shown in a 348x190 tile — which is why the page
+                            was sending 3.7MB to draw a few hundred pixels.
+
+                            lazy because all four sit below the fold: they used to
+                            download before first paint even though nobody had
+                            scrolled to them yet. Explicit width/height on the img
+                            reserve the tile's aspect so lazy loading doesn't
+                            shift the layout as each one arrives. */}
+                        {/* display:contents so the <picture> box doesn't become
+                            what w-full/h-full measures against — the img needs
+                            to fill the tile, not a wrapper sized to the img. */}
+                        <picture className="contents">
+                          <source srcSet={`/${file}.webp`} type="image/webp" />
+                          <img
+                            src={`/${file}.jpg`}
+                            alt="Latest work"
+                            loading="lazy"
+                            decoding="async"
+                            width={348}
+                            height={190}
+                            className="w-full h-full object-cover transition-all duration-300"
+                          />
+                        </picture>
+                      </div>
+                    ))}
                   </div>
                 </div>
 
