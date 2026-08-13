@@ -57,6 +57,12 @@ export type Spec = {
   reducedMs: number;
   className: string;
   label: string;
+  /* Run the trick once on mount. Only the folding sheet wants this — it starts as
+     a blank square, so without it the page would show flat paper until someone
+     thought to click it. The other three already read as what they are while
+     standing still, and a figure that moves unasked is a figure competing with
+     the text next to it. */
+  autoplay?: boolean;
 };
 
 const FOCAL = 6.2;
@@ -66,13 +72,32 @@ const CAMERA: Vec = [0, 0, FOCAL];
 // first animation would quietly overwrite the pose it has to return to.
 const freshPose = (p: Pose): Pose => ({ ...p, shape: { ...p.shape } });
 
-export default function OrigamiFigure({ spec }: { spec: Spec }) {
+/* A figure that autoplays opens at t=0 of its own animation rather than at rest.
+   The folding sheet's resting pose is the finished crane, so starting from `idle`
+   would show the ending first — for the fraction of a second before the fold
+   begins, and for as long as the fold is held off. */
+const initialPose = (spec: Spec): Pose => {
+  const p = freshPose(spec.idle);
+  if (spec.autoplay) spec.play(p, 0, freshPose(p));
+  return p;
+};
+
+export default function OrigamiFigure({ spec, hold = false }: { spec: Spec; hold?: boolean }) {
   const svgRef = useRef<SVGSVGElement | null>(null);
   const polysRef = useRef<(SVGPolygonElement | null)[]>([]);
-  const poseRef = useRef(freshPose(spec.idle));
+  const poseRef = useRef(initialPose(spec));
   const busyRef = useRef(false);
   const rafRef = useRef(0);
   const dragRef = useRef({ active: false, x: 0, y: 0, moved: 0 });
+  /* The opening fold needs two conditions met — on screen, and not held — which
+     arrive in either order and from different places. These carry the state
+     between them so the main effect can stay keyed on `spec` alone: re-running it
+     when `hold` changes would trip its own interrupt cleanup and snap the sheet to
+     the finished crane, which is exactly the reveal being deferred. */
+  const holdRef = useRef(hold);
+  const onScreenRef = useRef(false);
+  const openedRef = useRef(false);
+  const openRef = useRef<() => void>(() => {});
 
   useEffect(() => {
     const { view, maxFaces, idle, build, play, playReduced } = spec;
@@ -157,7 +182,10 @@ export default function OrigamiFigure({ spec }: { spec: Spec }) {
 
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    const run = () => {
+    /* `opening` marks the one autoplay run that starts from the synthetic t=0 pose
+       rather than from wherever the viewer left the figure. It only affects where
+       the run lands — see the assignment at t=1. */
+    const run = (opening = false) => {
       if (busyRef.current) return;
       busyRef.current = true;
       const start = freshPose(pose);
@@ -172,9 +200,17 @@ export default function OrigamiFigure({ spec }: { spec: Spec }) {
         if (t < 1) {
           rafRef.current = requestAnimationFrame(step);
         } else {
-          // Land exactly on the pose it left from. A trick that turns a whole
-          // 360 keeps the viewer's own yaw and pitch; everything else returns.
-          Object.assign(pose, freshPose(idle), { yaw: start.yaw, pitch: start.pitch });
+          /* Land exactly on the pose it left from. A trick that turns a whole
+             360 keeps the viewer's own yaw and pitch; everything else returns.
+
+             The opening run is the exception: it starts from the flat sheet's
+             camera angle, which is a waypoint rather than anyone's viewing choice,
+             so carrying it over would strand the finished crane edge-on. */
+          Object.assign(
+            pose,
+            freshPose(idle),
+            opening ? {} : { yaw: start.yaw, pitch: start.pitch },
+          );
           draw();
           busyRef.current = false;
         }
@@ -219,14 +255,64 @@ export default function OrigamiFigure({ spec }: { spec: Spec }) {
     el.addEventListener('pointerup', onUp);
     el.addEventListener('pointercancel', onUp);
 
+    /* Only once the figure is actually on screen. Firing on mount would spend the
+       whole fold behind the fold of the page for anyone who lands scrolled down,
+       and they would arrive at a crane with no idea it had been paper.
+
+       `hold` is the same problem in time rather than space: the boot overlay covers
+       the figure without hiding it, and IntersectionObserver reports intersection,
+       not visibility, so an unheld fold runs to completion behind an opaque layer.
+       The observer still has to arm, since the sheet may also be scrolled away —
+       whichever condition resolves last is the one that starts the fold. */
+    let io: IntersectionObserver | undefined;
+    if (spec.autoplay) {
+      const open = () => {
+        if (openedRef.current || holdRef.current || !onScreenRef.current) return;
+        openedRef.current = true;
+        run(true);
+      };
+      openRef.current = open;
+      io = new IntersectionObserver(
+        (entries) => {
+          if (entries.some((e) => e.isIntersecting)) {
+            io?.disconnect();
+            onScreenRef.current = true;
+            open();
+          }
+        },
+        { threshold: 0.5 },
+      );
+      io.observe(el);
+    }
+
     return () => {
+      io?.disconnect();
       cancelAnimationFrame(rafRef.current);
+      /* Cancelling the frame ends the animation but leaves the guard set, and the
+         guard is what makes `run` a no-op. Without this the figure freezes at
+         whatever fraction it had reached — mid-fold, at a pitch the resting pose
+         never uses — and no click can restart it, because every later `run` sees
+         a trick still in progress. */
+      const interrupted = busyRef.current;
+      busyRef.current = false;
+      /* The pose outlives the effect, so an interrupted trick also strands the
+         figure part-folded. Since `play` works relative to the pose it started
+         from, the next run would take that half-folded tilt as its origin and land
+         there. Put it back on the resting pose — but only when a trick was actually
+         in flight, so this never discards a viewer's own drag. */
+      if (interrupted) Object.assign(pose, freshPose(idle));
       el.removeEventListener('pointerdown', onDown);
       el.removeEventListener('pointermove', onMove);
       el.removeEventListener('pointerup', onUp);
       el.removeEventListener('pointercancel', onUp);
     };
   }, [spec]);
+
+  /* Separate from the main effect so releasing the hold doesn't tear it down. */
+  useEffect(() => {
+    holdRef.current = hold;
+    if (!hold) openRef.current();
+  }, [hold]);
 
   return (
     <svg

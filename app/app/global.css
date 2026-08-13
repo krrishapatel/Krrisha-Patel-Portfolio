@@ -522,63 +522,6 @@ a:focus-visible {
   transition: all 0.3s ease;
 }
 
-/* Distance widget styling - only on FAQ page */
-.distance-widget {
-  position: fixed;
-  top: 120px;
-  right: 20px;
-  background: var(--navy-medium);
-  border: 1px solid var(--navy-light);
-  border-radius: 12px;
-  padding: 16px;
-  max-width: 200px;
-  backdrop-filter: blur(10px);
-  animation: slideInRight 0.6s ease-out;
-  z-index: 40;
-}
-
-/* Same control as the detail panels' close button — surface, hairline border and
-   the quarter-turn glow on hover — so dismissing anything on the site feels like
-   the same gesture. Smaller than that one because this widget is a 200px card and
-   a 34px button inside it crowds the pin and the copy. */
-.distance-close {
-  position: absolute;
-  top: 7px;
-  right: 7px;
-  z-index: 3;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 24px;
-  height: 24px;
-  border: 1px solid rgb(148 163 184 / 0.2);
-  border-radius: 7px;
-  background: rgb(15 23 42 / 0.7);
-  color: var(--text-secondary);
-  font-size: 0.72rem;
-  line-height: 1;
-  transition: color 0.25s ease, border-color 0.25s ease,
-              background 0.25s ease, transform 0.25s ease;
-}
-
-.distance-close:hover {
-  color: var(--text-primary);
-  border-color: var(--section-accent, var(--accent-blue));
-  background: color-mix(in srgb, var(--section-accent, var(--accent-blue)) 18%, rgb(15 23 42));
-  transform: rotate(90deg);
-}
-
-@keyframes slideInRight {
-  from {
-    transform: translateX(100%);
-    opacity: 0;
-  }
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
-}
-
 /* Scroll cue between the About cards and the artworks grid. Nudges
    downward on a loop so it reads as "keep going" rather than as a control. */
 .scroll-cue {
@@ -588,7 +531,7 @@ a:focus-visible {
      body has overflow-x: hidden, making it a scroll container.) */
   position: fixed;
   left: 50%;
-  bottom: 76px;
+  bottom: 74px;
   z-index: 40;
   transform: translateX(-50%);
   display: flex;
@@ -627,7 +570,7 @@ a:focus-visible {
    nearly edge to edge on a phone, and dead centre lands mid-sentence. */
 @media (max-width: 767px) {
   .scroll-cue {
-    bottom: 96px;
+    bottom: 94px;
     left: auto;
     right: 16px;
     transform: none;
@@ -1164,12 +1107,6 @@ a:focus-visible {
     height: 96px;
   }
 
-  /* Hidden on phones: it crowded the screen and its permission prompt
-     landed on top of the boot intro. */
-  .distance-widget {
-    display: none;
-  }
-
   .venture-card {
     padding: 24px 20px 0;
   }
@@ -1429,6 +1366,44 @@ html {
   cursor: grabbing;
 }
 
+/* The folding sheet is square, unlike the three in the row: at full spread the
+   paper is as tall as it is wide, so a band would clip it on the way round. */
+.folding-crane .origami-svg {
+  width: 150px;
+  height: 150px;
+}
+
+/* Taken out of the flow so the hero measures exactly as it did before the crane
+   existed. In the flow it made the name row as tall as itself, which pushed the
+   description down and cost a line; the right edge of the name row is empty space
+   anyway, so nothing has to move to make room. Centred on that row rather than
+   pinned to its top, since the row's height is the text's, not the crane's. */
+.folding-crane {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+@media (max-width: 1200px) {
+  .folding-crane .origami-svg {
+    width: 125px;
+    height: 125px;
+  }
+}
+
+/* On a phone the hero stacks, and a third block between the name and the bio
+   pushes the actual introduction below the first screen. */
+@media (max-width: 767px) {
+  .folding-crane {
+    display: none;
+  }
+}
+
+.folding-crane-svg:hover {
+  filter: drop-shadow(0 0 18px color-mix(in srgb, var(--accent-purple) 45%, transparent));
+}
+
 /* Each figure glows in its own dominant colour, which is also how you can tell
    at a glance that the three are separate toys rather than one picture. */
 .crane-svg:hover {
@@ -1678,3 +1653,81 @@ html {
   object-fit: cover;
 }
 
+
+/* On a short window the two About cards fall under the fixed footer. The footer is
+   65px and pinned, the cards end 201px after they start, and the hero above them
+   spends 192px on top padding plus a 48px gap the card grid's own 40px top margin
+   collapses into — so on a 650px-tall window the cards end at 681 with the footer
+   already at 585, and the second half of both is unreadable without scrolling.
+
+   Only the short case needs changing, so this is bound to viewport height rather
+   than applied outright: at 900px and above the cards already clear the footer by
+   154px and the layout stays exactly as it was.
+
+   Continuous rather than stepped, and it starts giving full spacing much sooner.
+   As three fixed tiers this cut spacing on any window under 820px tall, and it cut
+   it in 30px jumps. Interpolating instead means one spacing per viewport height,
+   with no threshold for two browsers to fall either side of — they differ by a few
+   pixels in how tall their tab and address bars are (measured here: 87px of Chrome,
+   84px of Firefox), which used to be enough to shift the whole page by 30px on the
+   same screen.
+
+   The ceiling is set by the scroll arrow, not the footer. The arrow is fixed 74px
+   off the bottom and sits between the cards and the footer, so it is what the cards
+   run into first — roughly 25px sooner than the footer, and it was possible to have
+   healthy footer clearance while the arrow rested on the card edge. Each band's
+   floor is therefore the shortest height at which full spacing still leaves a real
+   gap above the arrow, found by forcing 192px at every height and reading off the
+   first one that clears by 16px.
+
+   margin-bottom carries the whole gap and the grid's own margin-top is zeroed.
+   Adjacent block margins collapse to the larger, so leaving both would mean two
+   values racing to define one gap; one of them scaling and the other not would
+   put a smaller version of the same cliff back. padding-top on the grid stays
+   because padding doesn't collapse. */
+main.pt-32 {
+  padding-top: clamp(118px, 30.833vh - 97.83px, 192px);
+}
+
+main .max-w-6xl > div:first-child {
+  margin-bottom: clamp(16px, 13.333vh - 77.33px, 48px);
+}
+
+/* That floor also depends on width, because the cards' text wraps to more lines as
+   the window narrows — they stand 283px tall at 768 wide against 201px at 1280, so
+   a narrow window runs out of room while a wide one still has plenty. One height
+   ramp cannot serve both, so there is a floor per band: 815 from 1100px wide, 840
+   at 1024, 940 below that. Where a band spans several measurements it takes the
+   highest floor in it, which is the safe direction — a higher floor means less
+   padding on a short window, so the cards sit higher and leave more room.
+
+   Below about 1024x770 the cards are simply taller than the gap between the header
+   and the arrow, so they overlap it whatever the padding does; the ramp is at its
+   118px minimum there and has nothing left to give. Those sizes overlapped in the
+   stepped design too, by more than they do now. */
+@media (min-width: 1024px) {
+  main.pt-32 {
+    padding-top: clamp(118px, 52.857vh - 252px, 192px);
+  }
+  main .max-w-6xl > div:first-child {
+    margin-bottom: clamp(16px, 22.857vh - 144px, 48px);
+  }
+}
+
+@media (min-width: 1100px) {
+  main.pt-32 {
+    padding-top: clamp(118px, 64.348vh - 332.43px, 192px);
+  }
+  main .max-w-6xl > div:first-child {
+    margin-bottom: clamp(16px, 27.826vh - 178.78px, 48px);
+  }
+}
+
+/* The 2px is the hair of extra air under the intro, with the scroll cue moved down
+   by the same amount so the two don't drift apart. The sibling selector keeps both
+   declarations on the two About cards; `.max-w-6xl .grid` would also catch the
+   artworks grid below. */
+main .max-w-6xl > div:first-child + .grid {
+  margin-top: 0;
+  padding-top: 2px;
+}

@@ -2,16 +2,10 @@
 
 import { useState, useEffect, useRef } from 'react';
 import Crane from './Crane';
+import FoldingCrane from './FoldingCrane';
 import Lotus from './Lotus';
 import Dragon from './Dragon';
 import { META, SECTIONS } from './sections';
-
-// Update these coordinates when you move. The distance widget reads from here,
-// so this is the only place that needs to change.
-const KRRISHA_LOCATION = {
-  lat: 39.9526,
-  lng: -75.1652,
-};
 
 // The boot line typed out before the page renders.
 const INTRO_TEXT = '<hello world... :) />';
@@ -295,8 +289,6 @@ export default function Portfolio({ section = 'about' }: { section?: string }) {
   // hydrates into already shows the right section. The hash version couldn't do
   // this — it had to start on About and correct itself after mount.
   const [activeSection, setActiveSection] = useState(section);
-  const [userLocation, setUserLocation] = useState<{lat: number, lng: number} | null>(null);
-  const [distance, setDistance] = useState<number | null>(null);
   const [activeWorkTab, setActiveWorkTab] = useState('tech');
   const [selectedBlog, setSelectedBlog] = useState<string | null>(null);
   const [selectedWork, setSelectedWork] = useState<string | null>(null);
@@ -491,31 +483,6 @@ export default function Portfolio({ section = 'about' }: { section?: string }) {
 
 
 
-  // Calculate distance from the visitor to KRRISHA_LOCATION (defined at the top of this file).
-  // Skipped on phones: the browser's location permission prompt covers the boot intro,
-  // and the widget itself is hidden below 768px anyway.
-  useEffect(() => {
-    const isPhone = window.matchMedia('(max-width: 767px)').matches;
-    if (!isPhone && navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        const userLat = position.coords.latitude;
-        const userLng = position.coords.longitude;
-        const krrishaLat = KRRISHA_LOCATION.lat;
-        const krrishaLng = KRRISHA_LOCATION.lng;
-        
-        const R = 3959; // Earth's radius in miles
-        const dLat = (krrishaLat - userLat) * Math.PI / 180;
-        const dLng = (krrishaLng - userLng) * Math.PI / 180;
-        const a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(userLat * Math.PI / 180) * Math.cos(krrishaLat * Math.PI / 180) * Math.sin(dLng/2) * Math.sin(dLng/2);
-        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-        const distanceInMiles = R * c;
-        
-        setUserLocation({lat: userLat, lng: userLng});
-        setDistance(Math.round(distanceInMiles));
-      });
-    }
-  }, []);
-
   // Custom cursor tracking.
   //
   // Two rules keep this from feeling laggy:
@@ -704,25 +671,6 @@ export default function Portfolio({ section = 'about' }: { section?: string }) {
         )}
       </nav>
 
-      {/* Distance Widget - Only on FAQ page */}
-      {distance && activeSection === 'faq' && (
-        <div className="distance-widget" style={{ background: 'rgb(30 41 59 / 0.3)', border: '1px solid rgb(71 85 105)', borderRadius: '12px' }}>
-          <button
-            onClick={() => setDistance(null)}
-            className="distance-close"
-            aria-label="dismiss distance"
-          >
-            ✕
-          </button>
-          <div className="text-center">
-            <div className="text-2xl mb-2">📍</div>
-            <p className="text-sm text-slate-300">
-              you're <span className="font-bold text-blue-400">{distance}</span> miles from Krrisha!
-            </p>
-          </div>
-        </div>
-      )}
-
       {/* Main Content */}
               <main className="pt-32 md:pt-48 pb-32 md:pb-24">
         {/* About Section */}
@@ -746,15 +694,25 @@ export default function Portfolio({ section = 'about' }: { section?: string }) {
                 </picture>
               </div>
               <div className="flex-1">
-                <div className="main-name text-5xl sm:text-6xl lg:text-[5rem] tracking-tighter leading-none mb-6 md:mb-8 flex flex-col md:flex-row md:items-center gap-0 md:gap-10">
+                <div className="main-name relative text-5xl sm:text-6xl lg:text-[5rem] tracking-tighter leading-none mb-6 md:mb-8 flex flex-col md:flex-row md:items-center gap-0 md:gap-10">
                   Krrisha Patel
                   <span className="text-2xl lg:text-4xl font-medium">
                     <span className="rotating-word" data-words="dreamer,doer,innovator"></span>
                   </span>
+                  {/* Positioned rather than in the flow, and deliberately: as a
+                      flex child it made the name row as tall as itself and pushed
+                      the description down a line, and as a third column it took
+                      width off the description and stretched it to five. Out of the
+                      flow it cannot do either — the layout is exactly what it was
+                      before the crane existed, with the crane in the empty space to
+                      the right of the name. */}
+                  <span className="folding-crane hidden md:block">
+                    <FoldingCrane hold={introState !== 'done'} />
+                  </span>
                 </div>
                 <div className="body-text text-xl md:text-2xl leading-relaxed max-w-4xl">
-                  cs, finance & stats @ upenn m&t, focused on ai, ml, and healthcare tech. building tools 
-                  to solve real-world problems. outside of class, i'm into origami engineering, oil painting, 
+                  cs, finance & stats @ upenn m&t, focused on ai, ml, and healthcare tech. building tools
+                  to solve real-world problems. outside of class, i'm into origami engineering, oil painting,
                   tennis, swimming, exploring new dessert spots &amp; always looking for creative side projects.
                 </div>
               </div>
