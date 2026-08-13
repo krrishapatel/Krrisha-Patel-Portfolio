@@ -531,7 +531,7 @@ a:focus-visible {
      body has overflow-x: hidden, making it a scroll container.) */
   position: fixed;
   left: 50%;
-  bottom: 74px;
+  bottom: 75px;
   z-index: 40;
   transform: translateX(-50%);
   display: flex;
@@ -1673,7 +1673,7 @@ html {
    same screen.
 
    What the cards run into is the scroll arrow, not the footer. The arrow is fixed
-   74px off the bottom and sits between the two, so it is reached first — roughly
+   75px off the bottom and sits between the two, so it is reached first — roughly
    25px sooner than the footer, which is why footer clearance could look healthy
    while the arrow rested on the card edge.
 
@@ -1690,7 +1690,7 @@ html {
    put a smaller version of the same cliff back. padding-top on the grid stays
    because padding doesn't collapse. */
 main.pt-32 {
-  padding-top: clamp(118px, 69.811vh - 453.24px, 196px);
+  padding-top: clamp(118px, 69.811vh - 451.24px, 198px);
 }
 
 main .max-w-6xl > div:first-child {
@@ -1720,7 +1720,7 @@ main .max-w-6xl > div:first-child {
    stepped design too, by more than they do now. */
 @media (min-width: 1024px) {
   main.pt-32 {
-    padding-top: clamp(118px, 69.811vh - 383.43px, 196px);
+    padding-top: clamp(118px, 69.811vh - 381.43px, 198px);
   }
   main .max-w-6xl > div:first-child {
     margin-bottom: clamp(16px, 30.189vh - 202.57px, 48px);
@@ -1729,7 +1729,7 @@ main .max-w-6xl > div:first-child {
 
 @media (min-width: 1100px) {
   main.pt-32 {
-    padding-top: clamp(118px, 69.811vh - 362.49px, 196px);
+    padding-top: clamp(118px, 69.811vh - 360.49px, 198px);
   }
   main .max-w-6xl > div:first-child {
     margin-bottom: clamp(16px, 30.189vh - 193.51px, 48px);
