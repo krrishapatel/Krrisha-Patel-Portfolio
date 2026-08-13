@@ -531,7 +531,11 @@ a:focus-visible {
      body has overflow-x: hidden, making it a scroll container.) */
   position: fixed;
   left: 50%;
-  bottom: 75px;
+  /* Whole pixels only: this element's painted edge does not move for a
+     fractional `bottom`. 75.5px computes as 75.5 and the box lands at 612.5,
+     but the composited result is byte-identical to 75px at both 1x and 2x —
+     measured, not assumed. 1px is the smallest step that shows up. */
+  bottom: 76px;
   z-index: 40;
   transform: translateX(-50%);
   display: flex;
@@ -1673,7 +1677,7 @@ html {
    same screen.
 
    What the cards run into is the scroll arrow, not the footer. The arrow is fixed
-   75px off the bottom and sits between the two, so it is reached first — roughly
+   76px off the bottom and sits between the two, so it is reached first — roughly
    25px sooner than the footer, which is why footer clearance could look healthy
    while the arrow rested on the card edge.
 
