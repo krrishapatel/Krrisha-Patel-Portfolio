@@ -1694,11 +1694,11 @@ html {
    put a smaller version of the same cliff back. padding-top on the grid stays
    because padding doesn't collapse. */
 main.pt-32 {
-  padding-top: clamp(118px, 69.811vh - 451.24px, 198px);
+  padding-top: clamp(118px, 69.811vh - 450.24px, 199px);
 }
 
 main .max-w-6xl > div:first-child {
-  margin-bottom: clamp(16px, 30.189vh - 232.76px, 48px);
+  margin-bottom: clamp(16px, 30.189vh - 233.76px, 47px);
 }
 
 /* Where each band tops out at full spacing depends on width, because the cards' text
@@ -1724,19 +1724,19 @@ main .max-w-6xl > div:first-child {
    stepped design too, by more than they do now. */
 @media (min-width: 1024px) {
   main.pt-32 {
-    padding-top: clamp(118px, 69.811vh - 381.43px, 198px);
+    padding-top: clamp(118px, 69.811vh - 380.43px, 199px);
   }
   main .max-w-6xl > div:first-child {
-    margin-bottom: clamp(16px, 30.189vh - 202.57px, 48px);
+    margin-bottom: clamp(16px, 30.189vh - 203.57px, 47px);
   }
 }
 
 @media (min-width: 1100px) {
   main.pt-32 {
-    padding-top: clamp(118px, 69.811vh - 360.49px, 198px);
+    padding-top: clamp(118px, 69.811vh - 359.49px, 199px);
   }
   main .max-w-6xl > div:first-child {
-    margin-bottom: clamp(16px, 30.189vh - 193.51px, 48px);
+    margin-bottom: clamp(16px, 30.189vh - 194.51px, 47px);
   }
 }
 
