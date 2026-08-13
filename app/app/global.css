@@ -1672,13 +1672,17 @@ html {
    84px of Firefox), which used to be enough to shift the whole page by 30px on the
    same screen.
 
-   The ceiling is set by the scroll arrow, not the footer. The arrow is fixed 74px
-   off the bottom and sits between the cards and the footer, so it is what the cards
-   run into first — roughly 25px sooner than the footer, and it was possible to have
-   healthy footer clearance while the arrow rested on the card edge. Each band's
-   floor is therefore the shortest height at which full spacing still leaves a real
-   gap above the arrow, found by forcing 192px at every height and reading off the
-   first one that clears by 16px.
+   What the cards run into is the scroll arrow, not the footer. The arrow is fixed
+   74px off the bottom and sits between the two, so it is reached first — roughly
+   25px sooner than the footer, which is why footer clearance could look healthy
+   while the arrow rested on the card edge.
+
+   Because the arrow is pinned to the bottom, it descends one pixel for every pixel
+   the window grows. Holding a steady gap under the cards therefore means the spacing
+   above them has to grow at that same rate: the two slopes below sum to 100vh, split
+   between padding and margin in proportion to how far each travels (74px and 32px).
+   Fitted that way the gap stays put across the band instead of drifting, and it is
+   deliberately small — the cards sit just short of the arrow, a few pixels clear.
 
    margin-bottom carries the whole gap and the grid's own margin-top is zeroed.
    Adjacent block margins collapse to the larger, so leaving both would mean two
@@ -1686,20 +1690,19 @@ html {
    put a smaller version of the same cliff back. padding-top on the grid stays
    because padding doesn't collapse. */
 main.pt-32 {
-  padding-top: clamp(118px, 30.833vh - 97.83px, 192px);
+  padding-top: clamp(118px, 69.811vh - 457.24px, 192px);
 }
 
 main .max-w-6xl > div:first-child {
-  margin-bottom: clamp(16px, 13.333vh - 77.33px, 48px);
+  margin-bottom: clamp(16px, 30.189vh - 232.76px, 48px);
 }
 
-/* That floor also depends on width, because the cards' text wraps to more lines as
-   the window narrows — they stand 283px tall at 768 wide against 201px at 1280, so
-   a narrow window runs out of room while a wide one still has plenty. One height
-   ramp cannot serve both, so there is a floor per band: 815 from 1100px wide, 840
-   at 1024, 940 below that. Where a band spans several measurements it takes the
-   highest floor in it, which is the safe direction — a higher floor means less
-   padding on a short window, so the cards sit higher and leave more room.
+/* Where each band tops out at full spacing depends on width, because the cards' text
+   wraps to more lines as the window narrows — they stand 283px tall at 768 wide
+   against 201px at 1280, so a narrow window runs out of room while a wide one still
+   has plenty. Measured at full spacing the gap above the arrow runs about the
+   viewport height minus 795, so topping out at 800 leaves a few pixels; each band
+   tops out at its own measured height, 800 from 1100px wide, 830 at 1024, 930 below.
 
    Below about 1024x770 the cards are simply taller than the gap between the header
    and the arrow, so they overlap it whatever the padding does; the ramp is at its
@@ -1707,19 +1710,19 @@ main .max-w-6xl > div:first-child {
    stepped design too, by more than they do now. */
 @media (min-width: 1024px) {
   main.pt-32 {
-    padding-top: clamp(118px, 52.857vh - 252px, 192px);
+    padding-top: clamp(118px, 69.811vh - 387.43px, 192px);
   }
   main .max-w-6xl > div:first-child {
-    margin-bottom: clamp(16px, 22.857vh - 144px, 48px);
+    margin-bottom: clamp(16px, 30.189vh - 202.57px, 48px);
   }
 }
 
 @media (min-width: 1100px) {
   main.pt-32 {
-    padding-top: clamp(118px, 64.348vh - 332.43px, 192px);
+    padding-top: clamp(118px, 69.811vh - 366.49px, 192px);
   }
   main .max-w-6xl > div:first-child {
-    margin-bottom: clamp(16px, 27.826vh - 178.78px, 48px);
+    margin-bottom: clamp(16px, 30.189vh - 193.51px, 48px);
   }
 }
 
