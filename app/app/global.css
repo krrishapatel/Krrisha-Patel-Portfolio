@@ -531,9 +531,7 @@ a:focus-visible {
      body has overflow-x: hidden, making it a scroll container.) */
   position: fixed;
   left: 50%;
-  /* Moves with the cards: the resting gap above this arrow is only ~3px, so any
-     shift applied to the content has to be applied here too or it closes. */
-  bottom: 72px;
+  bottom: 74px;
   z-index: 40;
   transform: translateX(-50%);
   display: flex;
@@ -1675,7 +1673,7 @@ html {
    same screen.
 
    What the cards run into is the scroll arrow, not the footer. The arrow is fixed
-   72px off the bottom and sits between the two, so it is reached first — roughly
+   74px off the bottom and sits between the two, so it is reached first — roughly
    25px sooner than the footer, which is why footer clearance could look healthy
    while the arrow rested on the card edge.
 
@@ -1706,11 +1704,15 @@ main .max-w-6xl > div:first-child {
    viewport height minus 795, so topping out at 800 leaves a few pixels; each band
    tops out at its own measured height, 800 from 1100px wide, 830 at 1024, 930 below.
 
-   The resting gap that leaves is about 3px, not the 8 it first appears: the arrow's
-   nudge loop translates it 5px down twice a cycle, so a reading taken mid-animation
-   overstates the clearance. Measure with animation off. Because 3px is all there is,
-   lowering the content means lowering the arrow by the same amount — the 2px added
-   to each padding ramp above is subtracted from the arrow's `bottom`.
+   Measure with the cue's nudge animation off: it translates 5px down twice a cycle,
+   so a mid-animation reading overstates the clearance.
+
+   The box gap runs under a pixel here, but what you see is ~19px, because both shapes
+   are round. The 40px arrow is wider than the 32px gutter between the cards, so it
+   overlaps each by 4px — but only where its circle has already curved back inward,
+   and the cards' own 14px bottom corners curve up and away across exactly that strip.
+   The visible separation is the distance between two arcs, not two rectangles, so
+   box-edge numbers here read far tighter than the design looks.
 
    Below about 1024x770 the cards are simply taller than the gap between the header
    and the arrow, so they overlap it whatever the padding does; the ramp is at its
