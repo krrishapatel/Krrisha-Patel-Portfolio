@@ -531,7 +531,9 @@ a:focus-visible {
      body has overflow-x: hidden, making it a scroll container.) */
   position: fixed;
   left: 50%;
-  bottom: 74px;
+  /* Moves with the cards: the resting gap above this arrow is only ~3px, so any
+     shift applied to the content has to be applied here too or it closes. */
+  bottom: 72px;
   z-index: 40;
   transform: translateX(-50%);
   display: flex;
@@ -1673,7 +1675,7 @@ html {
    same screen.
 
    What the cards run into is the scroll arrow, not the footer. The arrow is fixed
-   74px off the bottom and sits between the two, so it is reached first — roughly
+   72px off the bottom and sits between the two, so it is reached first — roughly
    25px sooner than the footer, which is why footer clearance could look healthy
    while the arrow rested on the card edge.
 
@@ -1690,7 +1692,7 @@ html {
    put a smaller version of the same cliff back. padding-top on the grid stays
    because padding doesn't collapse. */
 main.pt-32 {
-  padding-top: clamp(118px, 69.811vh - 457.24px, 192px);
+  padding-top: clamp(118px, 69.811vh - 455.24px, 194px);
 }
 
 main .max-w-6xl > div:first-child {
@@ -1704,13 +1706,19 @@ main .max-w-6xl > div:first-child {
    viewport height minus 795, so topping out at 800 leaves a few pixels; each band
    tops out at its own measured height, 800 from 1100px wide, 830 at 1024, 930 below.
 
+   The resting gap that leaves is about 3px, not the 8 it first appears: the arrow's
+   nudge loop translates it 5px down twice a cycle, so a reading taken mid-animation
+   overstates the clearance. Measure with animation off. Because 3px is all there is,
+   lowering the content means lowering the arrow by the same amount — the 2px added
+   to each padding ramp above is subtracted from the arrow's `bottom`.
+
    Below about 1024x770 the cards are simply taller than the gap between the header
    and the arrow, so they overlap it whatever the padding does; the ramp is at its
    118px minimum there and has nothing left to give. Those sizes overlapped in the
    stepped design too, by more than they do now. */
 @media (min-width: 1024px) {
   main.pt-32 {
-    padding-top: clamp(118px, 69.811vh - 387.43px, 192px);
+    padding-top: clamp(118px, 69.811vh - 385.43px, 194px);
   }
   main .max-w-6xl > div:first-child {
     margin-bottom: clamp(16px, 30.189vh - 202.57px, 48px);
@@ -1719,7 +1727,7 @@ main .max-w-6xl > div:first-child {
 
 @media (min-width: 1100px) {
   main.pt-32 {
-    padding-top: clamp(118px, 69.811vh - 366.49px, 192px);
+    padding-top: clamp(118px, 69.811vh - 364.49px, 194px);
   }
   main .max-w-6xl > div:first-child {
     margin-bottom: clamp(16px, 30.189vh - 193.51px, 48px);
