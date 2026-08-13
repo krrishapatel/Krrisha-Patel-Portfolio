@@ -1690,7 +1690,7 @@ html {
    put a smaller version of the same cliff back. padding-top on the grid stays
    because padding doesn't collapse. */
 main.pt-32 {
-  padding-top: clamp(118px, 69.811vh - 455.24px, 194px);
+  padding-top: clamp(118px, 69.811vh - 453.24px, 196px);
 }
 
 main .max-w-6xl > div:first-child {
@@ -1720,7 +1720,7 @@ main .max-w-6xl > div:first-child {
    stepped design too, by more than they do now. */
 @media (min-width: 1024px) {
   main.pt-32 {
-    padding-top: clamp(118px, 69.811vh - 385.43px, 194px);
+    padding-top: clamp(118px, 69.811vh - 383.43px, 196px);
   }
   main .max-w-6xl > div:first-child {
     margin-bottom: clamp(16px, 30.189vh - 202.57px, 48px);
@@ -1729,7 +1729,7 @@ main .max-w-6xl > div:first-child {
 
 @media (min-width: 1100px) {
   main.pt-32 {
-    padding-top: clamp(118px, 69.811vh - 364.49px, 194px);
+    padding-top: clamp(118px, 69.811vh - 362.49px, 196px);
   }
   main .max-w-6xl > div:first-child {
     margin-bottom: clamp(16px, 30.189vh - 193.51px, 48px);
