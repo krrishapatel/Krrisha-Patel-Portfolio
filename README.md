@@ -1,42 +1,50 @@
-# Portfolio Blog Starter
+# Krrisha Patel Portfolio
 
-This is a porfolio site template complete with a blog. Includes:
+Personal site. Next.js App Router, TypeScript, Tailwind v4.
 
-- MDX and Markdown support
-- Optimized for SEO (sitemap, robots, JSON-LD schema)
-- RSS Feed
-- Dynamic OG images
-- Syntax highlighting
-- Tailwind v4
-- Vercel Speed Insights / Web Analytics
-- Geist font
+Live at [krrishapatel.vercel.app](https://krrishapatel.vercel.app).
 
-## Demo
+## Layout
 
-https://portfolio-blog-starter.vercel.app
+The site lives in `app/app/`. Vercel builds with `app/` as the project root, so
+`app/app/` is the App Router directory:
 
-## How to Use
-
-You can choose from one of the following two methods to use this repository:
-
-### One-Click Deploy
-
-Deploy the example using [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=vercel-examples):
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/vercel/examples/tree/main/solutions/blog&project-name=blog&repository-name=blog)
-
-### Clone and Deploy
-
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [pnpm](https://pnpm.io/installation) to bootstrap the example:
-
-```bash
-pnpm create next-app --example https://github.com/vercel/examples/tree/main/solutions/blog blog
+```
+app/app/
+  page.tsx            /            renders Portfolio with section="about"
+  [section]/page.tsx  /work, /ventures, /projects, /blog, /faq
+  Portfolio.tsx       the whole page, one client component
+  sections.ts         section list, site URL, per-route titles
+  layout.tsx          fonts, metadata, analytics
+  global.css
+  Crane.tsx  Dragon.tsx  Lotus.tsx  FoldingCrane.tsx  OrigamiFigure.tsx
+  origami.ts          the fold sequences those render
+public/               images, all WebP except the OG card
 ```
 
-Then, run Next.js in development mode:
+The files directly under `app/` (`page.tsx`, `layout.tsx`, `blog/`,
+`components/`, `rss/`, `og/`) are leftovers from the Vercel blog starter this
+was bootstrapped from. They are not in the route tree, which `/rss` and `/og`
+returning 404 confirms.
+
+## Run it
 
 ```bash
+pnpm install
 pnpm dev
 ```
 
-Deploy it to the cloud with [Vercel](https://vercel.com/templates) ([Documentation](https://nextjs.org/docs/app/building-your-application/deploying)).
+## Notes
+
+Each section is a real route with its own title and description, not a `#hash`
+fragment, so a search result for `/ventures` says something about ventures.
+`generateStaticParams` prerenders all five and `dynamicParams = false` makes
+anything else 404 instead of quietly serving About under the wrong URL.
+
+Images are WebP only. The JPEG fallbacks were camera-resolution scans, up to
+2.6MB each, displayed in 348x190 tiles. Every browser has read WebP since 2020,
+so the fallbacks were 6MB of dead weight and are gone.
+
+## License
+
+MIT
