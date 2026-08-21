@@ -681,14 +681,17 @@ export default function Portfolio({ section = 'about' }: { section?: string }) {
                 {/* No lazy here: this one is the first thing on the page, so
                     deferring it would only delay what the visitor came to see.
                     The 1226x1469 original was being downloaded to fill a 90px
-                    circle - a megabyte for nine thousand pixels. */}
-                <img
-                  src="/headshot.webp"
-                  alt="Krrisha Patel"
-                  width={90}
-                  height={90}
-                  className="w-full h-full rounded-full object-cover"
-                />
+                    circle — a megabyte for nine thousand pixels. */}
+                <picture className="contents">
+                  <source srcSet="/headshot.webp" type="image/webp" />
+                  <img
+                    src="/headshot.jpeg"
+                    alt="Krrisha Patel"
+                    width={90}
+                    height={90}
+                    className="w-full h-full rounded-full object-cover"
+                  />
+                </picture>
               </div>
               <div className="flex-1">
                 <div className="main-name relative text-5xl sm:text-6xl lg:text-[5rem] tracking-tighter leading-none mb-6 md:mb-8 flex flex-col md:flex-row md:items-center gap-0 md:gap-10">
@@ -764,27 +767,33 @@ export default function Portfolio({ section = 'about' }: { section?: string }) {
                         }`}
                         onClick={() => setSelectedArtwork(selectedArtwork === id ? null : id)}
                       >
-                        {/* WebP only. The JPEG fallbacks these replaced were
-                            camera resolution - a 1917x1536 scan shown in a
-                            348x190 tile - so the page shipped 6.5MB to draw a
-                            few hundred pixels. Every browser has read WebP since
-                            2020, so the <picture>/<source> pair was carrying
-                            4MB of fallback for no one.
+                        {/* WebP with the JPEG as fallback: the source is preferred
+                            by every current browser, and anything that doesn't
+                            understand it ignores the <source> and loads the img.
+                            The originals were camera resolution — a 1917x1536
+                            scan shown in a 348x190 tile — which is why the page
+                            was sending 3.7MB to draw a few hundred pixels.
 
                             lazy because all four sit below the fold: they used to
                             download before first paint even though nobody had
-                            scrolled to them yet. Explicit width/height reserve
-                            the tile's aspect so lazy loading doesn't shift the
-                            layout as each one arrives. */}
-                        <img
-                          src={`/${file}.webp`}
-                          alt="Latest work"
-                          loading="lazy"
-                          decoding="async"
-                          width={348}
-                          height={190}
-                          className="w-full h-full object-cover transition-all duration-300"
-                        />
+                            scrolled to them yet. Explicit width/height on the img
+                            reserve the tile's aspect so lazy loading doesn't
+                            shift the layout as each one arrives. */}
+                        {/* display:contents so the <picture> box doesn't become
+                            what w-full/h-full measures against — the img needs
+                            to fill the tile, not a wrapper sized to the img. */}
+                        <picture className="contents">
+                          <source srcSet={`/${file}.webp`} type="image/webp" />
+                          <img
+                            src={`/${file}.jpg`}
+                            alt="Latest work"
+                            loading="lazy"
+                            decoding="async"
+                            width={348}
+                            height={190}
+                            className="w-full h-full object-cover transition-all duration-300"
+                          />
+                        </picture>
                       </div>
                     ))}
                   </div>
